@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+   "module": "esnext",
+   "lib": [
+     "ESNext", /* ESNext includes new Level-4 features that were
+              recently added to the ECMA-262 JS spec */
+     "es6",
+     "DOM"
+    ],
+   "moduleResolution": "node",
+   "esModuleInterop": true,
+   "rootDir": "./src",
+   "target": "ES2019",
+   "sourceMap": true,
+   "outDir": "dist",
+   "forceConsistentCasingInFileNames": true,
+   "strict": true,
+   "allowJs": true,
+   "noImplicitAny": false,
+   "resolveJsonModule": true,
+   "baseUrl": ".",
+   "jsx": "preserve",
+   "typeRoots": [
+    "node_modules",
+    "src/types"
+   ],
+   "types": [
+    "webpack",
+    "vuetify",
+    "webpack-env"
+   ],
+   "paths": {
+    "@/*":[
+      "src/*"
+    ]
+   },
+  },
+  "include": ["src/**/*.ts",
+  "src/**/*.tsx",
+  "src/**/*.vue",
+  "src/**/*"],
+  "exclude": [
+    "node_modules"
+  ]
+
+}
