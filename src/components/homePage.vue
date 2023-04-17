@@ -4,33 +4,68 @@
       <v-col cols="12">
         <div class="hello">
           <h3>Testowy Frontend</h3>
+          <v-select
+          v-model= octawList >
+          </v-select>
+          <v-slide-group show-arrows v-model="selected">
+        <v-slide-item
+          v-for="n in octawList.length"
+          :key="n"
+          v-slot:default="{ active, toggle }"
+          
+        >
+          <v-btn
+            class="mx-2"
+            :input-value="active"
+            active-class="purple white--text"
+            depressed
+            rounded
+            @click="toggle"
+          >
+            Options {{ n }}
+          </v-btn>
+        </v-slide-item>
+      </v-slide-group>
+      {{ selected }}
       <v-btn>
   btn
 </v-btn>
-    <v-btn variant="tonal" @click="test()">
-      Główne
+    <v-btn variant="tonal" @click="test('C1')">
+      C
+      <!-- Główne -->
     </v-btn>
-      <v-btn>
-        Pozytywy
+    <v-btn variant="tonal" @click="test('C1')">
+      D
+      <!-- Główne -->
+    </v-btn>
+      <v-btn variant="tonal" @click="test('C4')">
+        E
+        <!-- Pozytywy -->
       </v-btn>
-      <v-btn>
-        Echo
+      <v-btn variant="tonal" @click="test('B6')">
+        F
+        <!-- Echo -->
       </v-btn>
-      <v-btn>
-        Brustwerk
+      <v-btn variant="tonal" @click="test('D2')">
+        G
+        <!-- Brustwerk -->
       </v-btn>
-      <v-btn>
-        Solo
+      <v-btn variant="tonal" @click="test('A3')">
+        A3
+        <!-- Solo -->
       </v-btn>
-      <v-btn>
-        Orchestral
+      <v-btn variant="tonal" @click="test('G6')">
+        B
+        <!-- Orchestral -->
       </v-btn>
-      <v-btn>
-        Bombarde
+      <!-- <v-btn variant="tonal" @click="test('A5')">
+        A5
+         Bombarde 
       </v-btn>
-      <v-btn>
-        Pedał
-      </v-btn>
+      <v-btn variant="tonal" @click="test('D2')">
+        D2
+         Pedał
+      </v-btn>  -->
     </div>
       </v-col>
       </v-row>
@@ -43,6 +78,8 @@ export default {
   name: 'homePage',
 
   data: () => ({
+    octawList: [1, 2, 3, 4, 5, 6],
+    selected: 1,
     ecosystem: [
       {
         text: 'vuetify-loader',
@@ -95,8 +132,8 @@ export default {
     ]
   }),
   methods: {
-    async test () {
-      const test = 'test'
+    async test (note) {
+      const test = note
       const stats = await api.midiTest(test)
       if (stats.data.succes) {
         console.log('tak')
