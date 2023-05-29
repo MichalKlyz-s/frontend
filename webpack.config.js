@@ -1,5 +1,6 @@
 const path = require('path');
-
+'use strict';
+const webpack = require('webpack');
 module.exports = {
   output: {
     filename: 'my-first-webpack.bundle.js',
@@ -7,7 +8,12 @@ module.exports = {
   module: {
     rules: [{ test: /\.txt$/, use: 'raw-loader' }],
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js"]
+  },
+
 };
+
 // import * as path from 'path';
 // import * as webpack from 'webpack';
 // // in case you run into any typescript error when configuring `devServer`

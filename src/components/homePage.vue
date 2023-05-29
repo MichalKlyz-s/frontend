@@ -5,6 +5,7 @@
         <div class="hello">
           <h3>Testowy Frontend</h3>
        <keybord/>
+       <register/>
     </div>
       </v-col>
       </v-row>
@@ -13,14 +14,16 @@
 
 <script>
 import keybord from '../components/keyboard.vue'
+import register from '../components/register.vue'
 export default {
   name: 'homePage',
   components: {
-    keybord
+    keybord,
+    register
   },
   data: () => ({
-    octawList: [1, 2, 3, 4, 5, 6],
-    selected: 1
+    // octawList: [1, 2, 3, 4, 5, 6],
+    // selected: 1
     // ecosystem: [
     //   {
     //     text: 'vuetify-loader',

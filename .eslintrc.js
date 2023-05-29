@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     'vue/multi-word-component-names': 0,
+    "vue/no-v-for-template-key-on-child": "off"
     // 'semi': 0,
   }
 }
