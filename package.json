@@ -18,7 +18,8 @@
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vue-svg-loader": "^0.10.0",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

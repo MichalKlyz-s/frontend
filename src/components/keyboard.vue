@@ -1,19 +1,7 @@
 <template>
 <div>
-  <v-btn variant="tonal" @click="testOutPuts()">
-     outputs
-    </v-btn>
-    <v-autocomplete
-      clearable
-      chips
-      v-model="chosenOutput"
-      label="Midi outputs"
-      :items="outputs"
-    ></v-autocomplete>
-{{ chosenOutput }}
-<v-btn variant="tonal" @click="testChosenOutPut()">
-     Use output
-    </v-btn>
+
+    {{ keyboard }}
     <v-slide-group show-arrows v-model="selected">
     <v-slide-item
           v-for="n in octawList.length"
@@ -135,11 +123,10 @@
 import * as api from '../modules/apiH.ts'
 export default {
   name: 'keybord',
+  props: ['keyboard', 'octawList'],
   data: () => ({
-    octawList: [1, 2, 3, 4, 5, 6],
-    selected: 0,
-    outputs: null,
-    chosenOutput: null
+    // octawList: [1, 2, 3, 4, 5, 6],
+    selected: 0
   }),
   methods: {
     async test (note) {
@@ -149,25 +136,6 @@ export default {
         console.log('tak')
       } else {
         console.log('nie')
-        throw Error(stats.message)
-      }
-    },
-    async testOutPuts () {
-      const stats = await api.midiOutputsTest()
-      if (stats.data.success === true) {
-        console.log('Pobrało nowe outputy')
-        this.outputs = stats.data.outputs
-      } else {
-        console.log('Błąd pobrania')
-        throw Error(stats.message)
-      }
-    },
-    async testChosenOutPut () {
-      const stats = await api.midiChosenOutputTest(this.chosenOutput)
-      if (stats.data.success === true) {
-        console.log('Powiodło się')
-      } else {
-        console.log('Błąd wysłania')
         throw Error(stats.message)
       }
     }

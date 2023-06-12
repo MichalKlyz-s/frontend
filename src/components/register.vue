@@ -5,7 +5,6 @@
           v-for="n in 16"
           :key="n"
           v-slot:default="{ active, toggle }"
-
         >
           <v-btn
             class="mx-2"
@@ -23,7 +22,7 @@
       <v-btn variant="tonal" @click="getData()">
      Pobież dane
     </v-btn>
-    <div v-if="dataVoice" style="margin: 20px;">
+    <div v-if="dataVoice" style="margin: 10px;">
       <template v-if="dataVoice">
         <template v-for="(c, index) in  dataVoice.length" >
           <div v-bind:key="index">
@@ -195,23 +194,15 @@ export default {
 }
 
 .note {
+  width: 10px;
+  height: 40px;
   flex: 1;
   display: inline-flex;
   align-items: center;
 }
 
-.black {
-
-  justify-content: center;
-  position: relative;
-  height: 70%;
-  background-color: #474747;
-  color: white;
-  width: 8%;
-  margin: 0 -4%
-}
-
 .white {
+  width: 10px;
   flex-flow: column;
   justify-content: flex-end;
   outline: 2px solid #474747;
