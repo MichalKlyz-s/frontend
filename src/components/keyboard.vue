@@ -132,7 +132,8 @@ export default {
     async test (note) {
       const test = note
       const stats = await api.midiTest(test)
-      if (stats.data.succes) {
+      console.log(stats)
+      if (stats.data.success) {
         console.log('tak')
       } else {
         console.log('nie')
