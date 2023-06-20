@@ -13,3 +13,6 @@ export const midiOutputsTest =async (args) => {
 export const midiChosenOutputTest =async (args) => {
     return axiosGet('choseOutput', args)
 }
+export const configuration = async (args) => {
+    return axiosGet('getData', args)
+}

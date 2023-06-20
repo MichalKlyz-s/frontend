@@ -130,7 +130,7 @@ export default {
   }),
   methods: {
     async test (note) {
-      const test = note
+      const test = { note: note, channel: this.keyboard }
       const stats = await api.midiTest(test)
       console.log(stats)
       if (stats.data.success) {

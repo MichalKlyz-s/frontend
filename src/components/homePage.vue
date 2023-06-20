@@ -4,7 +4,7 @@
       <v-col cols="12">
         <div class="hello">
           <h3>Testowy Frontend</h3>
-          <fileReader/>
+          {{ configuration }}
           <v-btn variant="tonal" @click="outPuts()">
      outputs
     </v-btn>
@@ -27,6 +27,7 @@
        ></keybord>
       </template>
       <keybord
+      v-bind:keyboard= 5
        v-bind:octawList="pedalList"
        ></keybord>
        <register/>
@@ -39,15 +40,13 @@
 <script>
 import keybord from '../components/keyboard.vue'
 import register from '../components/register.vue'
-import fileReader from '../components/fileReader.vue'
 import * as api from '../modules/apiH.ts'
 
 export default {
   name: 'homePage',
   components: {
     keybord,
-    register,
-    fileReader
+    register
   },
   defaultNumberOfKeyboard: 3,
   data: () => ({
@@ -57,58 +56,8 @@ export default {
     outputs: null,
     chosenOutput: null,
     octawList: [1, 2, 3, 4, 5, 6],
-    pedalList: [1, 2, 3, 4]
-    // selected: 1
-    // ecosystem: [
-    //   {
-    //     text: 'vuetify-loader',
-    //     href: 'https://github.com/vuetifyjs/vuetify-loader'
-    //   },
-    //   {
-    //     text: 'github',
-    //     href: 'https://github.com/vuetifyjs/vuetify'
-    //   },
-    //   {
-    //     text: 'awesome-vuetify',
-    //     href: 'https://github.com/vuetifyjs/awesome-vuetify'
-    //   }
-    // ],
-    // importantLinks: [
-    //   {
-    //     text: 'Documentation',
-    //     href: 'https://vuetifyjs.com'
-    //   },
-    //   {
-    //     text: 'Chat',
-    //     href: 'https://community.vuetifyjs.com'
-    //   },
-    //   {
-    //     text: 'Made with Vuetify',
-    //     href: 'https://madewithvuejs.com/vuetify'
-    //   },
-    //   {
-    //     text: 'Twitter',
-    //     href: 'https://twitter.com/vuetifyjs'
-    //   },
-    //   {
-    //     text: 'Articles',
-    //     href: 'https://medium.com/vuetify'
-    //   }
-    // ],
-    // whatsNext: [
-    //   {
-    //     text: 'Explore components',
-    //     href: 'https://vuetifyjs.com/components/api-explorer'
-    //   },
-    //   {
-    //     text: 'Select a layout',
-    //     href: 'https://vuetifyjs.com/getting-started/pre-made-layouts'
-    //   },
-    //   {
-    //     text: 'Frequently Asked Questions',
-    //     href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions'
-    //   }
-    // ]
+    pedalList: [1, 2, 3, 4],
+    configuration: null
   }),
   methods: {
     async outPuts () {
@@ -129,7 +78,20 @@ export default {
         console.log('Błąd wysłania')
         throw Error(stats.message)
       }
+    },
+    async getConfig () {
+      const conf = await api.configuration()
+      if (conf.data.success === true) {
+        console.log('Powiodło się')
+        this.configuration = conf.data
+      } else {
+        console.log('Błąd wysłania')
+        throw Error(conf.message)
+      }
     }
+  },
+  mounted () {
+    this.getConfig()
   }
 }
 </script>
