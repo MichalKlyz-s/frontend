@@ -125,7 +125,7 @@ export default {
   name: 'keybord',
   props: ['keyboard', 'octawList'],
   data: () => ({
-    // octawList: [1, 2, 3, 4, 5, 6],
+    // octaveList: [1, 2, 3, 4, 5, 6],
     selected: 0
   }),
   methods: {
