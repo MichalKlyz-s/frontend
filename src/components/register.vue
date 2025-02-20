@@ -1,5 +1,7 @@
 <template>
 <div>
+  <v-router>        <v-button>Powrot</v-button>
+  </v-router>
   <v-slide-group show-arrows v-model="selectedChanel">
     <v-slide-item
           v-for="n in 16"

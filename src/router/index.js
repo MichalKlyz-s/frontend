@@ -13,12 +13,10 @@ const routes = [
     meta: { title: 'Organs', icon: logo }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/config',
+    name: 'config',
+    component: () => import(/* webpackChunkName: "about" */ '../components/configurator.vue'),
+    meta: {title: 'Config', icon: logo}
   }
 ]
 

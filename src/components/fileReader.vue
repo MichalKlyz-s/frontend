@@ -9,6 +9,8 @@
     </div>
 </template>
 <script>
+// Analiza i poprawa wczytania wybranego pliku
+// Walidacjia pliku (format) oraz validacja danych w nim zawartych
 export default {
   name: 'fileReader',
   data: () => ({
