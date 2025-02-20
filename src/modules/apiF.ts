@@ -36,7 +36,7 @@ export const axiosPost = (
         },
     };
 
-    return axios.post( `http://192.168.0.143:8888/${relativeUrl}`,
+    return axios.post( `http://192.168.52.195:8888/${relativeUrl}`,
     postOptions.isPureData ? params : { ...params, user: 'MK'}, postOptions,).catch(readError);
 };
 
@@ -53,7 +53,7 @@ export const axiosGet = (relativeUrl, params = {}) => {
 
     // return axios.get(`http://192.168.0.143:8888/${relativeUrl}`, config)
 
-    return axios.get(`http://192.168.0.143:8888/${relativeUrl}`, config)
+    return axios.get(`http://192.168.52.195:8888/${relativeUrl}`, config)
     // return Axios.get( `http://192.168.0.3:8888/${relativeUrl}`, {
     //     ...{
     //         timeout: 155000},

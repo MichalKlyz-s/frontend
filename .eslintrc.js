@@ -17,8 +17,14 @@ module.exports = {
     'vue'
   ],
   rules: {
-    'vue/multi-word-component-names': 0,
-    "vue/no-v-for-template-key-on-child": "off"
+    "no-multiple-empty-lines": ["off"],
+    "indent": ["off"],
+    'vue/multi-word-component-names': 'off', // Wyłącza regułę
+    'vue/no-v-for-template-key-on-child': 'off', // Wyłącza regułę dla `v-for`
     // 'semi': 0,
   }
 }
+
+
+// npx eslint --fix .   hmmm moze
+

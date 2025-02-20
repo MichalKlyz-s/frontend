@@ -25,7 +25,7 @@
      Pobież dane
     </v-btn>
     <div v-if="dataVoice" style="margin: 10px;">
-      <template v-if="dataVoice">
+      <!-- <template v-if="dataVoice">
         <template v-for="(c, index) in  dataVoice.length" >
           <div v-bind:key="index">
       <v-row v-if="dataVoice[index].generaldata">
@@ -51,7 +51,7 @@
       </v-row>
     </div>
     </template>
-    </template>
+    </template>-->
 </div>
 <div id="kbd">
 

@@ -16,7 +16,7 @@ const routes = [
     path: '/config',
     name: 'config',
     component: () => import(/* webpackChunkName: "about" */ '../components/configurator.vue'),
-    meta: {title: 'Config', icon: logo}
+    meta: { title: 'Config', icon: logo }
   }
 ]
 
