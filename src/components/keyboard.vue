@@ -88,32 +88,32 @@
        <div class="srodkowyPrzycisk"></div>
 </div> -->
 <div id="kbd">
-
+<!-- Przerobić by było od oktaw a nie nuty -->
 <div id="keys">
 
-    <div id="c" class="note white" @click="test('C' + (selected+1))">C
+    <div id="c" class="note white" :style=" {opacity: 'C' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('C' + (selected+1))"  @mouseup="releaseB('C' + (selected+1))">C
     </div>
-    <div id="c#" class="note black" @click="test('C#' + (selected+1))">C#
+    <div id="c#" class="note black" :style=" {opacity: 'C#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('C#' + (selected+1))"  @mouseup="releaseB('C#' + (selected+1))">C#
     </div>
-    <div id="d" class="note white" @click="test('D' + (selected+1))">D
+    <div id="d" class="note white"  :style=" {opacity: 'D' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('D' + (selected+1))"  @mouseup="releaseB('D' + (selected+1))">D
     </div>
-    <div id="d#" class="note black" @click="test('D#' + (selected+1))">D#
+    <div id="d#" class="note black"  :style=" {opacity: 'D#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('D#' + (selected+1))"  @mouseup="releaseB('D#' + (selected+1))">D#
     </div>
-    <div id="e" class="note white" @click="test('E' + (selected+1))">E
+    <div id="e" class="note white"  :style=" {opacity: 'E' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('E' + (selected+1))"  @mouseup="releaseB('E' + (selected+1))">E
     </div>
-    <div id="f" class="note white" @click="test('F' + (selected+1))">F
+    <div id="f" class="note white"  :style=" {opacity: 'F' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('F' + (selected+1))"  @mouseup="releaseB('F' + (selected+1))">F
     </div>
-    <div id="f#" class="note black" @click="test('F#' + (selected+1))">F#
+    <div id="f#" class="note black"  :style=" {opacity: 'F#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('F#' + (selected+1))"  @mouseup="releaseB('F#' + (selected+1))">F#
     </div>
-    <div id="g" class="note white" @click="test('G' + (selected+1))">G
+    <div id="g" class="note white"  :style=" {opacity: 'G' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('G' + (selected+1))"  @mouseup="releaseB('G' + (selected+1))">G
     </div>
-    <div id="g#" class="note black" @click="test('G#' + (selected+1))">G#
+    <div id="g#" class="note black"  :style=" {opacity: 'G#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('G#' + (selected+1))"  @mouseup="releaseB('G#' + (selected+1))">G#
     </div>
-    <div id="a" class="note white" @click="test('A' + (selected+1))">A
+    <div id="a" class="note white"  :style=" {opacity: 'A' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('A' + (selected+1))"  @mouseup="releaseB('A' + (selected+1))">A
     </div>
-    <div id="a#" class="note black" @click="test('A#' + (selected+1))">A#
+    <div id="a#" class="note black"  :style=" {opacity: 'A#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('A#' + (selected+1))" @mouseup="releaseB('A#' + (selected+1))">A#
     </div>
-    <div id="b" class="note white" @click="test('B' + (selected+1))">B
+    <div id="b" class="note white"  :style=" {opacity: 'B' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('B' + (selected+1))" @mouseup="releaseB('B' + (selected+1))">B
     </div>
 </div>
 </div>
@@ -126,12 +126,27 @@ export default {
   props: ['keyboard', 'octawList'],
   data: () => ({
     // octaveList: [1, 2, 3, 4, 5, 6],
-    selected: 0
+    selected: 0,
+    pressedC: ''
   }),
   methods: {
     async test (note) {
-      const test = { note: note, channel: this.keyboard }
+      const test = { note: note, noteOnOff: 'pressed', channel: this.keyboard }
+      this.pressedC = note
+
       const stats = await api.midiTest(test)
+      console.log(stats)
+      if (stats.data.success) {
+        console.log('tak')
+      } else {
+        console.log('nie')
+        throw Error(stats.message)
+      }
+    },
+    async releaseB (note) {
+      const test = { note: note, noteOnOff: 'released', channel: this.keyboard }
+      const stats = await api.midiTest(test)
+      this.pressedC = ''
       console.log(stats)
       if (stats.data.success) {
         console.log('tak')
