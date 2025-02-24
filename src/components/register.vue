@@ -59,7 +59,8 @@ export default {
   data: () => ({
     dataVoice: null,
     selectedChanel: 16,
-    selectedVoices: []
+    selectedVoices: [],
+    methodForVoices: 'playNote'
     // registerArgs: [
     //   ['note']= 'C',
     //   ['chanel'] = 0
@@ -69,7 +70,7 @@ export default {
     async test (note) {
       if (this.selectedVoices.includes(note)) {
         this.selectedVoices = this.selectedVoices.filter(n => n !== note)
-        const cos = [note + 1, this.selectedChanel]
+        const cos = { voice: note + 1, chanel: this.selectedChanel, methodForVoices: this.methodForVoices }
         const stats = await api.midiRegister(cos)
         console.log(stats)
       if (stats.data.success) {
@@ -80,7 +81,7 @@ export default {
       }
       } else {
       this.selectedVoices = [...this.selectedVoices, note]
-      const cos = [note, this.selectedChanel]
+      const cos = { voice: note, chanel: this.selectedChanel, methodForVoices: this.methodForVoices }
       const stats = await api.midiRegister(cos)
       console.log(stats)
       if (stats.data.success) {
