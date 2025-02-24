@@ -4,7 +4,7 @@
       <v-col cols="12">
         <div class="hello">
           <h3>Testowy Frontend</h3>
-          {{ configuration }}
+          <!-- {{ configuration }} -->
           <v-btn variant="tonal" @click="outPuts()">
      outputs
     </v-btn>
