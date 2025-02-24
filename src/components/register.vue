@@ -1,29 +1,5 @@
 <template>
 <div>
-  <v-router>        <v-button>Powrot</v-button>
-  </v-router>
-  <v-slide-group show-arrows v-model="selectedChanel">
-    <v-slide-item
-          v-for="n in 16"
-          :key="n"
-          v-slot:default="{ active, toggle }"
-        >
-          <v-btn
-            class="mx-2"
-            :input-value="active"
-            active-class="purple white--text"
-            depressed
-            rounded
-            @click="toggle"
-          >
-            {{ n }}
-          </v-btn>
-        </v-slide-item>
-      </v-slide-group>
-      {{ selectedChanel }}
-      <v-btn variant="tonal" @click="getData()">
-     Pobież dane
-    </v-btn>
     <div v-if="dataVoice" style="margin: 10px;">
       <!-- <template v-if="dataVoice">
         <template v-for="(c, index) in  dataVoice.length" >
@@ -54,22 +30,22 @@
     </template>-->
 </div>
 <div id="kbd">
-
+{{ selectedVoices }}ccc
 <div id="keys">
 
-    <div id="c" class="note white" @click="test('C' )">Flute
+    <div id="c" class="note white" :class="doInclude(0)" @click="test(0)">Flute
     </div>
-    <div id="d" class="note white" @click="test('D' )">Salicional
+    <div id="d" class="note white" :class="doInclude(2)" @click="test(2 )">Salicional
     </div>
-    <div id="e" class="note white" @click="test('E')">Nazard
+    <div id="e" class="note white" :class="doInclude(4)" @click="test(4)">Nazard
     </div>
-    <div id="f" class="note white" @click="test('F' )">Doublette
+    <div id="f" class="note white" :class="doInclude(6)" @click="test(6)">Doublette
     </div>
-    <div id="g" class="note white" @click="test('G' )">Larigot
+    <div id="g" class="note white" :class="doInclude(8)" @click="test(8)">Larigot
     </div>
-    <div id="a" class="note white" @click="test('A' )">Prinzipal
+    <div id="a" class="note white" :class="doInclude(10)" @click="test(10)">Prinzipal
     </div>
-    <div id="b" class="note white" @click="test('B')">Oktave
+    <div id="b" class="note white" :class="doInclude(12)" @click="test(12)">Oktave
     </div>
 </div>
   </div>
@@ -82,7 +58,8 @@ export default {
   name: 'register',
   data: () => ({
     dataVoice: null,
-    selectedChanel: 0
+    selectedChanel: 16,
+    selectedVoices: []
     // registerArgs: [
     //   ['note']= 'C',
     //   ['chanel'] = 0
@@ -90,15 +67,28 @@ export default {
   }),
   methods: {
     async test (note) {
-      // this.registerArgs.note = note
-      // this.registerArgs.chanel = this.selectedChanel
-      const cos = [note, this.selectedChanel]
-      const stats = await api.midiRegister(cos)
-      if (stats.data.succes) {
+      if (this.selectedVoices.includes(note)) {
+        this.selectedVoices = this.selectedVoices.filter(n => n !== note)
+        const cos = [note + 1, this.selectedChanel]
+        const stats = await api.midiRegister(cos)
+        console.log(stats)
+      if (stats.data.success) {
         console.log('tak')
       } else {
         console.log('nie')
         throw Error(stats.message)
+      }
+      } else {
+      this.selectedVoices = [...this.selectedVoices, note]
+      const cos = [note, this.selectedChanel]
+      const stats = await api.midiRegister(cos)
+      console.log(stats)
+      if (stats.data.success) {
+        console.log('tak')
+      } else {
+        console.log('nie')
+        throw Error(stats.message)
+      }
       }
     },
     async getData () {
@@ -119,6 +109,13 @@ export default {
       } else {
         console.log('Błąd wysłania')
         throw Error(stats.message)
+      }
+    },
+    doInclude (number) {
+      if (this.selectedVoices.includes(number)) {
+        return 'kopleOn'
+      } else {
+        return 'note white'
       }
     }
   }
@@ -193,6 +190,22 @@ export default {
   flex: 8;
   justify-content: center;
 
+}
+
+.kopleOn{
+  opacity: 0.5;
+  cursor:'not-allowed';
+  width: 10px;
+  height: 40px;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  flex-flow: column;
+  justify-content: flex-end;
+  outline: 2px solid #474747;
+  color: #474747;
+  background-color: #ffffff;
+  padding-bottom: 1%;
 }
 
 .note {

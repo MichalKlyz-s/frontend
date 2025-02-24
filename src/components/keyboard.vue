@@ -1,7 +1,7 @@
 <template>
 <div>
 
-    {{ keyboard }}
+    <!-- {{ keyboard }} {{ numberOfOctaves }} -->
     <v-slide-group show-arrows v-model="selected">
     <v-slide-item
           v-for="n in octawList.length"
@@ -89,7 +89,7 @@
 </div> -->
 <div id="kbd">
 <!-- Przerobić by było od oktaw a nie nuty -->
-<div id="keys">
+<div id="keys" :class="kople.slice(1).includes(keyboard) ? 'kopleOn' :  'kopleOff'">
 
     <div id="c" class="note white" :style=" {opacity: 'C' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('C' + (selected+1))"  @mouseup="releaseB('C' + (selected+1))">C
     </div>
@@ -123,7 +123,7 @@
 import * as api from '../modules/apiH.ts'
 export default {
   name: 'keybord',
-  props: ['keyboard', 'octawList'],
+  props: ['keyboard', 'octawList', 'kople'],
   data: () => ({
     // octaveList: [1, 2, 3, 4, 5, 6],
     selected: 0,
@@ -131,10 +131,15 @@ export default {
   }),
   methods: {
     async test (note) {
-      const test = { note: note, noteOnOff: 'pressed', channel: this.keyboard }
+      let noteData
+      if (this.kople[0] === this.keyboard) {
+        noteData = { note: note, noteOnOff: 'pressed', channel: this.kople }
+      } else {
+        noteData = { note: note, noteOnOff: 'pressed', channel: this.keyboard }
+      }
       this.pressedC = note
 
-      const stats = await api.midiTest(test)
+      const stats = await api.midiTest(noteData)
       console.log(stats)
       if (stats.data.success) {
         console.log('tak')
@@ -144,8 +149,13 @@ export default {
       }
     },
     async releaseB (note) {
-      const test = { note: note, noteOnOff: 'released', channel: this.keyboard }
-      const stats = await api.midiTest(test)
+      let noteData
+      if (this.kople[0] === this.keyboard) {
+        noteData = { note: note, noteOnOff: 'released', channel: this.kople }
+      } else {
+        noteData = { note: note, noteOnOff: 'released', channel: this.keyboard }
+      }
+      const stats = await api.midiTest(noteData)
       this.pressedC = ''
       console.log(stats)
       if (stats.data.success) {
@@ -154,6 +164,11 @@ export default {
         console.log('nie')
         throw Error(stats.message)
       }
+    }
+  },
+  computed: {
+    numberOfOctaves () {
+      return Math.ceil((this.keyboard.End - this.keyboard.Start) / 12)
     }
   }
 }
@@ -227,6 +242,16 @@ export default {
   flex: 8;
   justify-content: center;
 
+}
+
+.kopleOff {
+
+}
+
+.kopleOn {
+  opacity: 0.5;
+  cursor:'not-allowed';
+  pointer-events: none;
 }
 
 .note {

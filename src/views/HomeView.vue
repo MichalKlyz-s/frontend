@@ -6,7 +6,7 @@
 import homePage from '../components/homePage.vue'
 
 export default {
-  name: 'MyHome',
+  name: 'Home',
 
   components: {
     homePage

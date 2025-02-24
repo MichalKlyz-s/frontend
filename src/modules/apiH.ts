@@ -5,7 +5,7 @@ export const midiTest =async (args) => {
     return axiosGet('midi', args)
 }
 export const midiRegister =async (args) => {
-    return axiosPost('midi_register', args)
+    return axiosGet('midi_register', args)
 }
 export const midiOutputsTest =async (args) => {
     return axiosGet('connect', args)

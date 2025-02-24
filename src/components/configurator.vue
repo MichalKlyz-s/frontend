@@ -7,7 +7,33 @@
             ilosc kepli
             ilosc glosow
             pedaly
-
+      <!-- <template v-if="dataVoice">
+        <template v-for="(c, index) in  dataVoice.length" >
+          <div v-bind:key="index">
+      <v-row v-if="dataVoice[index].generaldata">
+        General data: <br/>
+        Name: {{ dataVoice[index].generaldata.Name }}
+        Location: {{ dataVoice[index].generaldata.Location }}
+        Number Of Voices: {{ dataVoice[index].generaldata.NumberOfVoices }}
+        Change Of Voice: {{ dataVoice[index].generaldata.ChangeOfVoice }}
+        Number Of Manuals: {{ dataVoice[index].generaldata.NumberOfManuals }}
+        Kople: {{ dataVoice[index].generaldata.Kople }}
+      </v-row>
+      <v-row v-if="dataVoice[index].Keyboard">
+        Keyboard: <br/>
+        Manuals: {{ dataVoice[index].Keyboard.Manuals.Start }} - {{ dataVoice[index].Keyboard.Manuals.End }}
+        Pedals: {{ dataVoice[index].Keyboard.Pedals.Start }} - {{ dataVoice[index].Keyboard.Pedals.End }}
+      </v-row>
+      <v-row v-if="dataVoice[index].OrgansDisposition">
+        Organ dispositon: <br/>
+        Name: {{ dataVoice[index].OrgansDisposition.Name }}
+        Voices For Manuals: {{ dataVoice[index].OrgansDisposition.VoicesForManuals }}
+        Numbers To Show: {{ dataVoice[index].OrgansDisposition.NumbersToShow }}
+        Numbers For Switch: {{ dataVoice[index].OrgansDisposition.NumbersForSwitch }}
+      </v-row>
+    </div>
+    </template>
+    </template>-->
 
             <v-slide-group show-arrows v-model="selectedChanel">
         <v-slide-item
@@ -42,7 +68,7 @@
 
     import * as api from '../modules/apiH.ts'
     export default {
-      name: 'register',
+      name: 'configurator',
       data: () => ({
         dataVoice: null,
         selectedChanel: 0

@@ -16,21 +16,27 @@
       :items="outputs"
     ></v-autocomplete>
 {{ chosenOutput }}
-<v-btn variant="tonal" @click="chosenOutPut()">
+<v-btn variant="tonal" @click="chosenOutPut()" style="margin-bottom: 10px">
      Use output
     </v-btn>
-          <template v-for="keyboard in numberOfKeyboards">
+          <template v-for="keyboard in manulatsTEST">
        <keybord
        :key="keyboard"
        v-bind:keyboard="keyboard"
        v-bind:octawList="octawList"
+       v-bind:kople="kople"
        ></keybord>
       </template>
       <keybord
       v-bind:keyboard= 5
        v-bind:octawList="pedalList"
+       v-bind:kople="kople"
        ></keybord>
-       <register/>
+       <koples
+       v-bind:kople="kople"
+        @changeKople="changeKople" >
+        </koples>
+        <register/>
     </div>
       </v-col>
       </v-row>
@@ -39,6 +45,7 @@
 
 <script>
 import keybord from '../components/keyboard.vue'
+import koples from '../components/koples.vue'
 import register from '../components/register.vue'
 import * as api from '../modules/apiH.ts'
 
@@ -46,6 +53,7 @@ export default {
   name: 'homePage',
   components: {
     keybord,
+    koples,
     register
   },
   defaultNumberOfKeyboard: 3,
@@ -57,9 +65,28 @@ export default {
     chosenOutput: null,
     octawList: [1, 2, 3, 4, 5, 6],
     pedalList: [1, 2, 3, 4],
+    kople: [],
+    manulatsTEST: [],
     configuration: null
   }),
   methods: {
+    // metoda na teraz przed przeniesieniem jej do metody do pobierania danych
+    getManualsData () {
+    const manuals = [
+            { Id: 0, Name: 'Hauptwerk', Start: 36, End: 97, Channel: 2 },
+            { Id: 1, Name: 'Positif', Start: 36, End: 97, Channel: 3 },
+            { Id: 2, Name: 'Oberwerk', Start: 36, End: 97, Channel: 4 }
+            ]
+            this.numberOfKeyboards = manuals.length
+            this.manulatsTEST = manuals
+    },
+    changeKople (kopel) {
+      if (this.kople.includes(kopel[1])) {
+        this.kople = this.kople.filter(n => n !== kopel[1])
+      } else {
+        this.kople = [...new Set([...this.kople, ...kopel])]
+      }
+    },
     async outPuts () {
       const stats = await api.midiOutputsTest()
       if (stats.data.success === true) {
@@ -92,6 +119,7 @@ export default {
   },
   mounted () {
     this.getConfig()
+    this.getManualsData()
   }
 }
 </script>
