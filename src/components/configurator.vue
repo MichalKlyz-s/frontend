@@ -7,6 +7,111 @@
             ilosc kepli
             ilosc glosow
             pedaly
+            <h1>Konfiguracja organów</h1>
+
+            <v-row>
+              <v-col cols="6">
+                <div>
+                <span><h2>Konfigurator</h2></span>
+                General data:
+                <v-row>
+                  <v-col cols="6"> Name:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Location:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Number Of Voices:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Change Of Voice:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Number Of Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Kople:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                Keyboard:
+                <v-row>
+                  <v-col cols="6">Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Pedals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                Organ dispositon:
+                <v-row>
+                  <v-col cols="6">Name:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Voices For Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Numbers To Show:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Numbers For Switch:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+              </div>
+              </v-col>
+              <v-col cols="6">
+                General data:
+                <v-row>
+                  <v-col cols="6"> Name:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Location:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Number Of Voices:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Change Of Voice:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Number Of Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row> <v-row>
+                  <v-col cols="6">Kople:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                Keyboard:
+                <v-row>
+                  <v-col cols="6">Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Pedals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                Organ dispositon:
+                <v-row>
+                  <v-col cols="6">Name:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Voices For Manuals:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Numbers To Show:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="6">Numbers For Switch:</v-col>
+                  <v-col cols="6"></v-col>
+                </v-row>
+              </v-col>
+            </v-row>
       <!-- <template v-if="dataVoice">
         <template v-for="(c, index) in  dataVoice.length" >
           <div v-bind:key="index">

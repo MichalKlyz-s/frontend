@@ -30,7 +30,7 @@
     </template>-->
 </div>
 <div id="kbd">
-{{ selectedVoices }}ccc
+<!-- {{ selectedVoices }}ccc -->
 <div id="keys">
 
     <div id="c" class="note white" :class="doInclude(0)" @click="test(0)">Flute
@@ -58,9 +58,9 @@ export default {
   name: 'register',
   data: () => ({
     dataVoice: null,
-    selectedChanel: 16,
+    selectedChanel: 3,
     selectedVoices: [],
-    methodForVoices: 'playNote'
+    methodForVoices: 'playNote23'
     // registerArgs: [
     //   ['note']= 'C',
     //   ['chanel'] = 0

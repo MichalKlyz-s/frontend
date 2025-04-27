@@ -9,12 +9,12 @@
 </div>
 <div id="kbd">
 
-  {{ kople }}
+  <!-- {{ kople }} -->
 <div id="keys">
 
     <div id="c"  :class="kople.includes(2) ? 'kopleOn' :  'note white'" @click="test([1, 2] )">1/2
     </div>
-    <div id="d" :class="kople.includes(3) ? 'kopleOn' :  'note white'" @click="test([1, 3] )">1/3
+    <div id="d" :class="kople.includes(6) ? 'kopleOn' :  'note white'" @click="test([1, 6] )">1/3
     </div>
 </div>
   </div>

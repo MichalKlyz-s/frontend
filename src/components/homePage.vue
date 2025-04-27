@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <button>przejscie</button>
     <v-row class="text-center">
       <v-col cols="12">
         <div class="hello">
