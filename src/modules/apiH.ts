@@ -1,18 +1,17 @@
-import { axiosGet, axiosPost, dataOnly } from "./apiF.ts"
+import { axiosGet, axiosPost, dataOnly } from "./apiF.ts";
 
-
-export const midiTest =async (args) => {
-    return axiosGet('midi', args)
-}
-export const midiRegister =async (args) => {
-    return axiosGet('midi_voices_change', args)
-}
-export const midiOutputsTest =async (args) => {
-    return axiosGet('connect', args)
-}
-export const midiChosenOutputTest =async (args) => {
-    return axiosGet('choseOutput', args)
-}
+export const midiTest = async (args) => {
+  return axiosGet("midi", args);
+};
+export const midiRegister = async (args) => {
+  return axiosGet("midi_voices_change", args);
+};
+export const midiOutputsTest = async (args) => {
+  return axiosGet("connect", args);
+};
+export const midiChosenOutputTest = async (args) => {
+  return axiosGet("choseOutput", args);
+};
 export const configuration = async (args) => {
-    return axiosGet('getData', args)
-}
+  return axiosGet("getData", args);
+};

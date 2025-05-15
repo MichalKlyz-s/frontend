@@ -1,21 +1,20 @@
-const path = require('path');
-'use strict';
-const webpack = require('webpack');
+const path = require("path");
+("use strict");
+const webpack = require("webpack");
 module.exports = {
   output: {
-    filename: 'my-first-webpack.bundle.js',
+    filename: "my-first-webpack.bundle.js",
   },
   module: {
-    rules: [{ test: /\.txt$/, use: 'raw-loader' }],
+    rules: [{ test: /\.txt$/, use: "raw-loader" }],
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js"],
   },
   // devServer: {
   //   host: '0.0.0.0',
   //   port: '8080'
   // }
-
 };
 
 // import * as path from 'path';

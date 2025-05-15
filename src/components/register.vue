@@ -1,6 +1,6 @@
 <template>
-<div>
-    <div v-if="dataVoice" style="margin: 10px;">
+  <div>
+    <div v-if="dataVoice" style="margin: 10px">
       <!-- <template v-if="dataVoice">
         <template v-for="(c, index) in  dataVoice.length" >
           <div v-bind:key="index">
@@ -28,102 +28,114 @@
     </div>
     </template>
     </template>-->
-</div>
-<div id="kbd">
-<!-- {{ selectedVoices }}ccc -->
-<div id="keys">
-
-    <div id="c" class="note white" :class="doInclude(0)" @click="test(0)">Flute
     </div>
-    <div id="d" class="note white" :class="doInclude(2)" @click="test(2 )">Salicional
+    <div id="kbd">
+      <!-- {{ selectedVoices }}ccc -->
+      <div id="keys">
+        <div id="c" class="note white" :class="doInclude(0)" @click="test(0)">
+          Flute
+        </div>
+        <div id="d" class="note white" :class="doInclude(2)" @click="test(2)">
+          Salicional
+        </div>
+        <div id="e" class="note white" :class="doInclude(4)" @click="test(4)">
+          Nazard
+        </div>
+        <div id="f" class="note white" :class="doInclude(6)" @click="test(6)">
+          Doublette
+        </div>
+        <div id="g" class="note white" :class="doInclude(8)" @click="test(8)">
+          Larigot
+        </div>
+        <div id="a" class="note white" :class="doInclude(10)" @click="test(10)">
+          Prinzipal
+        </div>
+        <div id="b" class="note white" :class="doInclude(12)" @click="test(12)">
+          Oktave
+        </div>
+      </div>
     </div>
-    <div id="e" class="note white" :class="doInclude(4)" @click="test(4)">Nazard
-    </div>
-    <div id="f" class="note white" :class="doInclude(6)" @click="test(6)">Doublette
-    </div>
-    <div id="g" class="note white" :class="doInclude(8)" @click="test(8)">Larigot
-    </div>
-    <div id="a" class="note white" :class="doInclude(10)" @click="test(10)">Prinzipal
-    </div>
-    <div id="b" class="note white" :class="doInclude(12)" @click="test(12)">Oktave
-    </div>
-</div>
   </div>
-
-</div>
 </template>
 <script>
-import * as api from '../modules/apiH.ts'
+import * as api from "../modules/apiH.ts";
 export default {
-  name: 'register',
+  name: "register",
   data: () => ({
     dataVoice: null,
     selectedChanel: 3,
     selectedVoices: [],
-    methodForVoices: 'playNote23'
+    methodForVoices: "playNote23",
     // registerArgs: [
     //   ['note']= 'C',
     //   ['chanel'] = 0
     // ]
   }),
   methods: {
-    async test (note) {
+    async test(note) {
       if (this.selectedVoices.includes(note)) {
-        this.selectedVoices = this.selectedVoices.filter(n => n !== note)
-        const cos = { voice: note + 1, chanel: this.selectedChanel, methodForVoices: this.methodForVoices }
-        const stats = await api.midiRegister(cos)
-        console.log(stats)
-      if (stats.data.success) {
-        console.log('tak')
+        this.selectedVoices = this.selectedVoices.filter((n) => n !== note);
+        const cos = {
+          voice: note + 1,
+          chanel: this.selectedChanel,
+          methodForVoices: this.methodForVoices,
+        };
+        const stats = await api.midiRegister(cos);
+        console.log(stats);
+        if (stats.data.success) {
+          console.log("tak");
+        } else {
+          console.log("nie");
+          throw Error(stats.message);
+        }
       } else {
-        console.log('nie')
-        throw Error(stats.message)
-      }
-      } else {
-      this.selectedVoices = [...this.selectedVoices, note]
-      const cos = { voice: note, chanel: this.selectedChanel, methodForVoices: this.methodForVoices }
-      const stats = await api.midiRegister(cos)
-      console.log(stats)
-      if (stats.data.success) {
-        console.log('tak')
-      } else {
-        console.log('nie')
-        throw Error(stats.message)
-      }
+        this.selectedVoices = [...this.selectedVoices, note];
+        const cos = {
+          voice: note,
+          chanel: this.selectedChanel,
+          methodForVoices: this.methodForVoices,
+        };
+        const stats = await api.midiRegister(cos);
+        console.log(stats);
+        if (stats.data.success) {
+          console.log("tak");
+        } else {
+          console.log("nie");
+          throw Error(stats.message);
+        }
       }
     },
-    async getData () {
-      const stats = await api.midiOutputsTest()
+    async getData() {
+      const stats = await api.midiOutputsTest();
       if (stats.data.success === true) {
-        console.log('Pobrało nowe outputy')
-        console.log(stats.data.chosenData)
-        this.dataVoice = stats.data.chosenData
+        console.log("Pobrało nowe outputy");
+        console.log(stats.data.chosenData);
+        this.dataVoice = stats.data.chosenData;
       } else {
-        console.log('Błąd pobrania')
-        throw Error(stats.message)
+        console.log("Błąd pobrania");
+        throw Error(stats.message);
       }
     },
-    async testChosenOutPut () {
-      const stats = await api.midiChosenOutputTest(this.chosenOutput)
+    async testChosenOutPut() {
+      const stats = await api.midiChosenOutputTest(this.chosenOutput);
       if (stats.data.success === true) {
-        console.log('Powiodło się')
+        console.log("Powiodło się");
       } else {
-        console.log('Błąd wysłania')
-        throw Error(stats.message)
+        console.log("Błąd wysłania");
+        throw Error(stats.message);
       }
     },
-    doInclude (number) {
+    doInclude(number) {
       if (this.selectedVoices.includes(number)) {
-        return 'kopleOn'
+        return "kopleOn";
       } else {
-        return 'note white'
+        return "note white";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-
 .lewyPrzycisk {
   height: 85px;
   width: 46px;
@@ -134,12 +146,12 @@ export default {
 }
 
 .lewyPrzycisk::after {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -23px;
+  margin-left: -23px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -165,12 +177,12 @@ export default {
 //   margin-left: -10px;
 // }
 .prawyPrzycisk::before {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -69px;
+  margin-left: -69px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -190,12 +202,11 @@ export default {
   display: flex;
   flex: 8;
   justify-content: center;
-
 }
 
-.kopleOn{
+.kopleOn {
   opacity: 0.5;
-  cursor:'not-allowed';
+  cursor: "not-allowed";
   width: 10px;
   height: 40px;
   flex: 1;

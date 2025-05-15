@@ -1,5 +1,5 @@
-import type {AxiosRequestConfig} from 'axios'
+import type { AxiosRequestConfig } from "axios";
 
 export type PostOptions = AxiosRequestConfig & {
-    isPureData?: boolean;
+  isPureData?: boolean;
 };

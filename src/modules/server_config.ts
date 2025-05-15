@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 // export const chceckServer = (): any =>{
-//     // const list = 
+//     // const list =
 // }
 
 // export const getCurrenHeaders = (): any => {

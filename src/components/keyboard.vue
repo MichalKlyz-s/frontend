@@ -1,30 +1,28 @@
 <template>
-<div>
-
+  <div>
     <!-- {{ keyboard }} {{ numberOfOctaves }} -->
     <v-slide-group show-arrows v-model="selected">
-    <v-slide-item
-          v-for="n in octawList.length"
-          :key="n"
-          v-slot:default="{ active, toggle }"
-
+      <v-slide-item
+        v-for="n in octawList.length"
+        :key="n"
+        v-slot:default="{ active, toggle }"
+      >
+        <v-btn
+          class="mx-2"
+          :input-value="active"
+          active-class="purple white--text"
+          depressed
+          rounded
+          @click="toggle"
         >
-          <v-btn
-            class="mx-2"
-            :input-value="active"
-            active-class="purple white--text"
-            depressed
-            rounded
-            @click="toggle"
-          >
-            {{ n }}
-          </v-btn>
-        </v-slide-item>
-      </v-slide-group>
+          {{ n }}
+        </v-btn>
+      </v-slide-item>
+    </v-slide-group>
 
-<v-row>
-<br/>
-</v-row>
+    <v-row>
+      <br />
+    </v-row>
     <!-- <v-btn variant="tonal" @click="test('C' + (selected+1))">
       C{{selected+1}}
     </v-btn>
@@ -61,7 +59,7 @@
       <v-btn variant="tonal" @click="test('B' + (selected+1))">
         B{{selected+1}}
       </v-btn> -->
-      <!-- <div id="kbd">
+    <!-- <div id="kbd">
         <div id="keys">
          <v-col cols="1" id="keys">
           <div class="node white"></div>
@@ -87,94 +85,183 @@
        <div class="prawyPrzycisk"></div>
        <div class="srodkowyPrzycisk"></div>
 </div> -->
-<div id="kbd">
-<!-- Przerobić by było od oktaw a nie nuty -->
-<div id="keys" :class="kople.slice(1).includes(keyboard) ? 'kopleOn' :  'kopleOff'">
-
-    <div id="c" class="note white" :style=" {opacity: 'C' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('C' + (selected+1))"  @mouseup="releaseB('C' + (selected+1))">C
+    <div id="kbd">
+      <!-- Przerobić by było od oktaw a nie nuty -->
+      <div
+        id="keys"
+        :class="kople.slice(1).includes(keyboard) ? 'kopleOn' : 'kopleOff'"
+      >
+        <div
+          id="c"
+          class="note white"
+          :style="{ opacity: 'C' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('C' + (selected + 1))"
+          @mouseup="releaseB('C' + (selected + 1))"
+        >
+          C
+        </div>
+        <div
+          id="c#"
+          class="note black"
+          :style="{ opacity: 'C#' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('C#' + (selected + 1))"
+          @mouseup="releaseB('C#' + (selected + 1))"
+        >
+          C#
+        </div>
+        <div
+          id="d"
+          class="note white"
+          :style="{ opacity: 'D' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('D' + (selected + 1))"
+          @mouseup="releaseB('D' + (selected + 1))"
+        >
+          D
+        </div>
+        <div
+          id="d#"
+          class="note black"
+          :style="{ opacity: 'D#' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('D#' + (selected + 1))"
+          @mouseup="releaseB('D#' + (selected + 1))"
+        >
+          D#
+        </div>
+        <div
+          id="e"
+          class="note white"
+          :style="{ opacity: 'E' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('E' + (selected + 1))"
+          @mouseup="releaseB('E' + (selected + 1))"
+        >
+          E
+        </div>
+        <div
+          id="f"
+          class="note white"
+          :style="{ opacity: 'F' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('F' + (selected + 1))"
+          @mouseup="releaseB('F' + (selected + 1))"
+        >
+          F
+        </div>
+        <div
+          id="f#"
+          class="note black"
+          :style="{ opacity: 'F#' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('F#' + (selected + 1))"
+          @mouseup="releaseB('F#' + (selected + 1))"
+        >
+          F#
+        </div>
+        <div
+          id="g"
+          class="note white"
+          :style="{ opacity: 'G' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('G' + (selected + 1))"
+          @mouseup="releaseB('G' + (selected + 1))"
+        >
+          G
+        </div>
+        <div
+          id="g#"
+          class="note black"
+          :style="{ opacity: 'G#' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('G#' + (selected + 1))"
+          @mouseup="releaseB('G#' + (selected + 1))"
+        >
+          G#
+        </div>
+        <div
+          id="a"
+          class="note white"
+          :style="{ opacity: 'A' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('A' + (selected + 1))"
+          @mouseup="releaseB('A' + (selected + 1))"
+        >
+          A
+        </div>
+        <div
+          id="a#"
+          class="note black"
+          :style="{ opacity: 'A#' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('A#' + (selected + 1))"
+          @mouseup="releaseB('A#' + (selected + 1))"
+        >
+          A#
+        </div>
+        <div
+          id="b"
+          class="note white"
+          :style="{ opacity: 'B' + (selected + 1) == pressedC ? 0.1 : 1 }"
+          @mousedown="test('B' + (selected + 1))"
+          @mouseup="releaseB('B' + (selected + 1))"
+        >
+          B
+        </div>
+      </div>
     </div>
-    <div id="c#" class="note black" :style=" {opacity: 'C#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('C#' + (selected+1))"  @mouseup="releaseB('C#' + (selected+1))">C#
-    </div>
-    <div id="d" class="note white"  :style=" {opacity: 'D' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('D' + (selected+1))"  @mouseup="releaseB('D' + (selected+1))">D
-    </div>
-    <div id="d#" class="note black"  :style=" {opacity: 'D#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('D#' + (selected+1))"  @mouseup="releaseB('D#' + (selected+1))">D#
-    </div>
-    <div id="e" class="note white"  :style=" {opacity: 'E' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('E' + (selected+1))"  @mouseup="releaseB('E' + (selected+1))">E
-    </div>
-    <div id="f" class="note white"  :style=" {opacity: 'F' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('F' + (selected+1))"  @mouseup="releaseB('F' + (selected+1))">F
-    </div>
-    <div id="f#" class="note black"  :style=" {opacity: 'F#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('F#' + (selected+1))"  @mouseup="releaseB('F#' + (selected+1))">F#
-    </div>
-    <div id="g" class="note white"  :style=" {opacity: 'G' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('G' + (selected+1))"  @mouseup="releaseB('G' + (selected+1))">G
-    </div>
-    <div id="g#" class="note black"  :style=" {opacity: 'G#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('G#' + (selected+1))"  @mouseup="releaseB('G#' + (selected+1))">G#
-    </div>
-    <div id="a" class="note white"  :style=" {opacity: 'A' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('A' + (selected+1))"  @mouseup="releaseB('A' + (selected+1))">A
-    </div>
-    <div id="a#" class="note black"  :style=" {opacity: 'A#' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('A#' + (selected+1))" @mouseup="releaseB('A#' + (selected+1))">A#
-    </div>
-    <div id="b" class="note white"  :style=" {opacity: 'B' + (selected+1) == pressedC ?  0.1 : 1}" @mousedown="test('B' + (selected+1))" @mouseup="releaseB('B' + (selected+1))">B
-    </div>
-</div>
-</div>
-</div>
+  </div>
 </template>
 <script>
-import * as api from '../modules/apiH.ts'
+import * as api from "../modules/apiH.ts";
 export default {
-  name: 'keybord',
-  props: ['keyboard', 'octawList', 'kople'],
+  name: "keybord",
+  props: ["keyboard", "octawList", "kople"],
   data: () => ({
     // octaveList: [1, 2, 3, 4, 5, 6],
     selected: 0,
-    pressedC: ''
+    pressedC: "",
   }),
   methods: {
-    async test (note) {
-      let noteData
+    async test(note) {
+      let noteData;
       if (this.kople[0] === this.keyboard) {
-        noteData = { note: note, noteOnOff: 'pressed', channel: this.kople }
+        noteData = { note: note, noteOnOff: "pressed", channel: this.kople };
       } else {
-        noteData = { note: note, noteOnOff: 'pressed', channel: this.keyboard }
+        noteData = { note: note, noteOnOff: "pressed", channel: this.keyboard };
       }
-      this.pressedC = note
+      this.pressedC = note;
 
-      const stats = await api.midiTest(noteData)
-      console.log(stats)
+      const stats = await api.midiTest(noteData);
+      console.log(stats);
       if (stats.data.success) {
-        console.log('tak')
+        console.log("tak");
       } else {
-        console.log('nie')
-        throw Error(stats.message)
+        console.log("nie");
+        throw Error(stats.message);
       }
     },
-    async releaseB (note) {
-      let noteData
+    async releaseB(note) {
+      let noteData;
       if (this.kople[0] === this.keyboard) {
-        noteData = { note: note, noteOnOff: 'released', channel: this.kople }
+        noteData = { note: note, noteOnOff: "released", channel: this.kople };
       } else {
-        noteData = { note: note, noteOnOff: 'released', channel: this.keyboard }
+        noteData = {
+          note: note,
+          noteOnOff: "released",
+          channel: this.keyboard,
+        };
       }
-      const stats = await api.midiTest(noteData)
-      this.pressedC = ''
-      console.log(stats)
+      const stats = await api.midiTest(noteData);
+      this.pressedC = "";
+      console.log(stats);
       if (stats.data.success) {
-        console.log('tak')
+        console.log("tak");
       } else {
-        console.log('nie')
-        throw Error(stats.message)
+        console.log("nie");
+        throw Error(stats.message);
       }
-    }
+    },
   },
   computed: {
-    numberOfOctaves () {
-      return Math.ceil((this.keyboard.End - this.keyboard.Start) / 12)
-    }
-  }
-}
+    numberOfOctaves() {
+      return Math.ceil((this.keyboard.End - this.keyboard.Start) / 12);
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-
 .lewyPrzycisk {
   height: 85px;
   width: 46px;
@@ -185,12 +272,12 @@ export default {
 }
 
 .lewyPrzycisk::after {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -23px;
+  margin-left: -23px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -216,12 +303,12 @@ export default {
 //   margin-left: -10px;
 // }
 .prawyPrzycisk::before {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -69px;
+  margin-left: -69px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -241,16 +328,14 @@ export default {
   display: flex;
   flex: 8;
   justify-content: center;
-
 }
 
 .kopleOff {
-
 }
 
 .kopleOn {
   opacity: 0.5;
-  cursor:'not-allowed';
+  cursor: "not-allowed";
   pointer-events: none;
 }
 
@@ -261,14 +346,13 @@ export default {
 }
 
 .black {
-
   justify-content: center;
   position: relative;
   height: 70%;
   background-color: #474747;
   color: white;
   width: 8%;
-  margin: 0 -4%
+  margin: 0 -4%;
 }
 
 .white {

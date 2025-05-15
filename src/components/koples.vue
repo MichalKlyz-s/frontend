@@ -1,64 +1,66 @@
 <template>
-<div>
-      <!-- {{ selectedChanel }} -->
-      <v-btn variant="tonal" @click="getData()">
-     Pobież dane
-    </v-btn>
-    <div v-if="dataVoice" style="margin: 10px;">
-
-</div>
-<div id="kbd">
-
-  <!-- {{ kople }} -->
-<div id="keys">
-
-    <div id="c"  :class="kople.includes(2) ? 'kopleOn' :  'note white'" @click="test([1, 2] )">1/2
+  <div>
+    <!-- {{ selectedChanel }} -->
+    <v-btn variant="tonal" @click="getData()"> Pobież dane </v-btn>
+    <div v-if="dataVoice" style="margin: 10px"></div>
+    <div id="kbd">
+      <!-- {{ kople }} -->
+      <div id="keys">
+        <div
+          id="c"
+          :class="kople.includes(2) ? 'kopleOn' : 'note white'"
+          @click="test([1, 2])"
+        >
+          1/2
+        </div>
+        <div
+          id="d"
+          :class="kople.includes(6) ? 'kopleOn' : 'note white'"
+          @click="test([1, 6])"
+        >
+          1/3
+        </div>
+      </div>
     </div>
-    <div id="d" :class="kople.includes(6) ? 'kopleOn' :  'note white'" @click="test([1, 6] )">1/3
-    </div>
-</div>
   </div>
-
-</div>
 </template>
 <script>
-import * as api from '../modules/apiH.ts'
+import * as api from "../modules/apiH.ts";
 export default {
-  name: 'koples',
-  props: ['kople', 'changeKople'],
+  name: "koples",
+  props: ["kople", "changeKople"],
   data: () => ({
     dataVoice: null,
-    selectedChanel: 0
+    selectedChanel: 0,
   }),
   methods: {
-    async test (note) {
-      this.$emit('changeKople', note)
+    async test(note) {
+      this.$emit("changeKople", note);
     },
-    async getData () {
-      const stats = await api.midiOutputsTest()
+    async getData() {
+      const stats = await api.midiOutputsTest();
       if (stats.data.success === true) {
-        console.log('Pobrało nowe outputy')
-        console.log(stats.data.chosenData)
-        this.dataVoice = stats.data.chosenData
+        console.log("Pobrało nowe outputy");
+        console.log(stats.data.chosenData);
+        this.dataVoice = stats.data.chosenData;
       } else {
-        console.log('Błąd pobrania')
-        throw Error(stats.message)
+        console.log("Błąd pobrania");
+        throw Error(stats.message);
       }
     },
-    async testChosenOutPut () {
-      const stats = await api.midiChosenOutputTest(this.chosenOutput)
+    async testChosenOutPut() {
+      const stats = await api.midiChosenOutputTest(this.chosenOutput);
       if (stats.data.success === true) {
-        console.log('Powiodło się')
+        console.log("Powiodło się");
       } else {
-        console.log('Błąd wysłania')
-        throw Error(stats.message)
+        console.log("Błąd wysłania");
+        throw Error(stats.message);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-
 .lewyPrzycisk {
   height: 85px;
   width: 46px;
@@ -69,12 +71,12 @@ export default {
 }
 
 .lewyPrzycisk::after {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -23px;
+  margin-left: -23px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -100,12 +102,12 @@ export default {
 //   margin-left: -10px;
 // }
 .prawyPrzycisk::before {
-  content: '';
+  content: "";
   background-color: white;
   position: absolute;
   height: 150px;
   width: 90px;
-    margin-left: -69px;
+  margin-left: -69px;
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-left: 2px solid black;
@@ -125,12 +127,11 @@ export default {
   display: flex;
   flex: 8;
   justify-content: center;
-
 }
 
-.kopleOn{
+.kopleOn {
   opacity: 0.5;
-  cursor:'not-allowed';
+  cursor: "not-allowed";
   width: 10px;
   height: 40px;
   flex: 1;

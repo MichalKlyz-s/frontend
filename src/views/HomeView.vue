@@ -3,13 +3,13 @@
 </template>
 
 <script>
-import homePage from '../components/homePage.vue'
+import homePage from "../components/homePage.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
 
   components: {
-    homePage
-  }
-}
+    homePage,
+  },
+};
 </script>
