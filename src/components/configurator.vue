@@ -21,7 +21,7 @@ const chanelsRange = [1,16];
 const minManuals = 0;
 const maxManuals = 100;
 const methods = ['MiDi','changemode','etc'];
-const edit = ref(true);
+const edit = ref(false);
 //  przełączniki to musze sprawdzić jak dokładzie, więc dodać moze wprowadzanie nazwy + wartość 
 const playMethod = ref('MiDi');
 const chanelForVoices = ref(1);
@@ -560,63 +560,75 @@ const configuration = computed(() => {
       <template v-else>
         <div class="shadowBox">
           <span>General data:</span>
+          {{ configuration }}
+          <v-row>
+            <v-col cols="6">
+            Wgraj ustawienia:
+          </v-col>
+          <v-col>
+            wybierz plik tutaj
+          </v-col>
+          </v-row>
           <v-row>
             <v-col cols="6"><span>Nazwa konfiguracji:</span></v-col>
-            <v-col cols="6"><span>{{ confName }}</span></v-col>
+            <v-col cols="6"><span>{{ configuration.confName }}</span></v-col>
           </v-row>
           <v-row>
             <v-col cols="6"><span>Nazwa organów:</span></v-col>
-            <v-col cols="6"><span>{{ pipeOrganName }}</span></v-col>
+            <v-col cols="6"><span>{{ configuration.organName }}</span></v-col>
           </v-row>
           <v-row>
             <v-col cols="6"><span>Lokalizacja:</span></v-col>
-            <v-col cols="6"><span>{{ pipeOrganAddres }}</span></v-col>
+            <v-col cols="6"><span>{{ configuration.addres }}</span></v-col>
           </v-row>
           <v-row>
             <v-col cols="6"><span>Metoda grania:</span></v-col>
-            <v-col cols="6"><span>{{ playMethod }}</span></v-col>
+            <v-col cols="6"><span>{{ configuration.playMethod }}</span></v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"><span>Liczba manuałów:</span> </v-col>
-            <v-col cols="6">{{ manuals.length }}</v-col>
+            <v-col>Manuały:</v-col>
+            </v-row>
+          <v-row>
+            <v-col cols="6"><span>Liczba manuałów/Kanał:</span> </v-col>
+            <v-col cols="6">{{ configuration.manuals.value.length }}/{{ configuration.chanelForManuals }}</v-col>
+          </v-row>
+          <v-row v-for="(x, index) in configuration.manuals.value.length" v-bind:key="index">
+            <v-col cols="6"><span>Manuał ({{configuration.manuals.value[index].id }}):</span></v-col>
+            <v-col cols="6">
+              <span>Przedział: {{configuration.manuals.value[index].range[0]}} - {{ configuration.manuals.value[index].range[1] }} stopaz: {{ configuration.manuals.value[index].stopaz }}</span>
+            </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"> Kople: </v-col>
-            <v-col cols="6">Nazwa</v-col>
-          </v-row>
-          Keyboard:
-          <v-row>
-            <v-col cols="6"> Manuals: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+            <v-col cols="6">Pedals:</v-col>
+            <v-col cols="6">
+              <span>Kanał: {{ configuration.chanelForPedals }} Przedział: {{ configuration.pedals.value[0] }} - {{ configuration.pedals.value[1] }}</span>
+            </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"> Pedals: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+            <v-col>Kople:</v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"> Number Of Voices: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+            <v-col cols="6"><span>Liczba kopli/Kanał:</span> </v-col>
+            <v-col cols="6">{{ configuration.koples.value.length }}/{{ configuration.chanelForKoples }}</v-col>
+          </v-row>
+          <v-row v-for="(x, index) in configuration.koples.value.length" v-bind:key="index">
+            <v-col cols="6"><span>Kopl ({{configuration.koples.value[index].id }}):</span></v-col>
+            <v-col cols="6">
+              <span>Nazwa: {{configuration.koples.value[index].name}} Pierwszy manuał: {{ configuration.koples.value[index].firstManual }} Drugi manuał: {{ configuration.koples.value[index].secondManual }}</span>
+            </v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"> Change Of Voice: </v-col>
-            <v-col cols="6">Nazwa</v-col>
-          </v-row>
-          Organ dispositon:
-          <v-row>
-            <v-col cols="6"> Name: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+            <v-col>Głosy:</v-col>
           </v-row>
           <v-row>
-            <v-col cols="6"> Voices For Manuals: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+            <v-col cols="6"><span>Liczba głosów/Kanał:</span> </v-col>
+            <v-col cols="6">{{ configuration.voices.value.length }}/{{ configuration.chanelForVoices }}</v-col>
           </v-row>
-          <v-row>
-            <v-col cols="6"> Numbers To Show: </v-col>
-            <v-col cols="6">Nazwa</v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="6"> Numbers For Switch: </v-col>
-            <v-col cols="6">Nazwa</v-col>
+          <v-row v-for="(x, index) in configuration.voices.value.length" v-bind:key="index">
+            <v-col cols="6"><span>Głos ({{configuration.voices.value[index].id }}):</span></v-col>
+            <v-col cols="6">
+              <span>Nazwa: {{configuration.voices.value[index].name}} Wartość: {{ configuration.voices.value[index].value }}</span>
+            </v-col>
           </v-row>
         </div>
       </template>
