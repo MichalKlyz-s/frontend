@@ -1,5 +1,6 @@
 {
-  "compilerOptions": {
+  "vueCompilerOptions": {
+    "target": 2.7,
     "module": "esnext",
     "lib": [
       "ESNext" /* ESNext includes new Level-4 features that were

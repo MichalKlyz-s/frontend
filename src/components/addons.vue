@@ -4,17 +4,17 @@ import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 import {CancelTokenSource} from 'axios';
 
-const { voices, playMethod, chanel } = defineProps({
-  voices: Array,
+const { addons, playMethod, chanel } = defineProps({
+  addons: Array,
   playMethod: String,
   chanel: Number,
 });
 
-const selectedVoices = ref([]);
+const selectedAddons = ref([]);
 const requestCancelToken = ref(null);
 
 const doInclude = (number) => {
-  if (selectedVoices.value.includes(number)) {
+  if (selectedAddons.value.includes(number)) {
     return "kopleOn";
   } else {
     return "kopleOff";
@@ -33,11 +33,14 @@ const pressKey= async (note) => {
       channel: chanel,
       playMethod: playMethod
     };
-    if (selectedVoices.value.includes(note)) {
-      selectedVoices.value = selectedVoices.value.filter((n) => n !== note);
+    if (selectedAddons.value.includes(note)) {
+      selectedAddons.value = selectedAddons.value.filter((n) => n !== note);
       noteData.noteOnOff = "released";
+      // TODO
+      // noteData.note = note + 1;
+      // Sprawdzić czy się wyłącza na klawiszu wyżej czy nie jakto działa itp
     } else {
-      selectedVoices.value = [...selectedVoices.value, note];
+      selectedAddons.value = [...selectedAddons.value, note];
       noteData.noteOnOff = "pressed";
     }
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
@@ -49,18 +52,18 @@ const pressKey= async (note) => {
     throw Error(error);
   }
 };
-
 </script>
 <template>
+  <!-- TODO zapytac czy na przytzrymanie czy pojedyncze MAYBEPRESS ED -->
   <div class="keybordWood" >
     <div class="keyboard">
       <div
-      v-for="voice in voices"
-      :key="voice.id"
+      v-for="addon in addons"
+      :key="addon.id"
       class="note"
-      :class="doInclude(voice.id)"
-      @click="pressKey(voice.id)">
-      {{ voice.name }}
+      :class="doInclude(addon.id)"
+      @click="pressKey(addon.id)">
+      {{ addon.name }}
       </div>
     </div>
   </div>

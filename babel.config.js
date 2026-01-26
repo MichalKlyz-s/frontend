@@ -5,13 +5,13 @@ module.exports = {
       "@vue/app",
       {
         useBuiltIns: "entry",
-        exclude: ["transform-regenerator", "transform-async-to-generator"],
-      },
-    ],
+        exclude: ["transform-regenerator", "transform-async-to-generator"]
+      }
+    ]
   ],
   plugins: [
     "transform-async-to-promises",
     "@babel/plugin-proposal-nullish-coalescing-operator",
-    "@babel/plugin-proposal-optional-chaining",
-  ],
+    "@babel/plugin-proposal-optional-chaining"
+  ]
 };

@@ -3,17 +3,14 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 import {CancelTokenSource} from 'axios';
-//TODO
-// Sprawdzić czy potrzebne jest wysyałnie kopla bo wydaje się ze nei potrzeba chyba ze kople dziłają na jakieś wybrane klawiatury
-// to wtedy dodać jakieś wysyłąnie bądź obsługę na backend
 
-const {keyboard, playMethod, chanel, kople} = defineProps({
-  keyboard: Object,
+const {pedals, playMethod, chanel, disabled} = defineProps({
+  pedals: Array,
   playMethod: String,
   chanel: Number,
   disabled: Boolean
 });
-const keys = ref([]);
+const pedalKey = ref([]);
 const keyboardSlider = ref();
 const pressedKey = ref('');
 const requestCancelToken = ref(null);
@@ -28,24 +25,18 @@ const noteName = (key) => {
   return keyNames[key % 12] + octave;
 };
 
-const keyColor = (key) => {
-  const keyColor = key % 12;
-  return [1,3,6,8,10].includes(keyColor);
-};
 const getKeys = () => {
   let keyList = [];
   for(let x = 0; x <= 127; x++){
     keyList.push({
       noteNumber: x,
       note: noteName(x),
-      color: keyColor(x),
-      disabled: x < keyboard.range[0] || x > keyboard.range[1]
+      disabled: x < pedals[0] || x > pedals[1]
     });
   }
-  keys.value = keyList.filter((key) => !key.disabled);
+  pedalKey.value = keyList.filter((key) => !key.disabled);
 };
-//TODO
-// Przekanaznie zmiennych wpromptach dla innych komponentów, dodanie zmiennych by wysłyały sie nabackend i sprwdzenie przyciskaniajak działa ale chyba dpbrze, wiec no podpięcie pozostałych i tam może program change też na tamte registry itp
+
 const pressKey = async (note) => {
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
@@ -63,7 +54,7 @@ const pressKey = async (note) => {
     if (stats.data.success === false) {
       throw Error(stats.message);
     }
-  } catch (error) {
+  }catch (error) {
     console.log(error);
     throw Error(error);
   }
@@ -72,11 +63,6 @@ const releaseKey = async (note) =>{
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
   }
-  ////TODO
-  //// To w zalezności czy kole blokując czy nie ale chyba nei potrzbene ogólnie
-  // //if (kople[0] === keyboard) {
-  ////   //noteData = { note, noteOnOff: "released", channel: kople };
-  // //} else {
   requestCancelToken.value = api.getNewCancelToken();
   try {
     pressedKey.value = '';
@@ -95,25 +81,20 @@ const releaseKey = async (note) =>{
     throw Error(error);
   }
 };
-//TODO
-// Maybe ID of a keybord or so bc idk if all are on seperete chanles
-
 </script>
 <template>
-  <div class="keybordWood" >
-    <div class="keyboard">
+   <div class="keybordWood" >
+    <div class="keyboard">      
       <v-slide-group
         v-model="keyboardSlider"
         show-arrows>
         <v-slide-item
-          v-for="key in keys"
+          v-for="key in pedalKey"
           :key="key.noteNumber"
         >
           <div
             class="key"
             :class="{
-              blackKey: key.color,
-              whiteKey: !key.color,
               disabledKey: key.disabled
             }"
             :style="{ opacity: key.noteNumber === pressedKey ? 0.1 : 1 }"
@@ -123,7 +104,7 @@ const releaseKey = async (note) =>{
           </div>
         </v-slide-item>
       </v-slide-group>
-    </div>
+    </div> 
   </div>
 </template>
 <style lang="scss" scoped>
@@ -144,28 +125,18 @@ const releaseKey = async (note) =>{
   padding: 10px 15px;
   white-space: normal;
 }
-.key.whiteKey {
- width: 28px;
+.key {
+ width: 20px;
  height: 180px; 
- background: white;
- border: 1px solid black;
+ margin: 0px 1px;
+ background: #311a09;
+ border: 2px solid black;
  align-content: end;
  word-break: break-all;
-
-}
-.key.blackKey {
-  word-break: break-all;
-  width: 16px;
-  height: 110px;
-  background: black;
-  margin-left: -8px;
-  margin-right: -9px;
-  z-index: 2;
-  color: white;
+ color: white;
 }
 .key.disabledKey {
   opacity: 0.7;
   pointer-events: none;
 }
-
 </style>
