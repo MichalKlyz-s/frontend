@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const dataOnly = (res) => (res ? res.data : res);
+export const dataOnly = (res: any) => (res ? res.data : res);
 
-export const readError = (error) => {
+export const readError = (error: any) => {
   if (axios.isCancel(error)) {
-    console.log("Request canceled", error);
+    console.log('Request canceled', error);
     return Promise.reject(error);
   }
 };
@@ -12,46 +12,49 @@ const defaultOptions = {
   timeout: 300000,
   withCredentials: false,
   headers: {
-    Accept: "application/json",
-    'Content-Type': "application/json"
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
 };
 
 export const axiosPost = (
-  relativeUrl,
-  params,
-  cancelToken,
+  relativeUrl: string,
+  params: { value: any },
+  cancelToken: { value: any },
 ) => {
   const optionsPost = {
     ...defaultOptions,
     cancelToken: cancelToken ? cancelToken.value : null,
-  }
-  return axios.post(
-    `http://localhost:8888/${relativeUrl}`,{
-       data: params.value
-  }, optionsPost
+  };
+  return axios
+    .post(
+      `http://localhost:8888/${relativeUrl}`,
+      {
+        data: params.value,
+      },
+      optionsPost,
     )
-  .catch(readError);
+    .catch(readError);
 };
 
-export const axiosGet = (relativeUrl, cancelToken) => {
+export const axiosGet = (relativeUrl: string, cancelToken: { value: any }) => {
   const optionsGet = {
     ...defaultOptions,
     cancelToken: cancelToken ? cancelToken.value : null,
     params: {
-      data: ''
-    }
-  }
+      data: '',
+    },
+  };
   return axios.get(`http://localhost:8888/${relativeUrl}`, optionsGet).catch(readError);
 };
 
-export const axiosGetWParams = (relativeUrl, params = {}, cancelToken) => {
+export const axiosGetWParams = (relativeUrl: string, params = {}, cancelToken: { value: any }) => {
   const optionsGet = {
     ...defaultOptions,
     cancelToken: cancelToken ? cancelToken.value : null,
     params: {
-      data: params
-    }
-  }
+      data: params,
+    },
+  };
   return axios.get(`http://localhost:8888/${relativeUrl}`, optionsGet).catch(readError);
 };

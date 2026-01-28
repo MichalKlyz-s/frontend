@@ -28,7 +28,7 @@ const getOutPuts = async () => {
     if (res.success === true) {
       outputs.value = res.outputs;
     } else {
-      throw Error(res.message);
+      throw new Error(res.message);
     }
   } catch (error) {
     console.log(error);
@@ -36,14 +36,16 @@ const getOutPuts = async () => {
 };
 
 const setChosenOutPut = async () => {
+  console.log('co jest')
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
   }
   requestCancelToken.value = api.getNewCancelToken();
+  console.log(chosenOutput.value);
   try {
-    const stats = await api.setChosenOutPut(chosenOutput, requestCancelToken.value);
+    const stats = await api.setChosenOutPut(chosenOutput.value, requestCancelToken.value);
     if (stats.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
@@ -59,7 +61,7 @@ const getConfig = async () => {
     if (data.success === true) {
       configuration.value = data.configuration;
     } else {
-      throw Error(conf.message);
+      throw new Error(conf.message);
     }
   } catch (error) {
     console.log(error);
@@ -83,15 +85,12 @@ const getConfig = async () => {
             <v-btn
             color="white"
             elevation="7" 
-            fab 
-            x-small
-            raised
+            variant="outlined" 
+            icon="mdi-cog"
+            size="x-small"
             title="Ustawienia"
             @click="$router.push('/config')"
-            ><v-icon>
-              mdi-cog
-              </v-icon>
-              </v-btn>
+            />
           </v-col>
           <v-col cols="6">
             <h1 style="text-align: center; color: white">Organy {{ configuration.organName }}</h1>
@@ -104,12 +103,12 @@ const getConfig = async () => {
             v-model="chosenOutput"
             clearable
             chips
-            background-color="white"
-            dense
-            outlined
+            bg-color="white"
+            density="compact"
+            variant="outlined"
             label="Midi outputs"
             :items="outputs"
-            @change="setChosenOutPut()"
+            @update:model-value="setChosenOutPut()"
           />
           </v-col>
           </v-row>

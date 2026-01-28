@@ -238,28 +238,22 @@ const getData = async () => {
             v-if="!edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-arrow-u-left-top"
             title="Powrót"
             @click="$router.push('/')"
-            ><v-icon dark>
-              mdi-arrow-u-left-top
-              </v-icon>
-            </v-btn>
+            />
             <v-btn
             v-if="edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-close"
             title="Anuluj"
              @click="edit = false"
-            ><v-icon dark>
-              mdi-close
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
           <v-col cols="6">
             <h1 style="text-align: center; color: white">Ustawienia organów</h1>
@@ -269,28 +263,22 @@ const getData = async () => {
             v-if="!edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-pencil"
             title="Edytuj"
             @click="edit = true"
-            ><v-icon dark>
-              mdi-pencil
-              </v-icon>
-              </v-btn>
+            />
               <v-btn
               v-if="edit"
               color="white"
               elevation="7" 
-              fab 
+              variant="outlined" 
               x-small
-              raised
+              icon="mdi-content-save"
               title="Zapisz"
               @click="saveSetting"
-              ><v-icon dark>
-                mdi-content-save
-                </v-icon>
-              </v-btn>
+              />
           </v-col>
         </v-row>
         <v-row style="padding: 0px 40px 0px 20px; margin-top: 5px; height: 66px">
@@ -311,10 +299,10 @@ const getData = async () => {
               :items="filesToChose"
               label="Plik"
               hide-details
-              background-color="white"
-              dense
+              bg-color="white"
+              density="compact"
               clearable
-              outlined
+              variant="outlined"
               @change="getSetting()"
               ></v-select>
             </template>
@@ -323,13 +311,13 @@ const getData = async () => {
                 v-model="chosenInput"
                 :items="inputs"
                 label="Midi inputs"
-                background-color="white"
+                bg-color="white"
                 hide-details
                 clearable
                 chips
-                dense
-                outlined
-                @change="listenChosenInput()"
+                density="compact"
+                variant="outlined"
+                @update:model-value="listenChosenInput()"
               />
             </template>
           </v-col>
@@ -342,47 +330,37 @@ const getData = async () => {
             v-if="!edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-download"
             title="Pobierz"
             @click="getAllFiles"
-            ><v-icon dark>
-              mdi-download
-              </v-icon>
-            </v-btn>
+            />
             <v-btn
             v-if="edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-ear-hearing"
             title="Nasłuchuj"
             @click="getMidiDevices"
-            ><v-icon dark>
-              mdi-ear-hearing
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
           <v-col cols="1" style="text-align: center; padding: 0px">
             <v-btn
             v-if="!edit"
             color="white"
             elevation="7" 
-            fab 
+            variant="outlined" 
             x-small
-            raised
+            icon="mdi-check-bold"
             title="Użyj"
             @click="useSetting()"
-            ><v-icon dark>
-              mdi-check-bold
-              </v-icon>
-            </v-btn>
+            />
           </v-col>
         </v-row>
         <v-row class="shadowBox">
-        <template>    
           <div style="width: 100%;">
             <v-row style="text-align: center">
               <v-col>
@@ -396,22 +374,21 @@ const getData = async () => {
                 <v-text-field
                   v-model="confName"
                   label="Nazwa konfiguracji"
-                  outlined
-                  background-color="white"
+                  variant="outlined"
+                  bg-color="white"
                   type="text"
                   placeholder="Nazwa konfiguracji"
-                  dense
+                  density="compact"
                   rounded
                   required
                   clearable
                   clear-icon="mdi-close"
                 >
-                  <template #append-outer>
-                    <v-tooltip top>
-                      <template #activator="{ on }">
-                        <v-icon dark v-on="on"> mdi-help-circle-outline </v-icon>
+                  <template #append-inner>
+                    <v-tooltip text="Nazwa konfiguracji również będzie nazwą pliku konfiguracji">
+                      <template #activator="{ props }">
+                        <v-icon dark v-bind="props"> mdi-help-circle-outline </v-icon>
                       </template>
-                      <span>Nazwa konfiguracji również będzie nazwą pliku konfiguracji</span>
                     </v-tooltip>
                   </template>
                 </v-text-field>
@@ -424,21 +401,20 @@ const getData = async () => {
                 <v-text-field
                   v-model="pipeOrganName"
                   label="Nazwa organów"
-                  outlined
-                  background-color="white"
+                  variant="outlined"
+                  bg-color="white"
                   type="text"
                   placeholder="Nazwa organów"
-                  dense
+                  density="compact"
                   rounded
                   required
                   clearable
                   clear-icon="mdi-close"
-                  ><template #append-outer>
-                    <v-tooltip top>
-                      <template #activator="{ on }">
-                        <v-icon dark v-on="on"> mdi-help-circle-outline </v-icon>
+                  ><template #append-inner>
+                    <v-tooltip text="Nazwa organów, dla których tworzona jest konfiguracja">
+                      <template #activator="{ props }">
+                        <v-icon dark v-bind="props"> mdi-help-circle-outline </v-icon>
                       </template>
-                      <span>Nazwa organów, dla których tworzona jest konfiguracja</span>
                     </v-tooltip>
                   </template>
                 </v-text-field>
@@ -451,21 +427,20 @@ const getData = async () => {
                 <v-text-field
                   v-model="pipeOrganAddres"
                   label="Lokacja"
-                  outlined
-                  background-color="white"
+                  variant="outlined"
+                  bg-color="white"
                   type="text"
                   placeholder="Lokacja"
-                  dense
+                  density="compact"
                   rounded
                   required
                   clearable
                   clear-icon="mdi-close"
-                  ><template #append-outer>
-                    <v-tooltip top>
-                      <template #activator="{ on }">
-                        <v-icon dark v-on="on"> mdi-help-circle-outline </v-icon>
+                  ><template #append-inner>
+                    <v-tooltip text="Adres gdzie organy się znajdują">
+                      <template #activator="{ props }">
+                        <v-icon dark v-bind="props"> mdi-help-circle-outline </v-icon>
                       </template>
-                      <span>Adres gdzie organy się znajdują</span>
                     </v-tooltip>
                   </template>
                 </v-text-field>
@@ -479,20 +454,19 @@ const getData = async () => {
                 v-model="playMethod"
                 :items="methods"
                 label="Metoda"
-                background-color="white"
-                outlined
-                dense
+                bg-color="white"
+                variant="outlined"
+                density="compact"
                 rounded
                 required
                 clearable
                 clear-icon="mdi-close"
                  >
-                  <template #append-outer>
-                    <v-tooltip top>
-                      <template #activator="{ on }">
-                        <v-icon dark v-on="on"> mdi-help-circle-outline </v-icon>
+                  <template #append-inner>
+                    <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
+                      <template #activator="{ props }">
+                        <v-icon dark v-bind="props"> mdi-help-circle-outline </v-icon>
                       </template>
-                      <span>Metoda, którą będą wysyłane sygnały midi do organów</span>
                     </v-tooltip>
                   </template>
                 </v-select>
@@ -506,20 +480,19 @@ const getData = async () => {
                 v-model="playMethodButtons"
                 :items="methods"
                 label="Metoda"
-                background-color="white"
-                outlined
-                dense
+                bg-color="white"
+                variant="outlined"
+                density="compact"
                 rounded
                 required
                 clearable
                 clear-icon="mdi-close"
                  >
-                  <template #append-outer>
-                    <v-tooltip top>
-                      <template #activator="{ on }">
-                        <v-icon dark v-on="on"> mdi-help-circle-outline </v-icon>
+                  <template #append-inner>
+                    <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
+                      <template #activator="{ props }">
+                        <v-icon dark v-bind="props"> mdi-help-circle-outline </v-icon>
                       </template>
-                      <span>Metoda, którą będą wysyłane sygnały midi do organów</span>
                     </v-tooltip>
                   </template>
                 </v-select>
@@ -544,22 +517,21 @@ const getData = async () => {
                     <v-btn 
                       @click="reduceManual" 
                       elevation="7" 
-                      fab 
+                      variant="outlined" 
                       x-small
-                      raised
+                      icon="mdi-minus"
                       color="white"
-                      ><v-icon >
-                      mdi-minus
-                      </v-icon></v-btn>
+                      />
                   </v-col>
                   <v-col cols="5">
                     <v-text-field 
                       readonly
-                      outlined 
+                      variant="outlined"
                       v-model="manuals.length" 
                       type="text"
-                      dense
+                      density="compact"
                       hide-details
+                      bg-color="white"
                       rounded
                       required
                       class="textFieldClass"
@@ -569,13 +541,11 @@ const getData = async () => {
                     <v-btn 
                       @click="addManual" 
                       elevation="7" 
-                      fab 
+                      variant="outlined" 
                       x-small 
-                      raised
+                      icon="mdi-plus"
                       color="white"
-                      ><v-icon>
-                      mdi-plus
-                      </v-icon></v-btn>
+                      />
                   </v-col>
                 </v-row>
               </v-col>
@@ -620,12 +590,13 @@ const getData = async () => {
                     >
                       <template v-slot:prepend>
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="manuals[indexE].range[0]"
                           hide-details
                           single-line
+                          bg-color="white"
                           type="text"
-                          dense
+                          density="compact"
                           rounded
                           required
                           style="width: 80px"
@@ -637,14 +608,15 @@ const getData = async () => {
                       </template>
                       <template v-slot:append> 
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="manuals[indexE].range[1]"
                           hide-details
                           single-line
                           type="text"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           style="width: 80px"
                           class="textFieldClass"
                           :max="maxManuals"
@@ -669,14 +641,15 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="manuals[indexE].chanel"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -697,14 +670,15 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="manuals[indexE].stopaz"
                           hide-details
                           single-line
                           type="text"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -750,14 +724,15 @@ const getData = async () => {
                     >
                     <template v-slot:prepend>
                       <v-text-field
-                        outlined
+                        variant="outlined"
                         v-model="pedals[0]"
                         hide-details
                         single-line
                         type="text"
-                        dense
+                        density="compact"
                         rounded
                         required
+                        bg-color="white"
                         style="width: 80px"
                         class="textFieldClass"
                         :max="maxManuals"
@@ -767,14 +742,15 @@ const getData = async () => {
                     </template>
                     <template v-slot:append> 
                       <v-text-field
-                        outlined
+                        variant="outlined"
                         v-model="pedals[1]"
                         hide-details
                         single-line
                         type="text"
-                        dense
+                        density="compact"
                         rounded
                         required
+                        bg-color="white"
                         style="width: 80px"
                         class="textFieldClass"
                         :max="maxManuals"
@@ -797,14 +773,15 @@ const getData = async () => {
                       </v-col>
                       <v-col cols="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="chanelForPedals"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -858,14 +835,15 @@ const getData = async () => {
                         sm="6"
                         md="4">
                         <v-text-field
-                          outlined 
+                          variant="outlined"
                           v-model="chanelForKoples"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -888,13 +866,11 @@ const getData = async () => {
                         <v-btn 
                           @click="reduceKopel" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small 
-                          raised
+                          icon="mdi-minus"
                           color="white"
-                          ><v-icon >
-                          mdi-minus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                       <v-col 
                         cols="5"
@@ -902,13 +878,14 @@ const getData = async () => {
                         md="3">
                         <v-text-field 
                           readonly
-                          outlined 
+                          variant="outlined"
                           v-model="koples.length" 
                           type="text"
                           hide-details
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -916,13 +893,11 @@ const getData = async () => {
                         <v-btn 
                           @click="addKopel" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small  
-                          raised
+                          icon="mdi-plus"
                           color="white"
-                          ><v-icon>
-                          mdi-plus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                     </v-row>
                   </v-col>
@@ -967,17 +942,17 @@ const getData = async () => {
                         <v-select 
                           v-bind:key="index"
                           :items="listForKopels"
-                          item-text="name"
+                          item-title="name"
                           item-value="id"
                           v-model="koples[index].firstManual"
                           label="Pierwszy"
                           hide-details
-                          outlined
-                          dense
+                          variant="outlined"
+                          density="compact"
                           rounded
                           required
                           clearable
-                          background-color="white"
+                          bg-color="white"
                           clear-icon="mdi-close" />
                       </v-col>
                       <v-col cols="1" class="onlyContentForBtn">
@@ -988,17 +963,17 @@ const getData = async () => {
                       <v-col cols="5">
                         <v-select 
                           :items="listForKopels"
-                          item-text="name"
+                          item-title="name"
                           item-value="id"
                           v-model="koples[index].secondManual"
                           label="Drugi"
                           hide-details
-                          outlined
-                          dense
+                          variant="outlined"
+                          density="compact"
                           rounded
                           required
                           clearable
-                          background-color="white"
+                          bg-color="white"
                           clear-icon="mdi-close" />
                       </v-col>
                     </v-row>
@@ -1019,15 +994,16 @@ const getData = async () => {
                         sm="7"
                         md="6">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="koples[index].name"
                           label="Nazwa"
                           placeholder="Nazwa"
                           hide-details
                           single-line
                           type="text"
-                          dense
+                          density="compact"
                           rounded
+                          bg-color="white"
                           required
                           class="textFieldClass"
                           clear-icon="mdi-close"
@@ -1085,14 +1061,15 @@ const getData = async () => {
                         sm="6"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="chanelForVoices"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -1115,13 +1092,11 @@ const getData = async () => {
                         <v-btn 
                           @click="reduceVoice" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small 
-                          raised
+                          icon="mdi-minus"
                           color="white"
-                          ><v-icon>
-                          mdi-minus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                       <v-col 
                         cols="5"
@@ -1129,13 +1104,14 @@ const getData = async () => {
                         md="3">
                         <v-text-field 
                           readonly
-                          outlined 
+                          variant="outlined"
                           v-model="voices.length" 
                           type="text"
-                          dense
+                          density="compact"
                           hide-details
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -1143,13 +1119,11 @@ const getData = async () => {
                         <v-btn 
                           @click="addVoice" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small 
-                          raised
+                          icon="mdi-plus"
                           color="white"
-                          ><v-icon>
-                          mdi-plus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                     </v-row>
                   </v-col>
@@ -1190,16 +1164,17 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="voices[index].button"
                           label="Klawisz"
                           placeholder="Klawisz"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -1218,16 +1193,17 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="voices[index].name"
                           label="Nazwa"
                           placeholder="Nazwa"
                           hide-details
                           single-line
                           type="text"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           clear-icon="mdi-close"
                         ></v-text-field>
@@ -1283,14 +1259,15 @@ const getData = async () => {
                         sm="6"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="chanelForAddons"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -1313,13 +1290,11 @@ const getData = async () => {
                         <v-btn 
                           @click="reduceAddons" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small 
-                          raised
+                          icon="mdi-minus"
                           color="white"
-                          ><v-icon>
-                          mdi-minus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                       <v-col 
                         cols="5"
@@ -1327,13 +1302,14 @@ const getData = async () => {
                         md="3">
                         <v-text-field 
                           readonly
-                          outlined 
+                          variant="outlined"
                           v-model="addons.length" 
                           type="text"
-                          dense
+                          density="compact"
                           hide-details
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -1341,13 +1317,11 @@ const getData = async () => {
                         <v-btn 
                           @click="addAddons" 
                           elevation="7" 
-                          fab 
+                          variant="outlined" 
                           x-small 
-                          raised
+                          icon="mdi-plus"
                           color="white"
-                          ><v-icon>
-                          mdi-plus
-                        </v-icon></v-btn>
+                          />
                       </v-col>
                     </v-row>
                   </v-col>
@@ -1388,16 +1362,17 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="addons[index].button"
                           label="Klawisz"
                           placeholder="Klawisz"
                           hide-details
                           single-line
                           type="number"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                         ></v-text-field>
                       </v-col>
@@ -1416,16 +1391,17 @@ const getData = async () => {
                         sm="8"
                         md="4">
                         <v-text-field
-                          outlined
+                          variant="outlined"
                           v-model="addons[index].name"
                           label="Nazwa"
                           placeholder="Nazwa"
                           hide-details
                           single-line
                           type="text"
-                          dense
+                          density="compact"
                           rounded
                           required
+                          bg-color="white"
                           class="textFieldClass"
                           clear-icon="mdi-close"
                         ></v-text-field>
@@ -1436,7 +1412,6 @@ const getData = async () => {
               </v-col>
             </v-row>
           </div>
-        </template>
         </v-row>
       </v-col>
     </v-row>
@@ -1465,12 +1440,11 @@ const getData = async () => {
 }
 
 .textFieldClass {
-  background-color: white;
+  // background-color: white;
 }
 
 .textFieldClass::v-deep(.v-input__slot input) {
   text-align: center;
-  background-color: white;
 }
 
 .shadowBox {

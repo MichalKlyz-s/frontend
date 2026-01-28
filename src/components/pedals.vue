@@ -51,11 +51,11 @@ const pressKey = async (note) => {
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   }catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 const releaseKey = async (note) =>{
@@ -73,11 +73,11 @@ const releaseKey = async (note) =>{
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 </script>
@@ -85,7 +85,6 @@ const releaseKey = async (note) =>{
    <div class="keybordWood" >
     <div class="keyboard">      
       <v-slide-group
-        v-model="keyboardSlider"
         show-arrows>
         <v-slide-item
           v-for="key in pedalKey"

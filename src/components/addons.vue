@@ -44,11 +44,11 @@ const pressKey= async (note) => {
     }
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 </script>

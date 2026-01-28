@@ -41,11 +41,11 @@ const pressKey= async (note) => {
     }
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 
@@ -90,10 +90,10 @@ const pressKey= async (note) => {
 }
 .kopleOn {
   opacity: 0.5;
-  cursor: "not-allowed";
+  cursor: not-allowed;
 }
 .kopleOff {
   opacity: 1;
-  cursor: "not-allowed";
+  cursor: not-allowed;
 }
 </style>

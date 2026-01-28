@@ -60,11 +60,11 @@ const pressKey = async (note) => {
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 const releaseKey = async (note) =>{
@@ -87,11 +87,11 @@ const releaseKey = async (note) =>{
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
-      throw Error(stats.message);
+      throw new Error(stats.message);
     }
   } catch (error) {
     console.log(error);
-    throw Error(error);
+    throw new Error(error);
   }
 };
 //TODO
@@ -102,7 +102,6 @@ const releaseKey = async (note) =>{
   <div class="keybordWood" >
     <div class="keyboard">
       <v-slide-group
-        v-model="keyboardSlider"
         show-arrows>
         <v-slide-item
           v-for="key in keys"
@@ -150,6 +149,7 @@ const releaseKey = async (note) =>{
  border: 1px solid black;
  align-content: end;
  word-break: break-all;
+ position: relative;
 
 }
 .key.blackKey {
@@ -161,10 +161,14 @@ const releaseKey = async (note) =>{
   margin-right: -9px;
   z-index: 2;
   color: white;
+   position: relative;
+
 }
 .key.disabledKey {
   opacity: 0.7;
   pointer-events: none;
+   position: relative;
+
 }
 
 </style>
