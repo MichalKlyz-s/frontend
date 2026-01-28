@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from "vue";
 import * as api from "../../modules/apiH.ts";
 import { reactive } from "vue";
-import {CancelTokenSource} from 'axios';
 
 //DODAĆ KOANAŁ NA PRZYCISKI channellForButtons
 const inputs = ref([]);
@@ -1446,7 +1445,7 @@ const getData = async () => {
 
 <style lang="scss" scoped>
 .bcgr {
-  background-image: url(../../assets/backgroundWood.png);
+  background-image: url(/images/backgroundWood.png);
   background-size: cover;
   background-position: center;
 }

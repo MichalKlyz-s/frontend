@@ -1,16 +1,8 @@
 module.exports = {
   presets: [
-    "@babel/preset-env",
-    [
-      "@vue/app",
-      {
-        useBuiltIns: "entry",
-        exclude: ["transform-regenerator", "transform-async-to-generator"]
-      }
-    ]
+    ["@babel/preset-env", {useBuiltIns: 'entry', corejs: 3}]
   ],
   plugins: [
-    "transform-async-to-promises",
     "@babel/plugin-proposal-nullish-coalescing-operator",
     "@babel/plugin-proposal-optional-chaining"
   ]

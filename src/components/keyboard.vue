@@ -2,7 +2,6 @@
 import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
-import {CancelTokenSource} from 'axios';
 //TODO
 // Sprawdzić czy potrzebne jest wysyałnie kopla bo wydaje się ze nei potrzeba chyba ze kople dziłają na jakieś wybrane klawiatury
 // to wtedy dodać jakieś wysyłąnie bądź obsługę na backend

@@ -1,32 +1,24 @@
 {
-  "vueCompilerOptions": {
-    "target": 2.7,
-    "module": "esnext",
-    "lib": [
-      "ESNext" /* ESNext includes new Level-4 features that were
-              recently added to the ECMA-262 JS spec */,
-      "es6",
-      "DOM"
-    ],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "rootDir": "./src",
-    "target": "ES2019",
-    "sourceMap": true,
-    "outDir": "dist",
-    "forceConsistentCasingInFileNames": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
-    "allowJs": true,
-    "noImplicitAny": false,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
     "jsx": "preserve",
-    "typeRoots": ["node_modules", "src/types"],
-    "types": ["webpack", "vuetify", "webpack-env"],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "lib": ["ESNext", "DOM"],
+    "types": ["vite/client"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

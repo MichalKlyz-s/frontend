@@ -2,7 +2,6 @@
 import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
-import {CancelTokenSource} from 'axios';
 
 const { addons, playMethod, chanel } = defineProps({
   addons: Array,
