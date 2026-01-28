@@ -9,7 +9,7 @@ export const midiPlay = async (args: {} | undefined, cancelToken: any) => {
 export const midiOutputsList = async (cancelToken: any) => {
   return axiosGet('getoutputs', cancelToken).then(dataOnly);
 };
-export const setChosenOutPut = async (args: {} | undefined, cancelToken: any) => {
+export const setChosenOutPut = async (args: any, cancelToken: any) => {
   return axiosGetWParams('choseoutput', args, cancelToken).then(dataOnly);
 };
 export const setChosenInPut = async (args: {} | undefined, cancelToken: any) => {
