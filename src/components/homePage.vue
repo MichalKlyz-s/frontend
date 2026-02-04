@@ -1,18 +1,19 @@
 <script setup>
 import keybord from "../components/keyboard.vue";
-import koples from "../components/koples.vue";
+import kopples from "../components/kopples.vue";
 import register from "../components/register.vue";
 import addons from '../components/addons.vue';
-import pedals from '../components/pedals.vue';
+import pedal from '../components/pedal.vue';
 import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 const configuration = ref({});
 const outputs = ref([]);
 const chosenOutput = ref('');
-const koplesList = ref([]);
+const kopplesList = ref([]);
 const requestCancelToken = ref(null);
-
+const kopplesOnList = ref([]);
+const playingNotes = ref([]);
 onMounted(() => {
   getConfig();
   getOutPuts();
@@ -67,12 +68,58 @@ const getConfig = async () => {
     console.log(error);
   }
 };
+
+const playingNote = (note) => {
+  if(note.noteOnOff === "pressed"){
+    playingNotes.value.push(note)
+  }
+  if(note.noteOnOff === "released"){
+    playingNotes.value = playingNotes.value.filter(n => n.note !== note.note && n.manual !== note.manual)
+  }
+};
+
+let revManuals = computed(()=> 
+[... configuration.value.manuals].reverse());
+
+let kopplesOn = computed(() => {
+  let test = configuration.value.kopples.filter((r) =>{
+    return kopplesOnList.value.includes(r.id);
+  });
+  return test;
+}
+);
+// Dodać jakie nuty są zwracane i numer keyboardu
+let isThereKoppleForYOu = ((manualNumber) => {
+  let list = kopplesOn.value.filter((r) => {
+    return r.secondManual === manualNumber
+  }).map(r => r.firstManual)
+  let listForYou = [];
+  if(list.includes(0)){
+    listForYou.push({chanel: Number(chanelForpedal.value), tran: 'normal'});
+  }
+  configuration.value.manuals.map((r) => {
+    if(list.includes(r.id)){
+      listForYou.push({chanel: Number(r.chanel), tran: r.transpozytor});
+    };});
+  return listForYou;
+// Sprawdza czy ma jakies kople jak tak to jakie i tworzy listę z manualów o id z kopplii prekazuje 
+});
+
+let isSomeonePlayingYou = ((manualNumber) => {
+    let list = kopplesOn.value.filter((r) => {
+    return r.firstManual === manualNumber
+    }).map(r => r.secondManual);
+    let listOn = playingNotes.value.filter((r) => {
+      return list.includes(r.manual);
+    });
+    return listOn;
+});
 // pozostalosc
-// const changeKople = (kopel) =>  {
-//   if (kople.includes(kopel[1])) {
-//     kople = kople.filter((n) => n !== kopel[1]);
+// const changekopple = (koppel) =>  {
+//   if (kopple.includes(koppel[1])) {
+//     kopple = kopple.filter((n) => n !== koppel[1]);
 //   } else {
-//     kople = [...new Set([...kople, ...kopel])];
+//     kopple = [...new Set([...kopple, ...koppel])];
 //   }
 // };
 </script>
@@ -113,38 +160,45 @@ const getConfig = async () => {
           </v-col>
           </v-row>
           <template v-if="configuration.manuals">
-<!-- Dodac do keybordu że jest disbaled czy coś takiego jeżeli się tam z koplami pokrywa logika na później -->
-        <v-row class="keyboards" :key="keyboard.id" v-for="keyboard in configuration.manuals" >
+        <v-row class="keyboards" :key="keyboard.id" v-for="keyboard in revManuals" >
          <v-col>
          <keybord 
          :keyboard="keyboard"
          :playMethod="configuration.playMethod"
          :chanel="Number(configuration.chanelForManuals)"
-         :disabled="keyboard.id == 2 ? true : false "
+         :chosenOutput="chosenOutput"
+         :koppledManuals="isThereKoppleForYOu(keyboard.id) ? isThereKoppleForYOu(keyboard.id) : []"
+         :kopplesPlayed="isSomeonePlayingYou(keyboard.id) ? isSomeonePlayingYou(keyboard.id) : []"
+         @playingNote="playingNote"
          >
          <!-- Tu zmienić tą 2 na wybrane koble czy cos takiego -->
          </keybord>
         </v-col>
         </v-row>
       </template>
-        <v-row class="keyboards" v-if="configuration.pedals">
+        <v-row class="keyboards" v-if="configuration.pedal">
           <v-col>
-            <pedals
-            :pedals="configuration.pedals"
+            <pedal
+            :pedal="configuration.pedal"
             :playMethod="configuration.playMethod"
-            :chanel="Number(configuration.chanelForPedals)"
-            :disabled="1 == 2 ? true : false "
+            :chanel="Number(configuration.chanelForpedal)"
+            :chosenOutput="chosenOutput"
+            :koppledManuals="isThereKoppleForYOu(0) ? isThereKoppleForYOu(0) : []"
+            :kopplesPlayed="isSomeonePlayingYou(0) ? isSomeonePlayingYou(0) : []"
+            @playingNote="playingNote"
             >
-            </pedals>
+            </pedal>
           </v-col>
         </v-row>
-        <v-row class="keyboards" v-if="configuration.koples">
+        <v-row class="keyboards" v-if="configuration.kopples">
           <v-col>
-            <koples 
-              :kople="configuration.koples"
+            <kopples 
+              :kopple="configuration.kopples"
               :playMethod="configuration.playMethodButtons"
-              :chanel="Number(configuration.chanelForKoples)"
-              ></koples>
+              :chanel="Number(configuration.chanelForkopples)"
+              :chosenOutput="chosenOutput"
+              v-model:kopplesOnList = "kopplesOnList"
+              ></kopples>
           </v-col>
         </v-row>
         <v-row class="keyboards" v-if="configuration.voices">
@@ -152,7 +206,7 @@ const getConfig = async () => {
             <register 
               :voices="configuration.voices"
               :playMethod="configuration.playMethodButtons"
-              :chanel="Number(configuration.chanelForVoices)"></register>
+              :chosenOutput="chosenOutput"></register>
           </v-col>
         </v-row>
         <v-row class="keyboards" v-if="configuration.addons">
@@ -160,7 +214,8 @@ const getConfig = async () => {
             <addons
               :addons="configuration.addons"
               :playMethod="configuration.playMethodButtons"
-              :chanel="Number(configuration.chanelForAddons)"></addons>
+              :chanel="Number(configuration.chanelForAddons)"
+              :chosenOutput="chosenOutput"></addons>
           </v-col>
         </v-row>
       </v-col>

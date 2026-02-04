@@ -3,12 +3,15 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 
-const {pedals, playMethod, chanel, disabled} = defineProps({
-  pedals: Array,
+const {pedal, playMethod, chanel, chosenOutput, koppledManuals, kopplesPlayed} = defineProps({
+  pedal: Array,
   playMethod: String,
   chanel: Number,
-  disabled: Boolean
+  chosenOutput: String,
+  koppledManuals: Array,
+  kopplesPlayed: Array
 });
+const emit = defineEmits(['playingNote'])
 const pedalKey = ref([]);
 const keyboardSlider = ref();
 const pressedKey = ref('');
@@ -30,11 +33,44 @@ const getKeys = () => {
     keyList.push({
       noteNumber: x,
       note: noteName(x),
-      disabled: x < pedals[0] || x > pedals[1]
+      disabled: x < pedal[0] || x > pedal[1]
     });
   }
   pedalKey.value = keyList.filter((key) => !key.disabled);
 };
+
+const updateChannels = () => {
+  let channels = [chanel];
+  koppledManuals.forEach((r) => {
+    channels.push(r.chanel)
+  });
+  return channels;
+}
+
+const updateNotes = (note) => {
+  let notes = [note];
+  koppledManuals.forEach((r) => {
+    if (r.tran) {
+    let noteTran = note;
+    if (
+      r.tran === "sup" &&
+      ((note < 116 && playMethod === "MiDi") ||
+        (note < 52 && playMethod === "ProgramChange"))
+    ) {
+      noteTran = note * 1 + 12;
+    } else if (r.tran === "sub" && note > 11) {
+      noteTran = note * 1 - 12;
+    }
+    notes.push(noteTran);
+  }
+  });
+  const reducedNotes = notes.filter((item, index) => notes.indexOf(item) === index);
+  return reducedNotes;
+}
+
+const isKopplePlayed = (note) => {
+  return kopplesPlayed.some(r => r.note === note) 
+}
 
 const pressKey = async (note) => {
   if(requestCancelToken.value){
@@ -47,7 +83,18 @@ const pressKey = async (note) => {
       note: note,
       noteOnOff: "pressed",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
+    };
+    let koppelNote ={
+      note: note,
+      manual: 0,
+      noteOnOff: "pressed",
+    };
+    emit('playingNote', koppelNote);
+    if(koppledManuals.length > 0){
+      noteData.channel = updateChannels();
+      noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
@@ -69,7 +116,18 @@ const releaseKey = async (note) =>{
       note: note,
       noteOnOff: "released",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
+    };
+     let koppelNote ={
+      note: note,
+      manual: 0,
+      noteOnOff: "released",
+    }
+    emit('playingNote', koppelNote);
+    if(koppledManuals.length > 0){
+      noteData.channel = updateChannels();
+      noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
@@ -83,7 +141,7 @@ const releaseKey = async (note) =>{
 </script>
 <template>
    <div class="keybordWood" >
-    <div class="keyboard">      
+    <div class="keyboard">    
       <v-slide-group
         show-arrows>
         <v-slide-item
@@ -95,7 +153,7 @@ const releaseKey = async (note) =>{
             :class="{
               disabledKey: key.disabled
             }"
-            :style="{ opacity: key.noteNumber === pressedKey ? 0.1 : 1 }"
+            :style="{ opacity: (key.noteNumber === pressedKey ||  isKopplePlayed(key.noteNumber) ) ? 0.1 : 1 }"
             @pointerdown="pressKey(key.noteNumber)"
             @pointerup="releaseKey(key.noteNumber)">
             {{key.note }}

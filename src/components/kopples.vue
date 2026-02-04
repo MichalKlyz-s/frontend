@@ -3,46 +3,53 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 
-const { kople,  playMethod, chanel } = defineProps({
-  kople: Array,
+const { kopple,  playMethod, chanel, chosenOutput, kopplesOnList } = defineProps({
+  kopple: Array,
   playMethod: String,
   chanel: Number,
+  chosenOutput: String,
+  kopplesOnList: Array
 });
 
-const selectedKoples = ref([]);
+const emit = defineEmits(['update:kopplesOnList']);
+
+const selectedkopples = ref([]);
 const requestCancelToken = ref(null);
 
 const doInclude = (number) => {
-  if (selectedKoples.value.includes(number)) {
-    return "kopleOn";
+  if (selectedkopples.value.includes(number)) {
+    return "koppleOn";
   } else {
-    return "kopleOff";
+    return "koppleOff";
   }
 };
 
 const pressKey= async (note) => {
-  if(requestCancelToken.value){
-    requestCancelToken.value.cancel();
-  }
-  requestCancelToken.value = api.getNewCancelToken();
+  // if(requestCancelToken.value){
+  //   requestCancelToken.value.cancel();
+  // }
+  // requestCancelToken.value = api.getNewCancelToken();
   try {
     let  noteData = {
       note: note,
       noteOnOff: "",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
     };
-    if (selectedKoples.value.includes(note)) {
-      selectedKoples.value = selectedKoples.value.filter((n) => n !== note);
+    if (selectedkopples.value.includes(note)) {
+      selectedkopples.value = selectedkopples.value.filter((n) => n !== note);
       noteData.noteOnOff = "released";
     } else {
-      selectedKoples.value = [...selectedKoples.value, note];
+      selectedkopples.value = [...selectedkopples.value, note];
       noteData.noteOnOff = "pressed";
     }
-    const stats = await api.midiPlay(noteData, requestCancelToken.value);
-    if (stats.data.success === false) {
-      throw new Error(stats.message);
-    }
+       emit('update:kopplesOnList', [... selectedkopples.value]);
+    // const stats = await api.midiPlay(noteData, requestCancelToken.value);
+    // if (stats.data.success === false) {
+    //   throw new Error(stats.message);
+    // }
+    
   } catch (error) {
     console.log(error);
     throw new Error(error);
@@ -54,7 +61,7 @@ const pressKey= async (note) => {
   <div class="keybordWood" >
     <div class="keyboard">
       <div
-      v-for="kop in kople"
+      v-for="kop in kopple"
       :key="kop.id"
       class="note"
       :class="doInclude(kop.id)"
@@ -88,12 +95,10 @@ const pressKey= async (note) => {
   margin: 5px;
   padding: 10px;
 }
-.kopleOn {
+.koppleOn {
   opacity: 0.5;
-  cursor: "not-allowed";
 }
-.kopleOff {
+.koppleOff {
   opacity: 1;
-  cursor: "not-allowed";
 }
 </style>

@@ -3,7 +3,12 @@ import { ref, computed, onMounted } from "vue";
 import * as api from "../../modules/apiH.ts";
 import { reactive } from "vue";
 
-//DODAĆ KOANAŁ NA PRZYCISKI channellForButtons
+const rules = {
+  required: value => !!value || 'Wypełnij',
+  min: value => value < 0 || 'Zbyt mała wartość',
+  maxChannel: value => value > 16 || 'Poza zakresem'
+
+}
 const inputs = ref([]);
 const chosenInput = ref('');
 const gottenInput = ref();
@@ -11,22 +16,23 @@ const confName = ref('');
 const pipeOrganName = ref('');
 const pipeOrganAddres = ref('');
 const chanelForManuals = ref(1);
-const manuals = ref([{id: 1, range: [0, 127], stopaz: 1, chanel: 1}]);
-const chanelForPedals = ref(1);
-const pedals = ref([0, 127]);
+const manuals = ref([{id: 1, range: [36, 96], transpozytor: 'normal', chanel: 1}]);
+const chanelForpedal = ref(1);
+const pedal = ref([36, 67]);
 const chanelsRange = [1,16];
 const minManuals = 0;
 const maxManuals = 127;
+const maxManualsPgCh = 63;
 const methods = ['MiDi','ProgramChange'];
 const edit = ref(false);
 const playMethod = ref('MiDi');
 const playMethodButtons = ref('ProgramChange');
-const chanelForVoices = ref(1);
-const voices = ref([{id: 1, name: '',  button: 0}]);
+const voices = ref([{id: 1, name: '',  button: 0, channel: 7}]);
 const chanelForAddons = ref(1);
 const addons = ref([{id: 1, name: '',  button: 0}]);
-const chanelForKoples = ref(1);
-const koples = ref([{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}]);
+const chanelForKopples = ref(1);
+// potem Kopple
+const kopples = ref([{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}]);
 const messageType = ref('changeMode');
 const filesToChose = ref([]);
 const chosenFile = ref('Template.txt');
@@ -35,38 +41,36 @@ const requestCancelToken = ref(null);
 onMounted(() => {
   getSetting();
 });
-// TODO
-// Zapytć o makysmalną ilośc manualów  i ogólnbie o max liczby czy dawać
 const reduceManual = () => {
   if(manuals.value.length > 1) {
     manuals.value.pop();
   }
 };
 const addManual = () => {
-  if(manuals.value.length < 9) {
-    manuals.value.push({id: manuals.value.length + 1, range: [0, 15], stopaz: 1, chanel: 1});
+  if(manuals.value.length < 8) {
+    manuals.value.push({id: manuals.value.length + 1, range: [36, 96], transpozytor: 'normal', chanel: 1});
   }
 };
 
-const reduceKopel = () => {
-  if(koples.value.length > 1) {
-    koples.value.pop();
+const reduceKoppel = () => {
+  if(kopples.value.length > 0) {
+    kopples.value.pop();
   }
 };
-//TODO -> liczba kopli, registrów oraz addons
-const addKopel = () => {
-  if(koples.value.length < 11) {
-    koples.value.push({id: koples.value.length +1, name: '', firstManual: 1, secondManual: 1});
+
+const addKoppel = () => {
+  if(kopples.value.length < 33) {
+    kopples.value.push({id: kopples.value.length +1, name: '', firstManual: 1, secondManual: 1});
   }
 };
 const reduceVoice = () => {
-  if(voices.value.length > 1) {
+  if(voices.value.length > 0) {
     voices.value.pop();
   }
 };
 const addVoice = () => {
-  if(voices.value.length < 11) {
-    voices.value.push({id: voices.value.length + 1, name: '',  button: 0});
+  if(voices.value.length < 50) {
+    voices.value.push({id: voices.value.length + 1, name: '',  button: 0, channel: 7});
   }
 };
 
@@ -76,7 +80,7 @@ const reduceAddons = () => {
   }
 };
 const addAddons = () => {
-  if(addons.value.length < 11) {
+  if(addons.value.length < 20) {
     addons.value.push({id: addons.value.length + 1, name: '',  button: 0});
   }
 };
@@ -107,13 +111,12 @@ const getSetting = async () => {
       playMethod.value = data.conf.playMethod ? data.conf.playMethod : 'MiDi';
       playMethodButtons.value = data.conf.playMethodButtons ? data.conf.playMethodButtons : 'ProgramChange';
       chanelForManuals.value = data.conf.chanelForManuals ? data.conf.chanelForManuals : 1;
-      manuals.value = data.conf.manuals ? data.conf.manuals : [{id: 1, range: [0, 127], stopaz: 1, chanel: 1}];
-      chanelForPedals.value = data.conf.chanelForPedals ? data.conf.chanelForPedals : 1;
-      pedals.value = data.conf.pedals ? data.conf.pedals : [0, 127];
-      chanelForKoples.value = data.conf.chanelForKoples ? data.conf.chanelForKoples : 1;
-      koples.value = data.conf.koples ? data.conf.koples: [{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}];
-      chanelForVoices.value = data.conf.chanelForVoices ? data.conf.chanelForVoices : 1;
-      voices.value = data.conf.voices ? data.conf.voices : [{id: 1, name: '',  button: 0}];
+      manuals.value = data.conf.manuals ? data.conf.manuals : [{id: 1, range: [36, 96], transpozytor: 'normal', chanel: 1}];
+      chanelForpedal.value = data.conf.chanelForpedal ? data.conf.chanelForpedal : 1;
+      pedal.value = data.conf.pedal ? data.conf.pedal : [36, 67];
+      chanelForKopples.value = data.conf.chanelForKopples ? data.conf.chanelForKopples : 1;
+      kopples.value = data.conf.kopples ? data.conf.kopples: [{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}];
+      voices.value = data.conf.voices ? data.conf.voices : [{id: 1, name: '',  button: 0, channel: 7}];
       chanelForAddons.value = data.conf.chanelForAddons ? data.conf.chanelForAddons : 1;
       addons.value = data.conf.addons ? data.conf.addons : [{id: 1, name: '',  button: 0}];
     }
@@ -181,12 +184,12 @@ const useSetting = async () => {
   }
 };
 
-const listForKopels = computed(() => {
+const listForKoppels = computed(() => {
   let list = [];
   for(let x = 1; x <= manuals.value.length; x++){
     list.push({id: x, name: x});
   }
-  list.push({id: 0, name: 'Pedały'});
+  list.push({id: 0, name: 'pedał'});
   return list;
 });
 
@@ -199,11 +202,10 @@ let configuration = computed(() => {
     playMethodButtons: playMethodButtons.value,
     chanelForManuals: chanelForManuals.value,
     manuals: manuals.value,
-    chanelForPedals: chanelForPedals.value,
-    pedals: pedals.value,
-    chanelForKoples: chanelForKoples.value,
-    koples: koples.value,
-    chanelForVoices: chanelForVoices.value,
+    chanelForpedal: chanelForpedal.value,
+    pedal: pedal.value,
+    chanelForKopples: chanelForKopples.value,
+    kopples: kopples.value,
     voices: voices.value,
     chanelForAddons: chanelForAddons.value,
     addons: addons.value};return conf;
@@ -383,6 +385,7 @@ const getData = async () => {
                   required
                   clearable
                   clear-icon="mdi-close"
+                  :rules="[rules.required]"
                 >
                   <template #append-inner>
                     <v-tooltip text="Nazwa konfiguracji również będzie nazwą pliku konfiguracji">
@@ -410,6 +413,7 @@ const getData = async () => {
                   required
                   clearable
                   clear-icon="mdi-close"
+                  :rules="[rules.required]"
                   ><template #append-inner>
                     <v-tooltip text="Nazwa organów, dla których tworzona jest konfiguracja">
                       <template #activator="{ props }">
@@ -436,6 +440,7 @@ const getData = async () => {
                   required
                   clearable
                   clear-icon="mdi-close"
+                  :rules="[rules.required]"
                   ><template #append-inner>
                     <v-tooltip text="Adres gdzie organy się znajdują">
                       <template #activator="{ props }">
@@ -461,6 +466,7 @@ const getData = async () => {
                 required
                 clearable
                 clear-icon="mdi-close"
+                :rules="[rules.required]"
                  >
                   <template #append-inner>
                     <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
@@ -487,6 +493,7 @@ const getData = async () => {
                 required
                 clearable
                 clear-icon="mdi-close"
+                :rules="[rules.required]"
                  >
                   <template #append-inner>
                     <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
@@ -562,7 +569,7 @@ const getData = async () => {
                       Zakres: {{configuration.manuals[index].range[0]}} - {{ configuration.manuals[index].range[1] }}
                     </v-col>
                     <v-col cols="3">
-                      Stopaz: {{ configuration.manuals[index].stopaz }}
+                      transpozytor: {{ configuration.manuals[index].transpozytor }}
                     </v-col>
                   </v-row>
                 </v-col>
@@ -583,10 +590,11 @@ const getData = async () => {
                   <v-col>
                     <v-range-slider
                       v-model="manuals[indexE].range"
-                      :max="maxManuals"
+                      :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                       :min="minManuals"
                       hide-details
                       class="align-center"
+                      step="1"
                     >
                       <template v-slot:prepend>
                         <v-text-field
@@ -601,7 +609,7 @@ const getData = async () => {
                           required
                           style="width: 80px"
                           class="textFieldClass"
-                          :max="maxManuals"
+                          :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
                           @change="$set(manuals[indexE].range, 0, $event)"
                         ></v-text-field>
@@ -619,7 +627,7 @@ const getData = async () => {
                           bg-color="white"
                           style="width: 80px"
                           class="textFieldClass"
-                          :max="maxManuals"
+                          :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
                           @change="$set(manuals[indexE].range, 1, $event)"
                         ></v-text-field>
@@ -653,6 +661,7 @@ const getData = async () => {
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
+                          :rules="[rules.required, rules.min, rules.maxChannel]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -662,25 +671,40 @@ const getData = async () => {
                       <v-col 
                         cols="4"
                         sm="4"
-                        md="8">
-                        Stopaz:
+                        md="7">
+                        transpozytor:
                       </v-col>
                       <v-col 
                         cols="8"
                         sm="8"
-                        md="4">
-                        <v-text-field
-                          variant="outlined"
-                          v-model="manuals[indexE].stopaz"
-                          hide-details
-                          single-line
-                          type="text"
-                          density="compact"
-                          rounded
-                          required
-                          bg-color="white"
-                          class="textFieldClass"
-                        ></v-text-field>
+                        md="5">
+                         <v-btn-toggle
+                          v-model="manuals[indexE].transpozytor"
+                          color="brown"
+                          rounded="xl"
+                          divided
+                          mandatory="true"
+                          elevation="7" 
+                        >
+                          <v-btn 
+                            value="sub"
+                          elevation="7" 
+                            size="x-small"
+                          >SUB</v-btn>
+                          <v-btn 
+                            value="normal"
+                            size="x-small"
+                          elevation="7" 
+                          >NOR</v-btn>
+                          <v-btn
+                            value="sup"
+                            size="x-small"
+                          elevation="7" 
+                          >SUP</v-btn>
+                        </v-btn-toggle>
+                        <!-- variant="outlined" 
+                          size="x-small"
+                      color="white" -->
                       </v-col>
                     </v-row>
                   </v-col>
@@ -691,7 +715,7 @@ const getData = async () => {
               <v-col 
                 cols="2"
                 sm="4"
-                md="6"><span>Pedały:</span></v-col>
+                md="6"><span>pedał:</span></v-col>
               <v-col 
                 offset="4"
                 offset-sm="2"
@@ -701,10 +725,10 @@ const getData = async () => {
                 class="centerSettings">
                 <v-row>
                     <v-col cols="6">
-                      Kanał: {{ configuration.chanelForPedals }}
+                      Kanał: {{ configuration.chanelForpedal }}
                     </v-col>
                     <v-col cols="6">
-                      Zakres: {{ configuration.pedals[0] }} - {{ configuration.pedals[1] }}
+                      Zakres: {{ configuration.pedal[0] }} - {{ configuration.pedal[1] }}
                     </v-col>
                 </v-row>
               </v-col>
@@ -714,18 +738,20 @@ const getData = async () => {
                 md="6" 
                 v-else>
                 <v-row>
+                  <!-- $set sprawdzic po prawić -->
                   <v-col>
                     <v-range-slider
-                      v-model="pedals"
-                      :max="maxManuals"
+                      v-model="pedal"
+                      :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                       :min="minManuals"
                       hide-details
                       class="align-center"
+                      step="1"
                     >
                     <template v-slot:prepend>
                       <v-text-field
                         variant="outlined"
-                        v-model="pedals[0]"
+                        v-model="pedal[0]"
                         hide-details
                         single-line
                         type="text"
@@ -735,15 +761,15 @@ const getData = async () => {
                         bg-color="white"
                         style="width: 80px"
                         class="textFieldClass"
-                        :max="maxManuals"
+                        :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                         :min="minManuals"
-                        @change="$set(pedals, 0, $event)"
+                        @change="$set(pedal, 0, $event)"
                       ></v-text-field>
                     </template>
                     <template v-slot:append> 
                       <v-text-field
                         variant="outlined"
-                        v-model="pedals[1]"
+                        v-model="pedal[1]"
                         hide-details
                         single-line
                         type="text"
@@ -753,9 +779,9 @@ const getData = async () => {
                         bg-color="white"
                         style="width: 80px"
                         class="textFieldClass"
-                        :max="maxManuals"
+                        :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
                         :min="minManuals"
-                        @change="$set(pedals, 1, $event)"
+                        @change="$set(pedal, 1, $event)"
                       ></v-text-field>
                     </template>
                     </v-range-slider>
@@ -774,7 +800,7 @@ const getData = async () => {
                       <v-col cols="4">
                         <v-text-field
                           variant="outlined"
-                          v-model="chanelForPedals"
+                          v-model="chanelForpedal"
                           hide-details
                           single-line
                           type="number"
@@ -785,6 +811,7 @@ const getData = async () => {
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
+                          :rules="[rules.required, rules.min, rules.maxChannel]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -793,13 +820,13 @@ const getData = async () => {
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center"><h3>Kople:</h3></v-col>
+              <v-col style="text-align: center"><h3>Kopple:</h3></v-col>
             </v-row>
             <v-row>
               <v-col 
                 cols="1"
                 sm="3"
-                md="6"><span>Kople:</span></v-col>
+                md="6"><span>Kopple:</span></v-col>
               <v-col 
                 offset="5"
                 offset-sm="3"
@@ -808,8 +835,8 @@ const getData = async () => {
                 v-if="!edit" 
                 class="centerSettings">
                 <v-row>
-                    <v-col cols="6">Kanał: {{ configuration.chanelForKoples }}</v-col>
-                    <v-col cols="6">Liczba: {{ configuration.koples.length }}</v-col>
+                    <v-col cols="6">Kanał: {{ configuration.chanelForKopples }}</v-col>
+                    <v-col cols="6">Liczba: {{ configuration.kopples.length }}</v-col>
                 </v-row>
               </v-col>
               <v-col 
@@ -836,7 +863,7 @@ const getData = async () => {
                         md="4">
                         <v-text-field
                           variant="outlined"
-                          v-model="chanelForKoples"
+                          v-model="chanelForKopples"
                           hide-details
                           single-line
                           type="number"
@@ -847,6 +874,7 @@ const getData = async () => {
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
+                          :rules="[rules.required, rules.min, rules.maxChannel]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -864,7 +892,7 @@ const getData = async () => {
                       </v-col>
                       <v-col cols="1" class="onlyContentForBtn">
                         <v-btn 
-                          @click="reduceKopel" 
+                          @click="reduceKoppel" 
                           elevation="7" 
                           variant="outlined" 
                           x-small 
@@ -879,7 +907,7 @@ const getData = async () => {
                         <v-text-field 
                           readonly
                           variant="outlined"
-                          v-model="koples.length" 
+                          v-model="kopples.length" 
                           type="text"
                           hide-details
                           density="compact"
@@ -891,7 +919,7 @@ const getData = async () => {
                       </v-col>
                       <v-col cols="1" class="onlyContentForBtn">                      
                         <v-btn 
-                          @click="addKopel" 
+                          @click="addKoppel" 
                           elevation="7" 
                           variant="outlined" 
                           x-small  
@@ -905,29 +933,29 @@ const getData = async () => {
               </v-col>
             </v-row>
             <template v-if="!edit">
-              <v-row v-for="(x, index) in configuration.koples.length" v-bind:key="index">
-                <v-col cols="6"><span>Kopl ({{configuration.koples[index].id }}):</span></v-col>
+              <v-row v-for="(x, index) in configuration.kopples.length" v-bind:key="index">
+                <v-col cols="6"><span>Koppl ({{configuration.kopples[index].id }}):</span></v-col>
                 <v-col cols="6" class="centerSettings">
                   <v-row>
                     <v-col cols="4">
-                      Nazwa: {{configuration.koples[index].name}}
+                      Nazwa: {{configuration.kopples[index].name}}
                     </v-col>
                     <v-col cols="4">
-                      Pierwszy: {{ configuration.koples[index].firstManual }}
+                      Z: {{ configuration.kopples[index].firstManual }}
                     </v-col>
                     <v-col cols="4">
-                      Drugi: {{ configuration.koples[index].secondManual }}
+                      Do: {{ configuration.kopples[index].secondManual }}
                     </v-col>
                   </v-row>
                 </v-col>
               </v-row>
             </template>
                       <!-- rulle dodac ze jedno musi byc mniejsze od drugiego a nie takie samo  -->
-            <v-row v-else v-for="(x, index) in  koples.length" v-bind:key="index">
+            <v-row v-else v-for="(x, index) in  kopples.length" v-bind:key="index">
               <v-col 
                 cols="1"
                 sm="2"
-                md="6"><span>Kopel ({{ x }}):</span></v-col>
+                md="6"><span>Koppel ({{ x }}):</span></v-col>
               <v-col 
                 cols="11"
                 sm="10"
@@ -941,11 +969,11 @@ const getData = async () => {
                       <v-col cols="5">
                         <v-select 
                           v-bind:key="index"
-                          :items="listForKopels"
+                          :items="listForKoppels"
                           item-title="name"
                           item-value="id"
-                          v-model="koples[index].firstManual"
-                          label="Pierwszy"
+                          v-model="kopples[index].firstManual"
+                          label="Z"
                           hide-details
                           variant="outlined"
                           density="compact"
@@ -962,11 +990,11 @@ const getData = async () => {
                       </v-col>
                       <v-col cols="5">
                         <v-select 
-                          :items="listForKopels"
+                          :items="listForKoppels"
                           item-title="name"
                           item-value="id"
-                          v-model="koples[index].secondManual"
-                          label="Drugi"
+                          v-model="kopples[index].secondManual"
+                          label="Do"
                           hide-details
                           variant="outlined"
                           density="compact"
@@ -995,7 +1023,7 @@ const getData = async () => {
                         md="6">
                         <v-text-field
                           variant="outlined"
-                          v-model="koples[index].name"
+                          v-model="kopples[index].name"
                           label="Nazwa"
                           placeholder="Nazwa"
                           hide-details
@@ -1032,7 +1060,6 @@ const getData = async () => {
                 class="centerSettings">
                 <v-row>
                   <v-col cols="6">
-                    Kanał: {{ configuration.chanelForVoices }}
                   </v-col>
                   <v-col cols="6">
                     Liczba: {{ configuration.voices.length }} 
@@ -1049,7 +1076,7 @@ const getData = async () => {
                     cols="4"
                     sm="5"
                     md="6">
-                    <v-row class="centerItems">
+                    <!-- <v-row class="centerItems">
                       <v-col 
                         cols="2"
                         sm="4"
@@ -1075,7 +1102,7 @@ const getData = async () => {
                           :min="chanelsRange[0]"
                         ></v-text-field>
                       </v-col>
-                    </v-row>
+                    </v-row> -->
                   </v-col>
                   <v-col 
                     cols="7"
@@ -1137,6 +1164,7 @@ const getData = async () => {
                   <v-row>
                     <v-col cols="6">Nazwa: {{configuration.voices[index].name}}</v-col>
                     <v-col cols="6">Wartość: {{ configuration.voices[index].button }}</v-col>
+                    <v-col cols="6">Kanał: {{ configuration.voices[index].channel }}</v-col>
                   </v-row>
                 </v-col>
               </v-row>
@@ -1145,7 +1173,7 @@ const getData = async () => {
               <v-col 
                 cols="2"
                 sm="4"
-                md="6"><span>Registr ({{ x }}):</span></v-col>
+                md="6"><span>Register ({{ x }}):</span></v-col>
               <v-col 
                 cols="10"
                 sm="8"
@@ -1176,6 +1204,9 @@ const getData = async () => {
                           required
                           bg-color="white"
                           class="textFieldClass"
+                          :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
+                          :min="minManuals"
+                          :rules="[rules.required, rules.min]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -1206,6 +1237,37 @@ const getData = async () => {
                           bg-color="white"
                           class="textFieldClass"
                           clear-icon="mdi-close"
+                          :rules="[rules.required]"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col 
+                  cols="10"
+                  sm="8"
+                  md="6"
+                  offset-md="6">
+                    <v-row class="centerItems">
+                      <v-col cols="8">
+                        Kanał:
+                      </v-col>
+                      <v-col cols="4">
+                        <v-text-field
+                          variant="outlined"
+                          v-model="voices[index].channel"
+                          hide-details
+                          single-line
+                          type="number"
+                          density="compact"
+                          rounded
+                          required
+                          bg-color="white"
+                          class="textFieldClass"
+                          :max="chanelsRange[1]"
+                          :min="chanelsRange[0]"
+                          :rules="[rules.required, rules.min, rules.maxChannel]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -1214,13 +1276,13 @@ const getData = async () => {
               </v-col>
             </v-row>
             <v-row>
-              <v-col style="text-align: center"><h3>Dodatki:</h3></v-col>
+              <v-col style="text-align: center"><h3>Akcesoria:</h3></v-col>
             </v-row>
             <v-row>
               <v-col 
                 cols="1"
                 sm="3"
-                md="6">Dodatki:</v-col>
+                md="6">Akcesoria:</v-col>
               <v-col 
                 offset="5"
                 offset-sm="3"
@@ -1271,6 +1333,7 @@ const getData = async () => {
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
+                          :rules="[rules.required, rules.min, rules.maxChannel]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -1330,7 +1393,7 @@ const getData = async () => {
             </v-row>
             <template v-if="!edit">
               <v-row v-for="(x, index) in configuration.addons.length" v-bind:key="index">
-                <v-col cols="6"><span>Dodatek ({{configuration.addons[index].id }}):</span></v-col>
+                <v-col cols="6"><span>Akcesorium ({{configuration.addons[index].id }}):</span></v-col>
                 <v-col cols="6" class="centerSettings">
                   <v-row>
                     <v-col cols="6">Nazwa: {{configuration.addons[index].name}}</v-col>
@@ -1343,7 +1406,7 @@ const getData = async () => {
               <v-col 
                 cols="2"
                 sm="4"
-                md="6"><span>Dodatek ({{ x }}):</span></v-col>
+                md="6"><span>Akcesorium ({{ x }}):</span></v-col>
               <v-col 
                 cols="10"
                 sm="8"
@@ -1374,6 +1437,9 @@ const getData = async () => {
                           required
                           bg-color="white"
                           class="textFieldClass"
+                          :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
+                          :min="minManuals"
+                          :rules="[rules.required, rules.min]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -1404,6 +1470,7 @@ const getData = async () => {
                           bg-color="white"
                           class="textFieldClass"
                           clear-icon="mdi-close"
+                          :rules="[rules.required]"
                         ></v-text-field>
                       </v-col>
                     </v-row>

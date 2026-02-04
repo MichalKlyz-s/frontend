@@ -3,10 +3,10 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 
-const { voices, playMethod, chanel } = defineProps({
+const { voices, playMethod, chosenOutput } = defineProps({
   voices: Array,
   playMethod: String,
-  chanel: Number,
+  chosenOutput: String
 });
 
 const selectedVoices = ref([]);
@@ -14,13 +14,13 @@ const requestCancelToken = ref(null);
 
 const doInclude = (number) => {
   if (selectedVoices.value.includes(number)) {
-    return "kopleOn";
+    return "koppleOn";
   } else {
-    return "kopleOff";
+    return "koppleOff";
   }
 };
 
-const pressKey= async (note) => {
+const pressKey= async (note, channel) => {
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
   }
@@ -29,8 +29,9 @@ const pressKey= async (note) => {
     let  noteData = {
       note: note,
       noteOnOff: "",
-      channel: chanel,
-      playMethod: playMethod
+      channel: channel,
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
     };
     if (selectedVoices.value.includes(note)) {
       selectedVoices.value = selectedVoices.value.filter((n) => n !== note);
@@ -57,8 +58,8 @@ const pressKey= async (note) => {
       v-for="voice in voices"
       :key="voice.id"
       class="note"
-      :class="doInclude(voice.id)"
-      @click="pressKey(voice.id)">
+      :class="doInclude(voice.id, voice.channel)"
+      @click="pressKey(voice.id, voice.channel)">
       {{ voice.name }}
       </div>
     </div>
@@ -88,12 +89,10 @@ const pressKey= async (note) => {
   margin: 5px;
   padding: 10px;
 }
-.kopleOn {
+.koppleOn {
   opacity: 0.5;
-  cursor: not-allowed;
 }
-.kopleOff {
+.koppleOff {
   opacity: 1;
-  cursor: not-allowed;
 }
 </style>

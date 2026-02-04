@@ -3,15 +3,18 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 //TODO
-// Sprawdzić czy potrzebne jest wysyałnie kopla bo wydaje się ze nei potrzeba chyba ze kople dziłają na jakieś wybrane klawiatury
+// Sprawdzić czy potrzebne jest wysyałnie koppla bo wydaje się ze nei potrzeba chyba ze kopple dziłają na jakieś wybrane klawiatury
 // to wtedy dodać jakieś wysyłąnie bądź obsługę na backend
 
-const {keyboard, playMethod, chanel, kople} = defineProps({
+const {keyboard, playMethod, chanel, chosenOutput,  koppledManuals, kopplesPlayed} = defineProps({
   keyboard: Object,
   playMethod: String,
   chanel: Number,
-  disabled: Boolean
+  chosenOutput: String,
+  koppledManuals: Array,
+  kopplesPlayed: Array,
 });
+const emit = defineEmits(['playingNote'])
 const keys = ref([]);
 const keyboardSlider = ref();
 const pressedKey = ref('');
@@ -23,6 +26,8 @@ onMounted(() => {
 
 const noteName = (key) => {
   const keyNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  // const keyNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'H'];
+
   const octave = Math.floor(key / 12);
   return keyNames[key % 12] + octave;
 };
@@ -43,8 +48,56 @@ const getKeys = () => {
   }
   keys.value = keyList.filter((key) => !key.disabled);
 };
-//TODO
-// Przekanaznie zmiennych wpromptach dla innych komponentów, dodanie zmiennych by wysłyały sie nabackend i sprwdzenie przyciskaniajak działa ale chyba dpbrze, wiec no podpięcie pozostałych i tam może program change też na tamte registry itp
+
+const updateChannels = () => {
+  let channels = [chanel];
+  koppledManuals.forEach((r) => {
+    channels.push(r.chanel)
+  });
+  return channels;
+}
+
+const updateNote = (note) => {
+   if (keyboard.transpozytor) {
+    let noteTran = note;
+    if (
+      keyboard.transpozytor === "sup" &&
+      ((note < 116 && playMethod === "MiDi") ||
+        (note < 52 && playMethod === "ProgramChange"))
+    ) {
+      noteTran = note * 1 + 12;
+    } else if (keyboard.transpozytor === "sub" && note > 11) {
+      noteTran = note * 1 - 12;
+    }
+    return noteTran;
+  }
+  else return note;
+}
+const updateNotes = (note) => {
+  let notes = [updateNote(note)];
+  koppledManuals.forEach((r) => {
+    if (r.tran) {
+    let noteTran = note;
+    if (
+      r.tran === "sup" &&
+      ((note < 116 && playMethod === "MiDi") ||
+        (note < 52 && playMethod === "ProgramChange"))
+    ) {
+      noteTran = note * 1 + 12;
+    } else if (r.tran === "sub" && note > 11) {
+      noteTran = note * 1 - 12;
+    }
+    notes.push(noteTran);
+  }
+  });
+  const reducedNotes = notes.filter((item, index) => notes.indexOf(item) === index);
+  return reducedNotes;
+}
+
+const isKopplePlayed = (note) => {
+  return kopplesPlayed.some(r => r.note === note);
+}
+
 const pressKey = async (note) => {
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
@@ -52,11 +105,22 @@ const pressKey = async (note) => {
   requestCancelToken.value = api.getNewCancelToken();
   try {
     pressedKey.value = note;
-    let  noteData = {
-      note: note,
+    let noteData = {
+      note: updateNote(note),
       noteOnOff: "pressed",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
+    };
+    let koppelNote ={
+      note: note,
+      manual: keyboard.id,
+      noteOnOff: "pressed",
+    };
+    emit('playingNote', koppelNote);
+     if(koppledManuals.length > 0){
+      noteData.channel = updateChannels();
+      noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
@@ -71,19 +135,26 @@ const releaseKey = async (note) =>{
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
   }
-  ////TODO
-  //// To w zalezności czy kole blokując czy nie ale chyba nei potrzbene ogólnie
-  // //if (kople[0] === keyboard) {
-  ////   //noteData = { note, noteOnOff: "released", channel: kople };
-  // //} else {
+ 
   requestCancelToken.value = api.getNewCancelToken();
   try {
     pressedKey.value = '';
-    let  noteData = {
-      note: note,
+    let noteData = {
+      note: updateNote(note),
       noteOnOff: "released",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
+    };
+    let koppelNote ={
+      note: note,
+      manual: keyboard.id,
+      noteOnOff: "released",
+    };
+    emit('playingNote', koppelNote);
+    if(koppledManuals.length > 0){
+      noteData.channel = updateChannels();
+      noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
@@ -114,7 +185,7 @@ const releaseKey = async (note) =>{
               whiteKey: !key.color,
               disabledKey: key.disabled
             }"
-            :style="{ opacity: key.noteNumber === pressedKey ? 0.1 : 1 }"
+            :style="{ opacity: (key.noteNumber === pressedKey || isKopplePlayed(key.noteNumber) ) ? 0.1 : 1 }"
             @pointerdown="pressKey(key.noteNumber)"
             @pointerup="releaseKey(key.noteNumber)">
             {{key.note }}

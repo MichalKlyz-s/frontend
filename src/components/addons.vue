@@ -3,10 +3,11 @@ import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
 
-const { addons, playMethod, chanel } = defineProps({
+const { addons, playMethod, chanel, chosenOutput } = defineProps({
   addons: Array,
   playMethod: String,
   chanel: Number,
+  chosenOutput: String
 });
 
 const selectedAddons = ref([]);
@@ -14,9 +15,9 @@ const requestCancelToken = ref(null);
 
 const doInclude = (number) => {
   if (selectedAddons.value.includes(number)) {
-    return "kopleOn";
+    return "koppleOn";
   } else {
-    return "kopleOff";
+    return "koppleOff";
   }
 };
 
@@ -30,7 +31,8 @@ const pressKey= async (note) => {
       note: note,
       noteOnOff: "",
       channel: chanel,
-      playMethod: playMethod
+      playMethod: playMethod,
+      chosenOutput: chosenOutput
     };
     if (selectedAddons.value.includes(note)) {
       selectedAddons.value = selectedAddons.value.filter((n) => n !== note);
@@ -91,12 +93,10 @@ const pressKey= async (note) => {
   margin: 5px;
   padding: 10px;
 }
-.kopleOn {
+.koppleOn {
   opacity: 0.5;
-  cursor: "not-allowed";
 }
-.kopleOff {
+.koppleOff {
   opacity: 1;
-  cursor: "not-allowed";
 }
 </style>
