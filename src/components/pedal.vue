@@ -39,10 +39,12 @@ const getKeys = () => {
   pedalKey.value = keyList.filter((key) => !key.disabled);
 };
 
-const updateChannels = () => {
+const updateChannels = (note) => {
   let channels = [chanel];
   koppledManuals.forEach((r) => {
-    channels.push(r.chanel)
+    if(r.range[0] <= note && r.range[1] >= note){
+      channels.push(r.chanel)
+    }
   });
   return channels;
 }
@@ -50,19 +52,21 @@ const updateChannels = () => {
 const updateNotes = (note) => {
   let notes = [note];
   koppledManuals.forEach((r) => {
-    if (r.tran) {
-    let noteTran = note;
-    if (
-      r.tran === "sup" &&
-      ((note < 116 && playMethod === "MiDi") ||
-        (note < 52 && playMethod === "ProgramChange"))
-    ) {
-      noteTran = note * 1 + 12;
-    } else if (r.tran === "sub" && note > 11) {
-      noteTran = note * 1 - 12;
+    if(r.range[0] <= note && r.range[1] >= note){
+      if (r.tran) {
+      let noteTran = note;
+        if (
+          r.tran === "sup" &&
+          ((note < 116 && playMethod === "MiDi") ||
+            (note < 52 && playMethod === "ProgramChange"))
+        ) {
+          noteTran = note * 1 + 12;
+        } else if (r.tran === "sub" && note > 11) {
+          noteTran = note * 1 - 12;
+        }
+      notes.push(noteTran);
+      }
     }
-    notes.push(noteTran);
-  }
   });
   const reducedNotes = notes.filter((item, index) => notes.indexOf(item) === index);
   return reducedNotes;
@@ -93,7 +97,7 @@ const pressKey = async (note) => {
     };
     emit('playingNote', koppelNote);
     if(koppledManuals.length > 0){
-      noteData.channel = updateChannels();
+      noteData.channel = updateChannels(note);
       noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
@@ -126,7 +130,7 @@ const releaseKey = async (note) =>{
     }
     emit('playingNote', koppelNote);
     if(koppledManuals.length > 0){
-      noteData.channel = updateChannels();
+      noteData.channel = updateChannels(note);
       noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
@@ -140,8 +144,8 @@ const releaseKey = async (note) =>{
 };
 </script>
 <template>
-   <div class="keybordWood" >
-    <div class="keyboard">    
+  <div class="keybordWood">
+    <div class="keyboard">  
       <v-slide-group
         show-arrows
         style="color: white">

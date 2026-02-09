@@ -2,9 +2,6 @@
 import * as api from "../modules/apiH.ts";
 import { ref, computed, onMounted } from "vue";
 import { reactive } from "vue";
-//TODO
-// Sprawdzić czy potrzebne jest wysyałnie koppla bo wydaje się ze nei potrzeba chyba ze kopple dziłają na jakieś wybrane klawiatury
-// to wtedy dodać jakieś wysyłąnie bądź obsługę na backend
 
 const {keyboard, playMethod, chanel, chosenOutput,  koppledManuals, kopplesPlayed} = defineProps({
   keyboard: Object,
@@ -49,10 +46,12 @@ const getKeys = () => {
   keys.value = keyList.filter((key) => !key.disabled);
 };
 
-const updateChannels = () => {
+const updateChannels = (note) => {
   let channels = [chanel];
   koppledManuals.forEach((r) => {
-    channels.push(r.chanel)
+    if(r.range[0] <= note && r.range[1] >= note){
+      channels.push(r.chanel)
+    }
   });
   return channels;
 }
@@ -76,19 +75,21 @@ const updateNote = (note) => {
 const updateNotes = (note) => {
   let notes = [updateNote(note)];
   koppledManuals.forEach((r) => {
-    if (r.tran) {
-    let noteTran = note;
-    if (
-      r.tran === "sup" &&
-      ((note < 116 && playMethod === "MiDi") ||
-        (note < 52 && playMethod === "ProgramChange"))
-    ) {
-      noteTran = note * 1 + 12;
-    } else if (r.tran === "sub" && note > 11) {
-      noteTran = note * 1 - 12;
+    if(r.range[0] <= note && r.range[1] >= note){
+      if (r.tran) {
+      let noteTran = note;
+        if (
+          r.tran === "sup" &&
+          ((note < 116 && playMethod === "MiDi") ||
+            (note < 52 && playMethod === "ProgramChange"))
+        ) {
+          noteTran = note * 1 + 12;
+        } else if (r.tran === "sub" && note > 11) {
+          noteTran = note * 1 - 12;
+        }
+      notes.push(noteTran);
+      }
     }
-    notes.push(noteTran);
-  }
   });
   const reducedNotes = notes.filter((item, index) => notes.indexOf(item) === index);
   return reducedNotes;
@@ -119,7 +120,7 @@ const pressKey = async (note) => {
     };
     emit('playingNote', koppelNote);
      if(koppledManuals.length > 0){
-      noteData.channel = updateChannels();
+      noteData.channel = updateChannels(note);
       noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
@@ -153,7 +154,7 @@ const releaseKey = async (note) =>{
     };
     emit('playingNote', koppelNote);
     if(koppledManuals.length > 0){
-      noteData.channel = updateChannels();
+      noteData.channel = updateChannels(note);
       noteData.note = updateNotes(note);
     };
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
@@ -165,8 +166,6 @@ const releaseKey = async (note) =>{
     throw new Error(error);
   }
 };
-//TODO
-// Maybe ID of a keybord or so bc idk if all are on seperete chanles
 
 </script>
 <template>

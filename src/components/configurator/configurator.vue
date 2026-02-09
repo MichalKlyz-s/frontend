@@ -1505,7 +1505,6 @@ const getData = async () => {
 .shadowBox {
   background-image: linear-gradient(to bottom, #8d643f 20%, #bd916b);
   padding: 2vw;
-  color: black;
   font-size: 1.823vw;
   margin: 0.781vw;
   border-radius: 0.5vw;

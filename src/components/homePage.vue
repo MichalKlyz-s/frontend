@@ -95,14 +95,13 @@ let isThereKoppleForYOu = ((manualNumber) => {
   }).map(r => r.firstManual)
   let listForYou = [];
   if(list.includes(0)){
-    listForYou.push({chanel: Number(chanelForpedal.value), tran: 'normal'});
+    listForYou.push({chanel: Number(configuration.value.chanelForpedal), tran: 'normal', range: configuration.value.pedal});
   }
   configuration.value.manuals.map((r) => {
     if(list.includes(r.id)){
-      listForYou.push({chanel: Number(r.chanel), tran: r.transpozytor});
+      listForYou.push({chanel: Number(r.chanel), tran: r.transpozytor, range: r.range});
     };});
   return listForYou;
-// Sprawdza czy ma jakies kople jak tak to jakie i tworzy listę z manualów o id z kopplii prekazuje 
 });
 
 let isSomeonePlayingYou = ((manualNumber) => {
