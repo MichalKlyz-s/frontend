@@ -143,7 +143,8 @@ const releaseKey = async (note) =>{
    <div class="keybordWood" >
     <div class="keyboard">    
       <v-slide-group
-        show-arrows>
+        show-arrows
+        style="color: white">
         <v-slide-item
           v-for="key in pedalKey"
           :key="key.noteNumber"
@@ -156,7 +157,7 @@ const releaseKey = async (note) =>{
             :style="{ opacity: (key.noteNumber === pressedKey ||  isKopplePlayed(key.noteNumber) ) ? 0.1 : 1 }"
             @pointerdown="pressKey(key.noteNumber)"
             @pointerup="releaseKey(key.noteNumber)">
-            {{key.note }}
+           <div style="height: 45%; align-content: start"> {{key.note }}</div>
           </div>
         </v-slide-item>
       </v-slide-group>

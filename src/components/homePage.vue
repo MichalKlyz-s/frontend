@@ -124,7 +124,7 @@ let isSomeonePlayingYou = ((manualNumber) => {
 // };
 </script>
 <template>
-  <div style="background-color: red;" class="bcgr">
+  <div class="bcgr">
     <v-row class="text-center">
       <v-col cols="12">
         <v-row class="topPage">
@@ -140,7 +140,7 @@ let isSomeonePlayingYou = ((manualNumber) => {
             />
           </v-col>
           <v-col cols="6">
-            <h1 style="text-align: center; color: white">Organy {{ configuration.organName }}</h1>
+            <h1 class="titleH">Organy {{ configuration.organName }}</h1>
           </v-col>
           <v-col cols="3"></v-col>
           </v-row>
@@ -150,7 +150,8 @@ let isSomeonePlayingYou = ((manualNumber) => {
             v-model="chosenOutput"
             clearable
             chips
-            bg-color="white"
+            color="white"
+            bg-color="brown"
             density="compact"
             variant="outlined"
             label="Midi outputs"
@@ -228,6 +229,16 @@ let isSomeonePlayingYou = ((manualNumber) => {
   background-size: cover;
   background-repeat: repeat;
   background-position: center;
+}
+.titleH {
+  text-align: center;
+  color: white;
+  text-shadow:
+  0 0 5px #000,
+  0 0 10px #000,
+  0 0 20px #000,
+  0 0 40px #000,
+  0 0 80px #000;
 }
 .topPage {
   margin: 10px 10px 0px 10px;

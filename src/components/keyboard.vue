@@ -173,7 +173,8 @@ const releaseKey = async (note) =>{
   <div class="keybordWood" >
     <div class="keyboard">
       <v-slide-group
-        show-arrows>
+        show-arrows
+        style="color: white">
         <v-slide-item
           v-for="key in keys"
           :key="key.noteNumber"
@@ -218,6 +219,7 @@ const releaseKey = async (note) =>{
  height: 180px; 
  background: white;
  border: 1px solid black;
+ color: black;
  align-content: end;
  word-break: break-all;
  position: relative;

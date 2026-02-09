@@ -258,7 +258,7 @@ const getData = async () => {
             />
           </v-col>
           <v-col cols="6">
-            <h1 style="text-align: center; color: white">Ustawienia organów</h1>
+            <h1 style="text-align: center">Ustawienia organów</h1>
           </v-col>
           <v-col cols="3">
             <v-btn
@@ -288,7 +288,7 @@ const getData = async () => {
           cols="5"
           sm="6"
           md="9">
-            <h2 style="color: white" v-text="edit ? 'Edytuj:' : 'Ustawienia:'"></h2>
+            <h2 v-text="edit ? 'Edytuj:' : 'Ustawienia:'"></h2>
           </v-col>
           <v-col 
           cols="4"
@@ -297,23 +297,25 @@ const getData = async () => {
           style="text-align: center; padding: 0px">
             <template v-if="filesToChose.length > 0 && !edit">
               <v-select
+              class="noshadow"
               v-model="chosenFile"
               :items="filesToChose"
               label="Plik"
               hide-details
-              bg-color="white"
+              bg-color="brown"
               density="compact"
               clearable
+              style="text-shadow: "
               variant="outlined"
               @change="getSetting()"
               ></v-select>
             </template>
-            <template v-if="edit && inputs.length > 0">
+            <!-- <template v-if="edit && inputs.length > 0">
               <v-autocomplete
                 v-model="chosenInput"
                 :items="inputs"
                 label="Midi inputs"
-                bg-color="white"
+                bg-color="brown"
                 hide-details
                 clearable
                 chips
@@ -321,7 +323,7 @@ const getData = async () => {
                 variant="outlined"
                 @update:model-value="listenChosenInput()"
               />
-            </template>
+            </template> -->
           </v-col>
           <v-col 
             cols="2"
@@ -338,7 +340,7 @@ const getData = async () => {
             title="Pobierz"
             @click="getAllFiles"
             />
-            <v-btn
+            <!-- <v-btn
             v-if="edit"
             color="white"
             elevation="7" 
@@ -347,7 +349,7 @@ const getData = async () => {
             icon="mdi-ear-hearing"
             title="Nasłuchuj"
             @click="getMidiDevices"
-            />
+            /> -->
           </v-col>
           <v-col cols="1" style="text-align: center; padding: 0px">
             <v-btn
@@ -374,10 +376,11 @@ const getData = async () => {
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.confName }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-text-field
+                  class="noshadow"
                   v-model="confName"
                   label="Nazwa konfiguracji"
                   variant="outlined"
-                  bg-color="white"
+                  bg-color="brown"
                   type="text"
                   placeholder="Nazwa konfiguracji"
                   density="compact"
@@ -402,10 +405,11 @@ const getData = async () => {
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.organName }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-text-field
+                  class="noshadow"
                   v-model="pipeOrganName"
                   label="Nazwa organów"
                   variant="outlined"
-                  bg-color="white"
+                  bg-color="brown"
                   type="text"
                   placeholder="Nazwa organów"
                   density="compact"
@@ -429,10 +433,11 @@ const getData = async () => {
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.addres }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-text-field
+                  class="noshadow"
                   v-model="pipeOrganAddres"
                   label="Lokacja"
                   variant="outlined"
-                  bg-color="white"
+                  bg-color="brown"
                   type="text"
                   placeholder="Lokacja"
                   density="compact"
@@ -456,18 +461,19 @@ const getData = async () => {
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.playMethod }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-select 
-                v-model="playMethod"
-                :items="methods"
-                label="Metoda"
-                bg-color="white"
-                variant="outlined"
-                density="compact"
-                rounded
-                required
-                clearable
-                clear-icon="mdi-close"
-                :rules="[rules.required]"
-                 >
+                  class="noshadow"
+                  v-model="playMethod"
+                  :items="methods"
+                  label="Metoda"
+                  bg-color="brown"
+                  variant="outlined"
+                  density="compact"
+                  rounded
+                  required
+                  clearable
+                  clear-icon="mdi-close"
+                  :rules="[rules.required]"
+                  >
                   <template #append-inner>
                     <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
                       <template #activator="{ props }">
@@ -483,18 +489,19 @@ const getData = async () => {
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.playMethodButtons }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-select 
-                v-model="playMethodButtons"
-                :items="methods"
-                label="Metoda"
-                bg-color="white"
-                variant="outlined"
-                density="compact"
-                rounded
-                required
-                clearable
-                clear-icon="mdi-close"
-                :rules="[rules.required]"
-                 >
+                  class="noshadow"
+                  v-model="playMethodButtons"
+                  :items="methods"
+                  label="Metoda"
+                  bg-color="brown"
+                  variant="outlined"
+                  density="compact"
+                  rounded
+                  required
+                  clearable
+                  clear-icon="mdi-close"
+                  :rules="[rules.required]"
+                  >
                   <template #append-inner>
                     <v-tooltip text="Metoda, którą będą wysyłane sygnały midi do organów">
                       <template #activator="{ props }">
@@ -516,8 +523,9 @@ const getData = async () => {
               <v-col 
                 cols="6"
                 sm="6"
-                md="2"
-                offset-md="4" 
+                md="6"
+                lg="2"
+                offset-lg="4" 
                 v-else>
                 <v-row class="centerItems">
                   <v-col cols="3" class="onlyContentForBtn">
@@ -538,7 +546,7 @@ const getData = async () => {
                       type="text"
                       density="compact"
                       hide-details
-                      bg-color="white"
+                      bg-color="brown"
                       rounded
                       required
                       class="textFieldClass"
@@ -602,7 +610,7 @@ const getData = async () => {
                           v-model="manuals[indexE].range[0]"
                           hide-details
                           single-line
-                          bg-color="white"
+                          bg-color="brown"
                           type="text"
                           density="compact"
                           rounded
@@ -624,7 +632,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           style="width: 80px"
                           class="textFieldClass"
                           :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
@@ -636,18 +644,20 @@ const getData = async () => {
                   </v-col>
                 </v-row>
                 <v-row >
-                  <v-col cols="6">
+                  <v-col cols="4" lg="6">
                     <v-row class="centerItems">
                       <v-col 
                         cols="4"
                         sm="4"
-                        md="8">
+                        md="4"
+                        lg="8">
                         Kanał:
                       </v-col>
                       <v-col 
                         cols="8"
                         sm="8"
-                        md="4">
+                        md="8"
+                        lg="4">
                         <v-text-field
                           variant="outlined"
                           v-model="manuals[indexE].chanel"
@@ -657,7 +667,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -666,7 +676,7 @@ const getData = async () => {
                       </v-col>
                     </v-row>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="8" lg="6">
                     <v-row class="centerItems">
                       <v-col 
                         cols="4"
@@ -758,7 +768,7 @@ const getData = async () => {
                         density="compact"
                         rounded
                         required
-                        bg-color="white"
+                        bg-color="brown"
                         style="width: 80px"
                         class="textFieldClass"
                         :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
@@ -776,7 +786,7 @@ const getData = async () => {
                         density="compact"
                         rounded
                         required
-                        bg-color="white"
+                        bg-color="brown"
                         style="width: 80px"
                         class="textFieldClass"
                         :max="playMethod === 'MiDi' ? maxManuals : maxManualsPgCh"
@@ -807,7 +817,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -824,8 +834,8 @@ const getData = async () => {
             </v-row>
             <v-row>
               <v-col 
-                cols="1"
-                sm="3"
+                cols="2"
+                sm="4"
                 md="6"><span>Kopple:</span></v-col>
               <v-col 
                 offset="5"
@@ -840,27 +850,29 @@ const getData = async () => {
                 </v-row>
               </v-col>
               <v-col 
-                cols="11"
-                sm="9"
-                md="6"
+                cols="10"
+                sm="8"
+                md="8"
+                lg="6"
                 v-else >
                 <v-row>
                   <v-col 
                     cols="4"
-                    sm="5"
-                    md="6">
+                    lg="6">
                     <v-row class="centerItems">
                       <v-col 
-                        cols="2"
+                        cols="4"
                         sm="4"
-                        md="8"
+                        md="4"
+                        lg="8"
                       >
                         Kanał:
                       </v-col>
                       <v-col 
-                        cols="9"
-                        sm="6"
-                        md="4">
+                        cols="8"
+                        sm="8"
+                        md="8"
+                        lg="4">
                         <v-text-field
                           variant="outlined"
                           v-model="chanelForKopples"
@@ -870,7 +882,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -880,52 +892,56 @@ const getData = async () => {
                     </v-row>
                   </v-col>
                   <v-col 
-                    cols="7"
-                    sm="6"
-                    md="6">
+                    cols="8"
+                    lg="6">
                     <v-row class="centerItems">
                       <v-col 
-                        cols="3"
+                        cols="4"
                         sm="4"
-                        md="4">
+                        md="6">
                         Liczba:
                       </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
-                        <v-btn 
-                          @click="reduceKoppel" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small 
-                          icon="mdi-minus"
-                          color="white"
-                          />
-                      </v-col>
-                      <v-col 
-                        cols="5"
-                        sm="4"
-                        md="3">
-                        <v-text-field 
-                          readonly
-                          variant="outlined"
-                          v-model="kopples.length" 
-                          type="text"
-                          hide-details
-                          density="compact"
-                          rounded
-                          required
-                          bg-color="white"
-                          class="textFieldClass"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">                      
-                        <v-btn 
-                          @click="addKoppel" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small  
-                          icon="mdi-plus"
-                          color="white"
-                          />
+                      <v-col cols="8"
+                        sm="8"
+                        md="6"
+                        lg="6">
+                        <v-row class="centerItems">
+                          <v-col cols="1" class="onlyContentForBtn">
+                            <v-btn 
+                              @click="reduceKoppel" 
+                              elevation="7" 
+                              variant="outlined" 
+                              x-small 
+                              icon="mdi-minus"
+                              color="white"
+                              />
+                          </v-col>
+                          <v-col 
+                            cols="5">
+                            <v-text-field 
+                              readonly
+                              variant="outlined"
+                              v-model="kopples.length" 
+                              type="text"
+                              hide-details
+                              density="compact"
+                              rounded
+                              required
+                              bg-color="brown"
+                              class="textFieldClass"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="1" class="onlyContentForBtn">                      
+                            <v-btn 
+                              @click="addKoppel" 
+                              elevation="7" 
+                              variant="outlined" 
+                              x-small  
+                              icon="mdi-plus"
+                              color="white"
+                              />
+                          </v-col>
+                        </v-row>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -968,6 +984,7 @@ const getData = async () => {
                     <v-row class="centerItems">
                       <v-col cols="5">
                         <v-select 
+                          class="noshadow"
                           v-bind:key="index"
                           :items="listForKoppels"
                           item-title="name"
@@ -979,17 +996,17 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          clearable
-                          bg-color="white"
+                          bg-color="brown"
                           clear-icon="mdi-close" />
                       </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
+                      <v-col cols="1" class="onlyContentForBtn" style="text-shadow: 0 0 6px black;">
                         <v-icon color="black">
                           mdi-arrow-right-bold
                         </v-icon>
                       </v-col>
                       <v-col cols="5">
                         <v-select 
+                          class="noshadow"
                           :items="listForKoppels"
                           item-title="name"
                           item-value="id"
@@ -1000,8 +1017,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          clearable
-                          bg-color="white"
+                          bg-color="brown"
                           clear-icon="mdi-close" />
                       </v-col>
                     </v-row>
@@ -1031,7 +1047,7 @@ const getData = async () => {
                           type="text"
                           density="compact"
                           rounded
-                          bg-color="white"
+                          bg-color="brown"
                           required
                           class="textFieldClass"
                           clear-icon="mdi-close"
@@ -1048,9 +1064,8 @@ const getData = async () => {
             </v-row>
             <v-row>
               <v-col 
-                cols="1"
-                sm="3"
-                md="6">Registry:</v-col>
+                cols="6"
+                sm="6" >Registry:</v-col>
               <v-col 
                 offset="5"
                 offset-sm="3"
@@ -1058,101 +1073,50 @@ const getData = async () => {
                 cols="6" 
                 v-if="!edit" 
                 class="centerSettings">
-                <v-row>
-                  <v-col cols="6">
-                  </v-col>
-                  <v-col cols="6">
-                    Liczba: {{ configuration.voices.length }} 
-                  </v-col>
-                </v-row>
+                  <span>  Liczba: {{ configuration.voices.length }} </span>
               </v-col>
               <v-col 
-                cols="11"
-                sm="9"
+                 cols="6"
+                sm="6"
                 md="6"
+                lg="2"
+                offset-lg="4" 
                 v-else>
-                <v-row>
-                  <v-col 
-                    cols="4"
-                    sm="5"
-                    md="6">
-                    <!-- <v-row class="centerItems">
-                      <v-col 
-                        cols="2"
-                        sm="4"
-                        md="8">
-                        Kanał:
-                      </v-col>
-                      <v-col 
-                        cols="9"
-                        sm="6"
-                        md="4">
-                        <v-text-field
-                          variant="outlined"
-                          v-model="chanelForVoices"
-                          hide-details
-                          single-line
-                          type="number"
-                          density="compact"
-                          rounded
-                          required
-                          bg-color="white"
-                          class="textFieldClass"
-                          :max="chanelsRange[1]"
-                          :min="chanelsRange[0]"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row> -->
+                <v-row class="centerItems">
+                  <v-col cols="3" class="onlyContentForBtn">
+                    <v-btn 
+                      @click="reduceVoice" 
+                      elevation="7" 
+                      variant="outlined" 
+                      x-small 
+                      icon="mdi-minus"
+                      color="white"
+                      />
                   </v-col>
                   <v-col 
-                    cols="7"
-                    sm="6"
-                    md="6">
-                    <v-row class="centerItems">
-                      <v-col
-                        cols="3"
-                        sm="4"
-                        md="4">
-                        Liczba:
-                      </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
-                        <v-btn 
-                          @click="reduceVoice" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small 
-                          icon="mdi-minus"
-                          color="white"
-                          />
-                      </v-col>
-                      <v-col 
-                        cols="5"
-                        sm="4"
-                        md="3">
-                        <v-text-field 
-                          readonly
-                          variant="outlined"
-                          v-model="voices.length" 
-                          type="text"
-                          density="compact"
-                          hide-details
-                          rounded
-                          required
-                          bg-color="white"
-                          class="textFieldClass"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
-                        <v-btn 
-                          @click="addVoice" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small 
-                          icon="mdi-plus"
-                          color="white"
-                          />
-                      </v-col>
-                    </v-row>
+                    cols="5">
+                    <v-text-field 
+                      readonly
+                      variant="outlined"
+                      v-model="voices.length" 
+                      type="text"
+                      density="compact"
+                      hide-details
+                      rounded
+                      required
+                      bg-color="brown"
+                      class="textFieldClass"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="3" class="onlyContentForBtn">
+                    <v-btn 
+                      @click="addVoice" 
+                      elevation="7" 
+                      variant="outlined" 
+                      x-small 
+                      icon="mdi-plus"
+                      color="white"
+                      />
                   </v-col>
                 </v-row>
               </v-col>
@@ -1202,7 +1166,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
@@ -1225,6 +1189,7 @@ const getData = async () => {
                         md="4">
                         <v-text-field
                           variant="outlined"
+                          class="noshadow"
                           v-model="voices[index].name"
                           label="Nazwa"
                           placeholder="Nazwa"
@@ -1234,8 +1199,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
-                          class="textFieldClass"
+                          bg-color="brown"
                           clear-icon="mdi-close"
                           :rules="[rules.required]"
                         ></v-text-field>
@@ -1263,7 +1227,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -1280,8 +1244,8 @@ const getData = async () => {
             </v-row>
             <v-row>
               <v-col 
-                cols="1"
-                sm="3"
+                cols="2"
+                sm="4"
                 md="6">Akcesoria:</v-col>
               <v-col 
                 offset="5"
@@ -1300,26 +1264,28 @@ const getData = async () => {
                 </v-row>
               </v-col>
               <v-col 
-                cols="11"
-                sm="9"
-                md="6"
+                cols="10"
+                sm="8"
+                md="8"
+                lg="6"
                 v-else>
                 <v-row>
                   <v-col 
                     cols="4"
-                    sm="5"
-                    md="6">
+                    lg="6">
                     <v-row class="centerItems">
                       <v-col 
-                        cols="2"
+                        cols="4"
                         sm="4"
-                        md="8">
+                        md="4"
+                        lg="8">
                         Kanał:
                       </v-col>
                       <v-col 
-                        cols="9"
-                        sm="6"
-                        md="4">
+                        cols="8"
+                        sm="8"
+                        md="8"
+                        lg="4">
                         <v-text-field
                           variant="outlined"
                           v-model="chanelForAddons"
@@ -1329,7 +1295,7 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
+                          bg-color="brown"
                           class="textFieldClass"
                           :max="chanelsRange[1]"
                           :min="chanelsRange[0]"
@@ -1339,52 +1305,56 @@ const getData = async () => {
                     </v-row>
                   </v-col>
                   <v-col 
-                    cols="7"
-                    sm="6"
-                    md="6">
+                    cols="8"
+                    lg="6">
                     <v-row class="centerItems">
                       <v-col 
-                        cols="3"
+                        cols="4"
                         sm="4"
-                        md="4">
+                        md="6">
                         Liczba:
                       </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
-                        <v-btn 
-                          @click="reduceAddons" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small 
-                          icon="mdi-minus"
-                          color="white"
-                          />
-                      </v-col>
-                      <v-col 
-                        cols="5"
-                        sm="4"
-                        md="3">
-                        <v-text-field 
-                          readonly
-                          variant="outlined"
-                          v-model="addons.length" 
-                          type="text"
-                          density="compact"
-                          hide-details
-                          rounded
-                          required
-                          bg-color="white"
-                          class="textFieldClass"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="1" class="onlyContentForBtn">
-                        <v-btn 
-                          @click="addAddons" 
-                          elevation="7" 
-                          variant="outlined" 
-                          x-small 
-                          icon="mdi-plus"
-                          color="white"
-                          />
+                      <v-col cols="8"
+                        sm="8"
+                        md="6"
+                        lg="6">
+                        <v-row class="centerItems">
+                          <v-col cols="1" class="onlyContentForBtn">
+                            <v-btn 
+                              @click="reduceAddons" 
+                              elevation="7" 
+                              variant="outlined" 
+                              x-small 
+                              icon="mdi-minus"
+                              color="white"
+                              />
+                          </v-col>
+                          <v-col 
+                            cols="5">
+                            <v-text-field 
+                              readonly
+                              variant="outlined"
+                              v-model="addons.length" 
+                              type="text"
+                              density="compact"
+                              hide-details
+                              rounded
+                              required
+                              bg-color="brown"
+                              class="textFieldClass"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="1" class="onlyContentForBtn">
+                            <v-btn 
+                              @click="addAddons" 
+                              elevation="7" 
+                              variant="outlined" 
+                              x-small 
+                              icon="mdi-plus"
+                              color="white"
+                              />
+                          </v-col>
+                        </v-row>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -1435,8 +1405,8 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
-                          class="textFieldClass"
+                          bg-color="brown"
+                          class="noshadow"
                           :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
                           :rules="[rules.required, rules.min]"
@@ -1467,8 +1437,8 @@ const getData = async () => {
                           density="compact"
                           rounded
                           required
-                          bg-color="white"
-                          class="textFieldClass"
+                          bg-color="brown"
+                          class="noshadow"
                           clear-icon="mdi-close"
                           :rules="[rules.required]"
                         ></v-text-field>
@@ -1490,6 +1460,20 @@ const getData = async () => {
   background-image: url(/images/backgroundWood.png);
   background-size: cover;
   background-position: center;
+  color: aliceblue;
+  // -webkit-text-stroke: 1px black;
+   text-shadow:
+                0 0 5px #000,
+                0 0 10px #000,
+                0 0 20px #000,
+                0 0 40px #000,
+                0 0 80px #000;
+  //  text-shadow:
+  //               0 0 5px #0ff,
+  //               0 0 10px #0ff,
+  //               0 0 20px #0ff,
+  //               0 0 40px #0ff,
+  //               0 0 80px #0ff;
 }
 .topPage {
   margin: 10px 10px 0px 10px;
@@ -1497,6 +1481,10 @@ const getData = async () => {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.noshadow {
+  text-shadow: none;
 }
 
 .centerSettings {
@@ -1533,6 +1521,8 @@ const getData = async () => {
 
 .onlyContentForBtn {
   display: contents;
+  color: aliceblue;
+
 }
 
 </style>
