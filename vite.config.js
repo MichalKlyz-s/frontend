@@ -19,4 +19,8 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
   },
+  test: {
+    globals: true,
+    setupFiles: './tests/setup.ts',
+  },
 });
