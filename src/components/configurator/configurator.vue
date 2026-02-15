@@ -156,21 +156,6 @@ const getMidiDevices = async () => {
     console.log(error);
   }
 };
-//TODO -> nasłuchwanie
-const listenChosenInput = async () => {
-  // if(requestCancelToken.value){
-  //   requestCancelToken.value.cancel();
-  // }
-  // requestCancelToken.value = api.getNewCancelToken();
-  // const stats = await api.listenChosenInPut(chosenInput, requestCancelToken.value);
-  // if (stats.success === true) {
-  //   gottenInput.value = stats;
-  //   console.log("Powiodło się!!");
-  // } else {
-  //   console.log("Błąd wysłania");
-  //   throw Error(stats.message);
-  // }
-};
 
 const useSetting = async () => {
   if(requestCancelToken.value){
@@ -310,20 +295,6 @@ const getData = async () => {
               @change="getSetting()"
               ></v-select>
             </template>
-            <!-- <template v-if="edit && inputs.length > 0">
-              <v-autocomplete
-                v-model="chosenInput"
-                :items="inputs"
-                label="Midi inputs"
-                bg-color="brown"
-                hide-details
-                clearable
-                chips
-                density="compact"
-                variant="outlined"
-                @update:model-value="listenChosenInput()"
-              />
-            </template> -->
           </v-col>
           <v-col 
             cols="2"
@@ -340,16 +311,6 @@ const getData = async () => {
             title="Pobierz"
             @click="getAllFiles"
             />
-            <!-- <v-btn
-            v-if="edit"
-            color="white"
-            elevation="7" 
-            variant="outlined" 
-            x-small
-            icon="mdi-ear-hearing"
-            title="Nasłuchuj"
-            @click="getMidiDevices"
-            /> -->
           </v-col>
           <v-col cols="1" style="text-align: center; padding: 0px">
             <v-btn

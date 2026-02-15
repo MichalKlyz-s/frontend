@@ -166,7 +166,7 @@ const releaseKey = async (note) =>{
     throw new Error(error);
   }
 };
-
+defineExpose({updateChannels, updateNotes, updateNote, koppledManuals, chanel, keyboard, playMethod, keys });
 </script>
 <template>
   <div class="keybordWood" >

@@ -1,1 +1,1 @@
-import { expect } from 'vitest';
+import { expect, vi } from 'vitest';

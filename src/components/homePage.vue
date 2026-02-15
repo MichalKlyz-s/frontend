@@ -113,14 +113,6 @@ let isSomeonePlayingYou = ((manualNumber) => {
     });
     return listOn;
 });
-// pozostalosc
-// const changekopple = (koppel) =>  {
-//   if (kopple.includes(koppel[1])) {
-//     kopple = kopple.filter((n) => n !== koppel[1]);
-//   } else {
-//     kopple = [...new Set([...kopple, ...koppel])];
-//   }
-// };
 </script>
 <template>
   <div class="bcgr">

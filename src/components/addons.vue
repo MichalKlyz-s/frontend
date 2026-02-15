@@ -37,9 +37,6 @@ const pressKey= async (note) => {
     if (selectedAddons.value.includes(note)) {
       selectedAddons.value = selectedAddons.value.filter((n) => n !== note);
       noteData.noteOnOff = "released";
-      // TODO
-      // noteData.note = note + 1;
-      // Sprawdzić czy się wyłącza na klawiszu wyżej czy nie jakto działa itp
     } else {
       selectedAddons.value = [...selectedAddons.value, note];
       noteData.noteOnOff = "pressed";
@@ -55,7 +52,6 @@ const pressKey= async (note) => {
 };
 </script>
 <template>
-  <!-- TODO zapytac czy na przytzrymanie czy pojedyncze MAYBEPRESS ED -->
   <div class="keybordWood" >
     <div class="keyboard">
       <div
