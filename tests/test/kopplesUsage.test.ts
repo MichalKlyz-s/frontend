@@ -1,8 +1,11 @@
 import keyboard from '../../src/components/keyboard.vue';
-import { shallowMount } from '@vue/test-utils';
+import { config, shallowMount } from '@vue/test-utils';
 import { createVuetify } from 'vuetify';
 
 const vuetify = createVuetify();
+config.global.stubs = {
+  'v-slide-item': true,
+};
 describe('updateChannels', () => {
   it('Test czy kanały z właczonymi kopplami się dodają', () => {
     const page = shallowMount(keyboard, {
