@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 export const dataOnly = (res: any) => (res ? res.data : res);
-
+const api = axios.create({
+  baseURL: '/api',
+});
 export const readError = (error: any) => {
   if (axios.isCancel(error)) {
     console.log('Request canceled', error);
@@ -26,9 +28,9 @@ export const axiosPost = (
     ...defaultOptions,
     cancelToken: cancelToken ? cancelToken.value : null,
   };
-  return axios
+  return api
     .post(
-      `http://192.168.70.10:3000/${relativeUrl}`,
+      `/${relativeUrl}`,
       {
         data: params.value,
       },
@@ -45,7 +47,7 @@ export const axiosGet = (relativeUrl: string, cancelToken: { value: any }) => {
       data: '',
     },
   };
-  return axios.get(`http://192.168.70.10:3000/${relativeUrl}`, optionsGet).catch(readError);
+  return api.get(`/${relativeUrl}`, optionsGet).catch(readError);
 };
 
 export const axiosGetWParams = (relativeUrl: string, params = {}, cancelToken: { value: any }) => {
@@ -56,5 +58,5 @@ export const axiosGetWParams = (relativeUrl: string, params = {}, cancelToken: {
       data: params,
     },
   };
-  return axios.get(`http://192.168.70.10:3000/${relativeUrl}`, optionsGet).catch(readError);
+  return api.get(`/${relativeUrl}`, optionsGet).catch(readError);
 };
