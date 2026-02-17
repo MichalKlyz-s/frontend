@@ -28,7 +28,7 @@ export const axiosPost = (
   };
   return axios
     .post(
-      `http://localhost:8888/${relativeUrl}`,
+      `http://192.168.70.10:3000/${relativeUrl}`,
       {
         data: params.value,
       },
@@ -45,7 +45,7 @@ export const axiosGet = (relativeUrl: string, cancelToken: { value: any }) => {
       data: '',
     },
   };
-  return axios.get(`http://localhost:8888/${relativeUrl}`, optionsGet).catch(readError);
+  return axios.get(`http://192.168.70.10:3000/${relativeUrl}`, optionsGet).catch(readError);
 };
 
 export const axiosGetWParams = (relativeUrl: string, params = {}, cancelToken: { value: any }) => {
@@ -56,5 +56,5 @@ export const axiosGetWParams = (relativeUrl: string, params = {}, cancelToken: {
       data: params,
     },
   };
-  return axios.get(`http://localhost:8888/${relativeUrl}`, optionsGet).catch(readError);
+  return axios.get(`http://192.168.70.10:3000/${relativeUrl}`, optionsGet).catch(readError);
 };
