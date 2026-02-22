@@ -78,7 +78,7 @@ describe('updateNote', () => {
     });
     const note = 60;
     const res = (page.vm as any).updateNote(note);
-    expect(res).toBe(note + 12);
+    expect(res).toEqual([note + 12]);
   });
 });
 describe('updateNote2', () => {
@@ -89,7 +89,7 @@ describe('updateNote2', () => {
     });
     const note = 60;
     const res = (page.vm as any).updateNote(note);
-    expect(res).toBe(note - 12);
+    expect(res).toEqual([note - 12]);
   });
 });
 describe('updateNote3', () => {
@@ -104,6 +104,6 @@ describe('updateNote3', () => {
     });
     const note = 60;
     const res = (page.vm as any).updateNote(note);
-    expect(res).toBe(note);
+    expect(res).toEqual([note]);
   });
 });

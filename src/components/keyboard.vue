@@ -68,12 +68,12 @@ const updateNote = (note) => {
     } else if (keyboard.transpozytor === "sub" && note > 11) {
       noteTran = note * 1 - 12;
     }
-    return noteTran;
+    return [noteTran];
   }
-  else return note;
+  else return [note];
 }
 const updateNotes = (note) => {
-  let notes = [updateNote(note)];
+  let notes = updateNote(note);
   koppledManuals.forEach((r) => {
     if(r.range[0] <= note && r.range[1] >= note){
       if (r.tran) {

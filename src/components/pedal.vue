@@ -83,7 +83,7 @@ const pressKey = async (note) => {
   try {
     pressedKey.value = note;
     let  noteData = {
-      note: note,
+      note: [note],
       noteOnOff: "pressed",
       channel: chanel,
       playMethod: playMethod,
