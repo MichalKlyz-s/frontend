@@ -40,13 +40,13 @@ describe('updateNotes', () => {
         koppledManuals: [
           { chanel: 2, tran: 'sup', range: [36, 96] },
           { chanel: 3, tran: 'sub', range: [36, 96] },
-          { chanel: 4, tran: 'sup', range: [36, 40] },
+          { chanel: 4, tran: 'sup', range: [36, 80] },
         ],
       },
     });
     const note = 60;
     const res = (page.vm as any).updateNotes(note);
-    const testData = [note, note + 12, note - 12];
+    const testData = [note, note + 12, note - 12, note + 12];
     expect(res).toEqual(testData);
   });
 });

@@ -68,8 +68,7 @@ const updateNotes = (note) => {
       }
     }
   });
-  const reducedNotes = notes.filter((item, index) => notes.indexOf(item) === index);
-  return reducedNotes;
+  return notes;
 }
 
 const isKopplePlayed = (note) => {
