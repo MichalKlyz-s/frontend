@@ -29,7 +29,7 @@ const pressKey= async (note, channel) => {
     let  noteData = {
       note: [note],
       noteOnOff: "",
-      channel: channel,
+      channel: [channel],
       playMethod: playMethod,
       chosenOutput: chosenOutput
     };

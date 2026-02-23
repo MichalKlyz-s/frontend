@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "watch": "vite",
-    "build": "vite build",
+    "build": "npm run clean && npm test && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue src",
     "lint:watch": "npx chokidar \"src/**/*.{js,vue}\" -c \"npx eslint --ext .js,.vue src\"",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
-    "clean": "rimraf dist node_modules package-lock.json",
+    "clean": "rimraf dist",
     "reinstall": "npm run clean && npm install --legacy-peer-deps",
-    "test": "vitest",
+    "test": "vitest run",
     "test:watch": "vitest --watch"
   },
   "engines": {

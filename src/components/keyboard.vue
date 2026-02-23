@@ -108,7 +108,7 @@ const pressKey = async (note) => {
     let noteData = {
       note: updateNote(note),
       noteOnOff: "pressed",
-      channel: chanel,
+      channel: [chanel],
       playMethod: playMethod,
       chosenOutput: chosenOutput
     };

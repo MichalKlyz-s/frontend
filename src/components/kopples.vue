@@ -31,9 +31,9 @@ const pressKey= async (note) => {
   // requestCancelToken.value = api.getNewCancelToken();
   try {
     let  noteData = {
-      note: note,
+      note: [note],
       noteOnOff: "",
-      channel: chanel,
+      channel: [chanel],
       playMethod: playMethod,
       chosenOutput: chosenOutput
     };
