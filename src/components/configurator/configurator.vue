@@ -35,11 +35,13 @@ const chanelForKopples = ref(1);
 const kopples = ref([{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}]);
 const messageType = ref('changeMode');
 const filesToChose = ref([]);
-const chosenFile = ref('Template.txt');
+const chosenFile = ref('');
 const requestCancelToken = ref(null);
+const loadFile = ref(null);
+const useFile = ref(null);
 
 onMounted(() => {
-  getSetting();
+  getConfig();
 });
 const reduceManual = () => {
   if(manuals.value.length > 1) {
@@ -97,6 +99,38 @@ const saveSetting = async () => {
     console.log(error);
   }
 };
+const getValuesFrom = async(data) => {
+      confName.value = data.confName ? data.confName : '';
+      pipeOrganName.value = data.organName ? data.organName : '';
+      pipeOrganAddres.value = data.addres ? data.addres : '';
+      playMethod.value = data.playMethod ? data.playMethod : 'MiDi';
+      playMethodButtons.value = data.playMethodButtons ? data.playMethodButtons : 'ProgramChange';
+      chanelForManuals.value = data.chanelForManuals ? data.chanelForManuals : 1;
+      manuals.value = data.manuals ? data.manuals : [{id: 1, range: [36, 96], transpozytor: 'normal', chanel: 1}];
+      chanelForpedal.value = data.chanelForpedal ? data.chanelForpedal : 1;
+      pedal.value = data.pedal ? data.pedal : [36, 67];
+      chanelForKopples.value = data.chanelForKopples ? data.chanelForKopples : 1;
+      kopples.value = data.kopples ? data.kopples: [{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}];
+      voices.value = data.voices ? data.voices : [{id: 1, name: '',  button: 0, channel: 7}];
+      chanelForAddons.value = data.chanelForAddons ? data.chanelForAddons : 1;
+      addons.value = data.addons ? data.addons : [{id: 1, name: '',  button: 0}];
+} ;
+const getConfig = async () => {
+  if(requestCancelToken.value){
+    requestCancelToken.value.cancel();
+  }
+  requestCancelToken.value = api.getNewCancelToken();
+  try {
+    const data = await api.configuration(requestCancelToken.value);
+    if (data.success === true) {
+      await getValuesFrom(data.configuration)
+    } else {
+      throw new Error(conf.message);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const getSetting = async () => {
   if(requestCancelToken.value){
     requestCancelToken.value.cancel();
@@ -105,22 +139,14 @@ const getSetting = async () => {
   try {
     const data = await api.getSetting(chosenFile.value, requestCancelToken.value);
     if(data.success){
-      confName.value = data.conf.confName ? data.conf.confName : '';
-      pipeOrganName.value = data.conf.organName ? data.conf.organName : '';
-      pipeOrganAddres.value = data.conf.addres ? data.conf.addres : '';
-      playMethod.value = data.conf.playMethod ? data.conf.playMethod : 'MiDi';
-      playMethodButtons.value = data.conf.playMethodButtons ? data.conf.playMethodButtons : 'ProgramChange';
-      chanelForManuals.value = data.conf.chanelForManuals ? data.conf.chanelForManuals : 1;
-      manuals.value = data.conf.manuals ? data.conf.manuals : [{id: 1, range: [36, 96], transpozytor: 'normal', chanel: 1}];
-      chanelForpedal.value = data.conf.chanelForpedal ? data.conf.chanelForpedal : 1;
-      pedal.value = data.conf.pedal ? data.conf.pedal : [36, 67];
-      chanelForKopples.value = data.conf.chanelForKopples ? data.conf.chanelForKopples : 1;
-      kopples.value = data.conf.kopples ? data.conf.kopples: [{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}];
-      voices.value = data.conf.voices ? data.conf.voices : [{id: 1, name: '',  button: 0, channel: 7}];
-      chanelForAddons.value = data.conf.chanelForAddons ? data.conf.chanelForAddons : 1;
-      addons.value = data.conf.addons ? data.conf.addons : [{id: 1, name: '',  button: 0}];
+      getValuesFrom(data.conf)
+      loadFile.value = true;
+      }
+    else{
+      loadFile.value = false;
     }
   } catch (error) {
+      loadFile.value = false;
     console.log(error);
   }
 };
@@ -163,8 +189,15 @@ const useSetting = async () => {
   }
   requestCancelToken.value = api.getNewCancelToken();
   try {
-    await api.useSetting(chosenFile.value, requestCancelToken.value);
+    const res = await api.useSetting(chosenFile.value, requestCancelToken.value);
+    if (res.success === true) {
+    useFile.value = true;
+    }
+    else{
+    useFile.value = false;
+    }
   } catch (error) {
+    useFile.value = false;
     console.log(error);
   }
 };
@@ -287,12 +320,11 @@ const getData = async () => {
               :items="filesToChose"
               label="Plik"
               hide-details
-              bg-color="brown"
+              :bg-color="loadFile ? loadFile === true ? 'green' : 'red' : 'brown'"
               density="compact"
               clearable
-              style="text-shadow: "
               variant="outlined"
-              @change="getSetting()"
+              @update:model-value="getSetting()"
               ></v-select>
             </template>
           </v-col>
@@ -315,7 +347,7 @@ const getData = async () => {
           <v-col cols="1" style="text-align: center; padding: 0px">
             <v-btn
             v-if="!edit"
-            color="white"
+            :color="useFile ? useFile === true ? 'green' : 'red' :'white'"
             elevation="7" 
             variant="outlined" 
             x-small
