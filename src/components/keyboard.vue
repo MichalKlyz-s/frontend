@@ -213,7 +213,7 @@ defineExpose({updateChannels, updateNotes, updateNote, koppledManuals, chanel, k
   white-space: normal;
 }
 .key.whiteKey {
- width: 28px;
+ width: 50px;
  height: 180px; 
  background: white;
  border: 1px solid black;
@@ -225,11 +225,13 @@ defineExpose({updateChannels, updateNotes, updateNote, koppledManuals, chanel, k
 }
 .key.blackKey {
   word-break: break-all;
-  width: 16px;
+   align-content: end;
+
+  width: 32px;
   height: 110px;
   background: black;
-  margin-left: -8px;
-  margin-right: -9px;
+  margin-left: -16px;
+  margin-right: -17px;
   z-index: 2;
   color: white;
    position: relative;

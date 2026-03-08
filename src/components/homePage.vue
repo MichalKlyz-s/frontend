@@ -68,7 +68,17 @@ const getConfig = async () => {
     console.log(error);
   }
 };
-
+const resetBug = async () => {
+  if(requestCancelToken.value){
+    requestCancelToken.value.cancel();
+  }
+  requestCancelToken.value = api.getNewCancelToken();
+  try {
+    await api.resetBug(chosenOutput, requestCancelToken.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const playingNote = (note) => {
   if(note.noteOnOff === "pressed"){
     playingNotes.value.push(note)
@@ -118,6 +128,17 @@ let isSomeonePlayingYou = ((manualNumber) => {
   <div class="bcgr">
     <v-row class="text-center">
       <v-col cols="12">
+        <div style="position: fixed; right: 50px; bottom: 50px;">
+          <v-btn
+            color="red"
+            elevation="7" 
+            variant="outlined" 
+            icon="mdi-bug-stop"
+            size="large"
+            title="Reset"
+            @click="resetBug"
+            />
+        </div>
         <v-row class="topPage">
           <v-col cols="3" >
             <v-btn

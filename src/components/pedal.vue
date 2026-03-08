@@ -160,7 +160,7 @@ const releaseKey = async (note) =>{
             :style="{ opacity: (key.noteNumber === pressedKey ||  isKopplePlayed(key.noteNumber) ) ? 0.1 : 1 }"
             @pointerdown="pressKey(key.noteNumber)"
             @pointerup="releaseKey(key.noteNumber)">
-           <div style="height: 45%; align-content: start"> {{key.note }}</div>
+           <div style="align-content: start"> {{key.note }}</div>
           </div>
         </v-slide-item>
       </v-slide-group>
@@ -186,7 +186,7 @@ const releaseKey = async (note) =>{
   white-space: normal;
 }
 .key {
- width: 20px;
+ width: 40px;
  height: 180px; 
  margin: 0px 1px;
  background: #311a09;

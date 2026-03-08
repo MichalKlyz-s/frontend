@@ -36,3 +36,6 @@ export const getAllFiles = async (cancelToken: any) => {
 export const useSetting = async (args: {} | undefined, cancelToken: any) => {
   return axiosGetWParams('usesetting', args, cancelToken).then(dataOnly);
 };
+export const resetBug = async (args: any, cancelToken: any) => {
+  return axiosPost('resetBug', args, cancelToken);
+};

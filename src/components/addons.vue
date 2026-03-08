@@ -36,10 +36,10 @@ const pressKey= async (note) => {
     };
     if (selectedAddons.value.includes(note)) {
       selectedAddons.value = selectedAddons.value.filter((n) => n !== note);
-      noteData.noteOnOff = "released";
+      noteData.noteOnOff = "addons";
     } else {
       selectedAddons.value = [...selectedAddons.value, note];
-      noteData.noteOnOff = "pressed";
+      noteData.noteOnOff = "addons";
     }
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
     if (stats.data.success === false) {
