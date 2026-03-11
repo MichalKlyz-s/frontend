@@ -116,9 +116,9 @@ const releaseKey = async (note) =>{
   try {
     pressedKey.value = '';
     let  noteData = {
-      note: note,
+      note: [note],
       noteOnOff: "released",
-      channel: chanel,
+      channel: [chanel],
       playMethod: playMethod,
       chosenOutput: chosenOutput
     };

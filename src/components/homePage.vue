@@ -128,7 +128,7 @@ let isSomeonePlayingYou = ((manualNumber) => {
   <div class="bcgr">
     <v-row class="text-center">
       <v-col cols="12">
-        <div style="position: fixed; right: 50px; bottom: 50px;">
+        <div style="position: fixed; right: 50px; bottom: 50px; z-index: 5">
           <v-btn
             color="red"
             elevation="7" 
@@ -178,7 +178,7 @@ let isSomeonePlayingYou = ((manualNumber) => {
          <keybord 
          :keyboard="keyboard"
          :playMethod="configuration.playMethod"
-         :chanel="Number(configuration.chanelForManuals)"
+         :chanel="Number(keyboard.chanel)"
          :chosenOutput="chosenOutput"
          :koppledManuals="isThereKoppleForYOu(keyboard.id) ? isThereKoppleForYOu(keyboard.id) : []"
          :kopplesPlayed="isSomeonePlayingYou(keyboard.id) ? isSomeonePlayingYou(keyboard.id) : []"

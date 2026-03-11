@@ -142,7 +142,7 @@ const releaseKey = async (note) =>{
     let noteData = {
       note: updateNote(note),
       noteOnOff: "released",
-      channel: chanel,
+      channel: [chanel],
       playMethod: playMethod,
       chosenOutput: chosenOutput
     };
