@@ -54,14 +54,13 @@ const pressKey= async (note) => {
 <template>
   <div class="keybordWood" >
     <div class="keyboard">
-      <div
+      <v-btn
       v-for="addon in addons"
       :key="addon.id"
       class="note"
-      :class="doInclude(addon.id)"
       @click="pressKey(addon.id)">
       {{ addon.name }}
-      </div>
+      </v-btn>
     </div>
   </div>
 </template>
