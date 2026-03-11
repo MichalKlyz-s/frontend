@@ -16,7 +16,7 @@ echo "Start 2 stage - Copy apps from GitHub"
 
 mkdir -p $ORGAN_APP_DIR
 cd $ORGAN_APP_DIR
-git clone --branch Windows/Linux --single-branch $FRONTEND
+git clone --branch MixDeploy --single-branch $FRONTEND
 
 
 echo "Start 3 stage - Prepere Frontend"
