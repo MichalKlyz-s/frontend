@@ -23,7 +23,7 @@ echo "Start 3 stage - Prepere Frontend"
 
 cd $ORGAN_APP_DIR/frontend
 npm install
-npm run build
+npm run buildfirst
 echo "Start 4 stage - Prepere Frontend server"
 sudo chmod 755 $HOME
 sudo chmod -R 755 $ORGAN_APP_DIR

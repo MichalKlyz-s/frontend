@@ -98,7 +98,6 @@ let kopplesOn = computed(() => {
   return test;
 }
 );
-// Dodać jakie nuty są zwracane i numer keyboardu
 let isThereKoppleForYOu = ((manualNumber) => {
   let list = kopplesOn.value.filter((r) => {
     return r.secondManual === manualNumber
@@ -184,7 +183,6 @@ let isSomeonePlayingYou = ((manualNumber) => {
          :kopplesPlayed="isSomeonePlayingYou(keyboard.id) ? isSomeonePlayingYou(keyboard.id) : []"
          @playingNote="playingNote"
          >
-         <!-- Tu zmienić tą 2 na wybrane koble czy cos takiego -->
          </keybord>
         </v-col>
         </v-row>

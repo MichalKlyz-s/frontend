@@ -30,7 +30,7 @@ describe('updateChannels', () => {
   });
 });
 describe('updateNotes', () => {
-  it('Sprawdzenie czy nuty z klawiatur się dodają uwzględniając transpozycje', () => {
+  it('Sprawdzenie czy numery klawiszy się dodają uwzględniając transpozycje', () => {
     const page = shallowMount(keyboard, {
       global: { plugins: [vuetify] },
       props: {
@@ -51,7 +51,7 @@ describe('updateNotes', () => {
   });
 });
 describe('updateNotes2', () => {
-  it('Sprawdzenie czy nuty z klawiatur się dodają uwzględniając transpozycje(jedno poza zakresem)', () => {
+  it('Sprawdzenie czy numery klawiszy się dodają uwzględniając transpozycje(jedno poza zakresem)', () => {
     const page = shallowMount(keyboard, {
       global: { plugins: [vuetify] },
       props: {
@@ -71,7 +71,7 @@ describe('updateNotes2', () => {
   });
 });
 describe('updateNote', () => {
-  it('Sprawdzenie czy metoda nakłądajaca transpozycję na nutę działa(sup)', () => {
+  it('Sprawdzenie czy metoda nakłądajaca transpozycję na numer klawisza działa(sup)', () => {
     const page = shallowMount(keyboard, {
       global: { plugins: [vuetify] },
       props: { chanel: 1, keyboard: { range: [36, 96], transpozytor: 'sup' }, playMethod: 'MiDi' },
@@ -82,7 +82,7 @@ describe('updateNote', () => {
   });
 });
 describe('updateNote2', () => {
-  it('Sprawdzenie czy metoda nakłądajaca transpozycję na nutę działa(sub)', () => {
+  it('Sprawdzenie czy metoda nakłądajaca transpozycję na numer klawisza działa(sub)', () => {
     const page = shallowMount(keyboard, {
       global: { plugins: [vuetify] },
       props: { chanel: 1, keyboard: { range: [36, 96], transpozytor: 'sub' }, playMethod: 'MiDi' },
@@ -93,7 +93,7 @@ describe('updateNote2', () => {
   });
 });
 describe('updateNote3', () => {
-  it('Sprawdzenie czy metoda nakłądajaca transpozycję na nutę działa(normal)', () => {
+  it('Sprawdzenie czy metoda nakłądajaca transpozycję na numer klawisza działa(normal)', () => {
     const page = shallowMount(keyboard, {
       global: { plugins: [vuetify] },
       props: {

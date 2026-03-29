@@ -6,6 +6,7 @@
   "scripts": {
     "watch": "vite",
     "build": "npm run clean && npm test && vite build",
+    "buildfirst": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue src",
     "lint:watch": "npx chokidar \"src/**/*.{js,vue}\" -c \"npx eslint --ext .js,.vue src\"",

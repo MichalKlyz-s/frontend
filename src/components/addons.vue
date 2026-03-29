@@ -58,7 +58,7 @@ const pressKey= async (note) => {
       v-for="addon in addons"
       :key="addon.id"
       class="note"
-      @click="pressKey(addon.id)">
+      @click="pressKey(addon.button)">
       {{ addon.name }}
       </v-btn>
     </div>

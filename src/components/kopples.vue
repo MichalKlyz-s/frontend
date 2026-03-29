@@ -25,10 +25,6 @@ const doInclude = (number) => {
 };
 
 const pressKey= async (note) => {
-  // if(requestCancelToken.value){
-  //   requestCancelToken.value.cancel();
-  // }
-  // requestCancelToken.value = api.getNewCancelToken();
   try {
     let  noteData = {
       note: [note],
@@ -45,11 +41,6 @@ const pressKey= async (note) => {
       noteData.noteOnOff = "pressed";
     }
        emit('update:kopplesOnList', [... selectedkopples.value]);
-    // const stats = await api.midiPlay(noteData, requestCancelToken.value);
-    // if (stats.data.success === false) {
-    //   throw new Error(stats.message);
-    // }
-    
   } catch (error) {
     console.log(error);
     throw new Error(error);

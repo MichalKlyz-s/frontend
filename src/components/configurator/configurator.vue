@@ -5,8 +5,9 @@ import { reactive } from "vue";
 
 const rules = {
   required: value => !!value || 'Wypełnij',
-  min: value => value < 0 || 'Zbyt mała wartość',
-  maxChannel: value => value > 16 || 'Poza zakresem'
+  min: value => value > 0 || 'Zbyt mała wartość',
+  maxChannel: value => value < 17 || 'Poza zakresem',
+  minRegAdd: value => value > -1 || 'Zbyt mała wartość',
 
 }
 const inputs = ref([]);
@@ -31,7 +32,6 @@ const voices = ref([{id: 1, name: '',  button: 0, channel: 7}]);
 const chanelForAddons = ref(1);
 const addons = ref([{id: 1, name: '',  button: 0}]);
 const chanelForKopples = ref(1);
-// potem Kopple
 const kopples = ref([{id: 1, name: 'I/II', firstManual: 1, secondManual: 0}]);
 const messageType = ref('changeMode');
 const filesToChose = ref([]);
@@ -77,7 +77,7 @@ const addVoice = () => {
 };
 
 const reduceAddons = () => {
-  if(addons.value.length > 1) {
+  if(addons.value.length > 0) {
     addons.value.pop();
   }
 };
@@ -226,7 +226,8 @@ let configuration = computed(() => {
     kopples: kopples.value,
     voices: voices.value,
     chanelForAddons: chanelForAddons.value,
-    addons: addons.value};return conf;
+    addons: addons.value};
+    return conf;
 });
 
 const getData = async () => {
@@ -320,7 +321,7 @@ const getData = async () => {
               :items="filesToChose"
               label="Plik"
               hide-details
-              :bg-color="loadFile ? loadFile === true ? 'green' : 'red' : 'brown'"
+              :bg-color="loadFile != null ? loadFile === true ? 'green' : 'red' : 'brown'"
               density="compact"
               clearable
               variant="outlined"
@@ -347,7 +348,7 @@ const getData = async () => {
           <v-col cols="1" style="text-align: center; padding: 0px">
             <v-btn
             v-if="!edit"
-            :color="useFile ? useFile === true ? 'green' : 'red' :'white'"
+            :color="useFile != null ? useFile === true ? 'green' : 'red' :'white'"
             elevation="7" 
             variant="outlined" 
             x-small
@@ -394,7 +395,7 @@ const getData = async () => {
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="6"><span>Nazwa oragnów:</span></v-col>
+              <v-col cols="6"><span>Nazwa organów:</span></v-col>
               <v-col cols="6" v-if="!edit" class="centerSettings"><span>{{ configuration.organName }}</span></v-col>
               <v-col cols="6" v-else>
                 <v-text-field
@@ -705,9 +706,6 @@ const getData = async () => {
                           elevation="7" 
                           >SUP</v-btn>
                         </v-btn-toggle>
-                        <!-- variant="outlined" 
-                          size="x-small"
-                      color="white" -->
                       </v-col>
                     </v-row>
                   </v-col>
@@ -741,7 +739,6 @@ const getData = async () => {
                 md="6" 
                 v-else>
                 <v-row>
-                  <!-- $set sprawdzic po prawić -->
                   <v-col>
                     <v-range-slider
                       v-model="pedal"
@@ -959,7 +956,6 @@ const getData = async () => {
                 </v-col>
               </v-row>
             </template>
-                      <!-- rulle dodac ze jedno musi byc mniejsze od drugiego a nie takie samo  -->
             <v-row v-else v-for="(x, index) in  kopples.length" v-bind:key="index">
               <v-col 
                 cols="1"
@@ -1042,8 +1038,9 @@ const getData = async () => {
                           rounded
                           bg-color="brown"
                           required
-                          class="textFieldClass"
+                          class="noshadow"
                           clear-icon="mdi-close"
+                          :rules="[rules.required]"
                         >
                         </v-text-field>
                       </v-col>
@@ -1163,7 +1160,7 @@ const getData = async () => {
                           class="textFieldClass"
                           :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
-                          :rules="[rules.required, rules.min]"
+                          :rules="[rules.required, rules.minRegAdd]"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -1402,7 +1399,7 @@ const getData = async () => {
                           class="noshadow"
                           :max="playMethodButtons === 'MiDi' ? maxManuals : maxManualsPgCh"
                           :min="minManuals"
-                          :rules="[rules.required, rules.min]"
+                          :rules="[rules.required, rules.minRegAdd]"
                         ></v-text-field>
                       </v-col>
                     </v-row>

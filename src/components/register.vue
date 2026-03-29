@@ -58,8 +58,8 @@ const pressKey= async (note, channel) => {
       v-for="voice in voices"
       :key="voice.id"
       class="note"
-      :class="doInclude(voice.id, voice.channel)"
-      @click="pressKey(voice.id, voice.channel)">
+      :class="doInclude(voice.button, voice.channel)"
+      @click="pressKey(voice.button, voice.channel)">
       {{ voice.name }}
       </div>
     </div>
