@@ -93,8 +93,11 @@ const saveSetting = async () => {
   }
   requestCancelToken.value = api.getNewCancelToken();
   try {
-    await api.saveSetting(configuration, requestCancelToken.value);
-    edit.value = false;
+    const resSave = await api.saveSetting(configuration, requestCancelToken.value);
+      if(resSave.data.success === true){
+        chosenFile.value = configuration.value.confName + '.txt';
+        edit.value = false;
+      }
   } catch (error) {
     console.log(error);
   }
