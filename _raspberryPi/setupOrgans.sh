@@ -58,14 +58,3 @@ sudo systemctl restart dnsmasq
 echo "Start 6 stage - Finishing"
 sudo nginx -t
 sudo systemctl reload nginx
-
-
-
-
-
-
-
-
-
-
-
