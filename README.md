@@ -1,4 +1,6 @@
-# frontend
+# Praca Inżynierska Michał Kłyż 224329
+
+# frontend aplikacji do zdalnego sterowania organami piszczałkowymi
 
 ## Project setup
 
@@ -6,10 +8,10 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run application using vite
 
 ```
-npm run serve
+npm run watch
 ```
 
 ### Compiles and minifies for production
@@ -18,12 +20,4 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### W katalogu \_instalatorRaspberryFrontend znajduje się instalator do aplikacji frontendu na Raspberry PI
