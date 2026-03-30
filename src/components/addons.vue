@@ -42,8 +42,8 @@ const pressKey= async (note) => {
       noteData.noteOnOff = "addons";
     }
     const stats = await api.midiPlay(noteData, requestCancelToken.value);
-    if (stats.data.success === false) {
-      throw new Error(stats.message);
+    if (!stats) {
+      throw new Error(stats);
     }
   } catch (error) {
     console.log(error);
